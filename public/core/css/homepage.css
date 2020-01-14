@@ -1,0 +1,118 @@
+
+.title {
+    font-size: 60px;
+    font-weight: bold;
+    text-align: right;
+    margin: auto;
+}
+
+.title-container {
+    margin-top: 100px;
+    padding-bottom: 5%;
+}
+
+.title-container img {
+    position: absolute;
+}
+
+.navbar-expand-lg {
+    margin: 0 10%;
+}
+
+.simple-stepts{
+    padding: 5% 0 2% 0;
+    background-color: #ffe8de;
+}
+
+h2 {
+    font-weight: bold;
+    font-size: 50px;
+    text-align: right;
+    margin: 0px 20px 5% 0;
+}
+
+.simple-stepts > div {
+    text-align: center;
+}
+
+.simple-stepts hr {
+    width: 50%;
+}
+
+.info {
+    padding: 3% 0;
+    text-align: center;
+    background-color: #edffff;
+}
+
+.info h2 {
+    text-align: left;
+}
+
+.info img {
+    margin-bottom: 2%;
+    border: 1px rgba(0,0,0,0.2) solid;
+    border-radius: 20px;
+}
+
+.info h3, .info p {
+    text-align: center;
+}
+
+.team {
+    padding: 2% 0;
+    text-align: center;
+    background-color: #ffe8de;
+}
+
+.team img {
+    margin-bottom: 2%;
+    border: 1px rgba(0,0,0,0.2) solid;
+    border-radius: 20px 100px 20px 100px;
+}
+
+.team i {
+    font-size: 14px;
+}
+
+.team p, .team h4 {
+    margin-right: 15%;
+    text-align: right;
+}
+
+.team a {
+    font-size: 40px;
+}
+
+@media only screen and (max-width: 767px) {
+    .title {
+        text-align: center;
+        margin-bottom: 5%;
+    }
+    .simple-stepts{
+        margin-top: 50%;
+        padding: 20% 0 2% 0;
+        background-color: #ffe8de;
+    }
+    /*
+    .title-container img {
+        position: relative;
+    }*/
+
+    .team .col-md-4 {
+        padding-bottom: 5%;
+    }
+
+    .info .col-12 {
+        padding-bottom: 5%;
+    }
+    footer {
+        text-align: center;
+        margin: auto;
+    }
+}
+
+
+
+
+

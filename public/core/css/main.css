@@ -1,8 +1,6 @@
 @import "https://fonts.googleapis.com/earlyaccess/opensanshebrew.css";
 @import url('https://fonts.googleapis.com/css?family=Secular+One');
 
-
-
 nav ul li {
     padding-right: 25px;
 }
@@ -20,5 +18,8 @@ body {
     margin: 0;
     font-family: "Open Sans Hebrew",Helvetica,Arial,sans-serif !important;
     background-attachment: fixed;
+}
 
+.collapse, .collapsing{
+    text-align: center;
 }
