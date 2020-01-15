@@ -1,9 +1,26 @@
 
+nav {
+    margin-top: 2% !important;
+}
+
+nav a{
+    color: #fff
+}
+
+h2 {
+    font-weight: bold;
+    font-size: 70px;
+    text-align: right;
+    margin: 0px 20px 5% 0;
+}
+
 .title {
     font-size: 60px;
     font-weight: bold;
     text-align: right;
     margin: auto;
+    color: #fff;
+    text-shadow: -1px 0 rgba(0,0,0,0.3), 0 1px rgba(0,0,0,0.3), 1px 0 rgba(0,0,0,0.3), 0 -1px rgba(0,0,0,0.3);
 }
 
 .title-container {
@@ -20,14 +37,14 @@
 }
 
 .simple-stepts{
-    padding: 5% 0 2% 0;
-    background-color: #ffe8de;
+    padding: 5% 0 10% 0;
+    background-color: #ffffff;
 }
 
-h2 {
+.simple-stepts h3 {
     font-weight: bold;
-    font-size: 50px;
-    text-align: right;
+    font-size: 40px;
+    text-align: center;
     margin: 0px 20px 5% 0;
 }
 
@@ -40,29 +57,59 @@ h2 {
 }
 
 .info {
-    padding: 3% 0;
+    background: url("../../media/homepage/medicalBackgroung.jpg") fixed;
+    background-size: cover;
+    direction: ltr;
+    padding: 10% 0 5% 0;
     text-align: center;
-    background-color: #edffff;
+    background-color: #f4faf1;
+}
+.doctorPhone img{
+    position: absolute;
+    border: none;
 }
 
+.doctorPhone {
+    left: 15%;
+}
+
+
 .info h2 {
-    text-align: left;
+    font-size: 100px;
+    font-weight: bold;
+    margin: 60% 0 0 0;
+}
+
+.info h4 {
+    margin-bottom: 15%;
 }
 
 .info img {
-    margin-bottom: 2%;
+    margin-bottom: 5%;
     border: 1px rgba(0,0,0,0.2) solid;
     border-radius: 20px;
+    box-shadow: 2px 5px 10px rgba(0,0,0,0.2);
 }
 
 .info h3, .info p {
     text-align: center;
 }
 
+.team-photo {
+    direction: rtl;
+}
+.team-photo img {
+    border: none;
+    border-radius: 0;
+    position: absolute;
+    box-shadow: none;
+}
+
+
 .team {
-    padding: 2% 0;
+    padding: 12% 0 5% 0;
     text-align: center;
-    background-color: #ffe8de;
+    background-color: #ffffff;
 }
 
 .team img {
@@ -75,6 +122,11 @@ h2 {
     font-size: 14px;
 }
 
+.team h2 {
+    font-size: 100px;
+    margin-top: 50%;
+}
+
 .team p, .team h4 {
     margin-right: 15%;
     text-align: right;
@@ -84,31 +136,64 @@ h2 {
     font-size: 40px;
 }
 
+@media only screen and (max-width: 1400px) and (min-width: 767px) {
+    .doctorPhone img {
+        width: 70%;
+    }
+
+    .team-photo img {
+        width: 70%;
+    }
+
+    .info h2 {
+        font-size: 80px;
+    }
+
+    .team h2 {
+        font-size: 80px;
+    }
+}
+
 @media only screen and (max-width: 767px) {
     .title {
         text-align: center;
-        margin-bottom: 5%;
+        margin-bottom: 2%;
     }
-    .simple-stepts{
-        margin-top: 50%;
-        padding: 20% 0 2% 0;
-        background-color: #ffe8de;
+
+    .title-container {
+        margin-top: 2%;
     }
-    /*
+
     .title-container img {
-        position: relative;
-    }*/
+        width: 90%;
+    }
+
+    .simple-stepts{
+        margin-top: 70%;
+        padding: 20% 0 15% 0;
+    }
 
     .team .col-md-4 {
         padding-bottom: 5%;
     }
 
     .info .col-12 {
-        padding-bottom: 5%;
+        padding-bottom: 7%;
     }
-    footer {
+    .team-photo {
+        direction: ltr;
+    }
+
+    .info h2 {
+        margin: 6%;
         text-align: center;
-        margin: auto;
+        font-size: 80px;
+        font-weight: bold;
+    }
+
+    .team h2 {
+        font-size: 80px;
+        margin-top: 8%;
     }
 }
 
@@ -116,3 +201,67 @@ h2 {
 
 
 
+/* animated background - start */
+body {
+    background: linear-gradient(-45deg, #ee9b70, #e774af, #4abad5, #4dd5b6);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    color: #4e4e4e;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+/* animated background - end */
+
+
+
+
+/*
+body{
+    margin:0;
+    padding:0;
+    font-family:"arial",heletica,sans-serif;
+    font-size:12px;
+    background: #2980b9 url('https://static.tumblr.com/03fbbc566b081016810402488936fbae/pqpk3dn/MRSmlzpj3/tumblr_static_bg3.png') repeat 0 0;
+    -webkit-animation: 10s linear 0s normal none infinite animate;
+    -moz-animation: 10s linear 0s normal none infinite animate;
+    -ms-animation: 10s linear 0s normal none infinite animate;
+    -o-animation: 10s linear 0s normal none infinite animate;
+    animation: 10s linear 0s normal none infinite animate;
+
+}
+
+@-webkit-keyframes animate {
+    from {background-position:0 0;}
+    to {background-position: 500px 0;}
+}
+
+@-moz-keyframes animate {
+    from {background-position:0 0;}
+    to {background-position: 500px 0;}
+}
+
+@-ms-keyframes animate {
+    from {background-position:0 0;}
+    to {background-position: 500px 0;}
+}
+
+@-o-keyframes animate {
+    from {background-position:0 0;}
+    to {background-position: 500px 0;}
+}
+
+@keyframes animate {
+    from {background-position:0 0;}
+    to {background-position: 500px 0;}
+}
+*/

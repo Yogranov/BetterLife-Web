@@ -17,7 +17,7 @@
                 <p>Kfar - Warburg, Hadarom<i class="fas fa-phone mr-3"></i></p>
             </div>
             <div class="col-md-4 col-12">
-                <div class="row mt-5">
+                <div class="row footer-icon">
                     <div class="col-4">
                         <a href="#" class="fab fa-facebook fa-3x" style="color:#45619D"></a>
                     </div>
