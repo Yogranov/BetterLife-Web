@@ -39,7 +39,7 @@
 
         </div>
     </div>
-    <div class="footer-copyright text-center text-black-50 py-3">© BetterLife 2020</div>
+    <div class="footer-copyright text-center text-black-50 py-3">© BetterLife <?php echo date("Y")?> ©</div>
 </footer>
 </html>
 

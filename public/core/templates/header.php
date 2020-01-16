@@ -1,9 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-require_once '../vendor/autoload.php';
 ?>
 
 <html lang="he" xmlns="http://www.w3.org/1999/html">
@@ -29,7 +24,7 @@ require_once '../vendor/autoload.php';
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">ראשי</a>
+                    <a class="nav-link" href="../../index.php">ראשי</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">כתבות</a>
@@ -41,9 +36,8 @@ require_once '../vendor/autoload.php';
                     <a class="nav-link" href="#">צור קשר</a>
                 </li>
             </ul>
-            <a class="nav-item mr-auto ml-lg-2" href="#" style="color: rgba(0,0,0,0.5)">
-                <i class="fas fa-sign-in-alt"></i>
-                התחבר
+            <a class="nav-item mr-auto ml-lg-2" href="../../login.php" style="color: rgba(0,0,0,0.5)">
+                <i class="fas fa-sign-in-alt"></i> התחבר
             </a>
         </div>
     </nav>

@@ -31,7 +31,7 @@ require_once '../vendor/autoload.php';
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="#">כניסה</a>
+                <a class="nav-link" href="login.php">כניסה</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">כתבות</a>
@@ -55,7 +55,7 @@ require_once '../vendor/autoload.php';
                 מציל חיים!<br>
             </div>
             <div class="col-md-6 col-12">
-                <img data-aos="fade-right" class="img-fluid" src="media/homepage/medRobot.png" style="margin: auto">
+                <img class="img-fluid login-img" src="media/homepage/medRobot.png">
             </div>
         </div>
     </div>
@@ -114,19 +114,19 @@ require_once '../vendor/autoload.php';
                 <div class="row">
                     <div data-aos="flip-right" class="col-md-6 col-12">
                         <img class="img-fluid" src="media/temp/down-graph.jpg">
-                        <h4>התגוננות בפני קרינת השמש</h4>
+                        <h4>ירידה באחוז חולי סרטן העור</h4>
                     </div>
                     <div data-aos="flip-right" class="col-md-6 col-12">
                         <img class="img-fluid" src="media/temp/sun-protection.jpg">
                         <h4>התגוננות בפני קרינת השמש</h4>
                     </div>
                     <div data-aos="flip-right" class="col-md-6 col-12">
-                        <img class="img-fluid" src="media/temp/sun-protection.jpg">
-                        <h4>התגוננות בפני קרינת השמש</h4>
+                        <img class="img-fluid" src="media/temp/sun-protection-cream.jpg">
+                        <h4>תכשיר חדש מבטיח הגנה מושלמת</h4>
                     </div>
                     <div data-aos="flip-right" class="col-md-6 col-12">
-                        <img class="img-fluid" src="media/temp/sun-protection.jpg">
-                        <h4>התגוננות בפני קרינת השמש</h4>
+                        <img class="img-fluid" src="media/temp/clothing.jpg">
+                        <h4>הוראות כיצד יש להלבש ביום שמשי</h4>
                     </div>
                 </div>
             </div>
