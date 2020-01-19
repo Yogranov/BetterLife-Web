@@ -1,8 +1,10 @@
 <?php
 namespace BetterLife\User;
-
-class Login
-{
+use BetterLife\BetterLife;
+use BetterLife\System\Exception;
+use BetterLife\System\Logger;
+use BetterLife\System\SystemConstant;
+class Login {
 
     const COOKIE_NAME = "RememberCookie";
     const COOKIE_EXPIRY = 604800;
@@ -11,8 +13,6 @@ class Login
     private $id;
     private $password;
     private $remember;
-    private $connected = False;
-    private $loginTimestamp;
 
     /**
      * LoginC constructor.
@@ -22,6 +22,9 @@ class Login
      * @throws \Exception
      */
     public function __construct(string $id, string $password, bool $remember = false) {
+        if(isset($_SESSION[SystemConstant::USER_SESSION_NAME]))
+            throw new \Exception("User already Connect!");
+
         if (empty($id) || empty($password))
             throw new \Exception("unable to login without proper credentials!");
 
@@ -33,61 +36,33 @@ class Login
 
 
     /**
-     * @return bool
-     */
-    public function IsConnected(){
-        return $this->connected;
-    }
-
-
-    /**
-     *
-     */
-    public static function Disconnect(){
-        Cookie::Delete(self::COOKIE_NAME);
-        if(Rimon::GetDB()->where("UserId", $_SESSION["UserId"])->getOne(self::COOKIE_TABLE_NAME))
-            Rimon::GetDB()->where("UserId", $_SESSION["UserId"])->delete(self::COOKIE_TABLE_NAME,1);
-        $userLoginObj = User::GetById($_SESSION["UserId"]);
-        //log
-        $logString = "המשתמש {$userLoginObj->GetFullName()} תז {$userLoginObj->GetId()} יצא מהמערכת";
-        Rimon::NewLog($logString);
-
-        unset($_SESSION["UserId"]);
-        session_destroy();
-        \Services::RedirectHome();
-    }
-
-    /**
      * @throws \Exception
      */
     private function connect() {
-        if ($this->isConnected())
-            throw new \Exception("Login class already connected!");
+        $DBPassword = BetterLife::GetDB()->where("Id", $this->id)->getOne("users","Password");
 
-        $DBPassword = Rimon::GetDB()->where("Id", $this->id)->getOne("users","Password");
-
-        $wp_hasher = new PasswordHash(16, true);
-        if($wp_hasher->CheckPassword($this->password,$DBPassword["Password"])) {
-            $connectedUserData = Rimon::GetDB()->where("Id", $this->id)->getOne("users");
-        } else {
-            throw new \Exception("שם המשתמש או הסיסמה אינם נכונים");
-        }
-
-
-        if (empty($connectedUserData))
+        $hashPassword = password_hash($this->password, PASSWORD_DEFAULT);
+        if(password_verify($DBPassword, $hashPassword))
+            $userData = BetterLife::GetDB()->where("Id", $this->id)->getOne("users");
+        else
             throw new \Exception("שם המשתמש או הסיסמה אינם נכונים");
 
-        $this->connected = True;
-        $this->loginTimestamp = new \DateTime();
 
-        if ($connectedUserData)
-            $_SESSION["UserId"] = $connectedUserData["Id"];
-            $newLoginUser = User::GetById($connectedUserData["Id"]);
+        if (empty($userData))
+            throw new \Exception("לא נמצא משתמש התואם את הפרטים שהוכנסו");
+
+        //todo: Continue from here after User class have been completed.
+        if ($userData)
+            $_SESSION["UserId"] = $userData["Id"];
+            $newLoginUser = User::GetById($userData["Id"]);
             $newLoginUser->SetLastLogin();
 
             //log
-            $logString = "המשתמש {$newLoginUser->GetFullName()} תז {$newLoginUser->GetId()} נכנס למערכת";
-            Rimon::NewLog($logString);
+            $log = new Logger("המשתמש {0} התחבר בהצלחה!", $userData["UserId"]);
+            $log->info();
+            $log->writeToDb();
+            $log->writeToFile();
+
 
                 if ($this->remember) {
                     $hash = md5(uniqid());
@@ -131,5 +106,23 @@ class Login
             return False;
         }
 
+
+    /**
+     *
+     */
+    public static function Disconnect(){
+        Cookie::Delete(self::COOKIE_NAME);
+        if(Rimon::GetDB()->where("UserId", $_SESSION["UserId"])->getOne(self::COOKIE_TABLE_NAME))
+            Rimon::GetDB()->where("UserId", $_SESSION["UserId"])->delete(self::COOKIE_TABLE_NAME,1);
+        $userLoginObj = User::GetById($_SESSION["UserId"]);
+        //log
+        $logString = "המשתמש {$userLoginObj->GetFullName()} תז {$userLoginObj->GetId()} יצא מהמערכת";
+        Rimon::NewLog($logString);
+
+        unset($_SESSION["UserId"]);
+        session_destroy();
+        \Services::RedirectHome();
+
+    }
 
 }
