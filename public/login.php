@@ -1,9 +1,24 @@
 <?php
-require_once '../vendor/autoload.php';
-require_once "core/templates/header.php";
-echo "<link rel=\"stylesheet\" href=\"core/css/loginpage.css\">"
-?>
+require_once "core/templates/navbar.php";
 
+use BetterLife\System\Services;
+use BetterLife\User\Login;
+
+if(!empty($_POST)) {
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $remember = (isset($_POST["remember"]) && $_POST["remember"] == "on") ? true : false;
+
+    try {
+        new Login($email, $password, $remember);
+    } catch (Exception $e) {
+        echo ($e->getMessage());
+    }
+}
+
+
+?>
+<link rel="stylesheet" href="core/css/loginpage.css">
 
 <div class="container">
     <div class="row">
@@ -17,19 +32,19 @@ echo "<link rel=\"stylesheet\" href=\"core/css/loginpage.css\">"
                 <div class="card-body" >
                     <h5 class="card-title text-center">כניסה למערכת</h5>
                     <img class="img-fluid mb-4" src="media/icons/user-Icon.png">
-                    <form class="form-signin">
+                    <form class="form-signin" method="post">
                         <div class="form-label-group">
-                            <input type="email" id="inputEmail" class="form-control" placeholder="דואר אלקטרוני" required autofocus>
+                            <input type="email" id="inputEmail" class="form-control" placeholder="דואר אלקטרוני" name="email" required autofocus>
                             <label for="inputEmail">דואר אלקטרוני</label>
                         </div>
 
                         <div class="form-label-group">
-                            <input type="password" id="inputPassword" class="form-control" placeholder="סיסמה" required>
+                            <input type="password" id="inputPassword" class="form-control" placeholder="סיסמה" name="password" required>
                             <label for="inputPassword">סיסמה</label>
                         </div>
 
                         <div class="custom-control custom-checkbox mb-3">
-                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                            <input type="checkbox" class="custom-control-input" id="customCheck1" name="remember">
                             <label class="custom-control-label" for="customCheck1">זכור סיסמה</label>
                         </div>
 

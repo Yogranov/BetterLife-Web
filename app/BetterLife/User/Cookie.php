@@ -10,6 +10,7 @@ namespace BetterLife\User;
 
 
 class Cookie {
+    const TABLE_NAME = "cookies";
 
     public static function Exists($name) {
         return (isset($_COOKIE[$name])) ? true : false;

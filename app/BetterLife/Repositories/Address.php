@@ -11,6 +11,7 @@ class Address {
 
     private $address;
     private $city;
+    private $cityId;
 
     public function __construct($address, $cityId) {
         if(empty($address) || empty($cityId))
@@ -22,6 +23,28 @@ class Address {
 
         $this->address = $address;
         $this->city = $data["HebrewName"];
+        $this->cityId = $cityId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAddress() {
+        return $this->address;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCity() {
+        return $this->city;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCityId() {
+        return $this->cityId;
     }
 
 

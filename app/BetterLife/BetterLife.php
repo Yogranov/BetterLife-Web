@@ -1,11 +1,16 @@
 <?php
 namespace BetterLife;
 
+use BetterLife\Enum\EUserRoles;
 use BetterLife\System\SystemConstant;
+use BetterLife\User\User;
 use MysqliDb;
 use PHPMailer\PHPMailer\PHPMailer;
 use BetterLife\System\Exception;
 use BetterLife\System\Credential;
+use BetterLife\User\Session;
+use BetterLife\System\Services;
+
 
 class BetterLife {
 
@@ -90,4 +95,67 @@ RIMON;
 
     }
 
+    public static function buildNavbar($navbarTemplate) {
+        if(Session::checkUserSession()) {
+            $userObj = User::GetUserFromSession();
+            Services::setPlaceHolder($navbarTemplate, "Menu", MemberMenu);
+            Services::setPlaceHolder($navbarTemplate, "MemberMenu", PatientMenu);
+            Services::setPlaceHolder($navbarTemplate, "userFirstName", $userObj->getFirstName());
+        } else {
+            Services::setPlaceHolder($navbarTemplate, "Menu", NoneUserMenu);
+        }
+        return $navbarTemplate;
+    }
+
+    /**
+     * @param null $fromRole
+     * @return array
+     * @throws Exception
+     */
+    public static function GetPermissions($fromRole = null){
+        $permissions = array();
+        ///Menu Setting
+        if (Session::checkUserSession()) {
+            $userObj = User::GetUserFromSession();
+            if($userObj->GetRole()->getValue() !== EUserRoles::NewUser[0]) {
+                $permissions["Menu"] = MemberMenu;
+
+                switch ($userObj->GetRole()->getValue()){
+
+                    case EUserRoles::Patient[0]:
+                        $memberMenu = PatientMenu;
+                        break;
+
+                    case EUserRoles::Doctor[0]:
+                        $memberMenu = DoctorMenu;
+                        break;
+
+                    case EUserRoles::Admin[0]:
+                        $memberMenu = AdminMenu;
+                        break;
+
+                    default:
+                        $memberMenu = "";
+                        break;
+                }
+                $permissions["ManagerMenu"] = $memberMenu;
+
+            } else {
+                Login::Disconnect();
+            }
+        } else {
+            $permissions["Menu"] = NoneUserMenu;
+            $permissions["ManagerMenu"] = "";
+        }
+
+        /// Page Permissions
+        if ($fromRole != null) {
+            if(isset($_SESSION["UserId"])) {
+                if ($userObj->GetRole()->getValue() < $fromRole)
+                    \Services::RedirectHome();
+            } else
+                \Services::RedirectHome();
+        }
+        return $permissions;
+    }
 }

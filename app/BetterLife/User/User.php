@@ -3,8 +3,11 @@ namespace BetterLife\User;
 
 
 use BetterLife\BetterLife;
+use BetterLife\Enum\EUserRoles;
 use BetterLife\Repositories\Address;
 use BetterLife\System\Exception;
+use BetterLife\System\Services;
+use BetterLife\System\SystemConstant;
 
 class User {
 
@@ -38,15 +41,15 @@ class User {
         $this->phoneNumber = $data["PhoneNumber"];
         $this->BirthDate = new \DateTime($data["BirthDate"]);
         $this->address = new Address($data["Address"], $data["City"]);
-        $this->role = new Role($data["Role"]);
         $this->registerTime = $data["RegisterTime"];
         $this->lastLogin = new \DateTime($data["LastLogin"]);
         $this->licenceNumber = $data["LicenceNumber"];
+        $this->sex = $data["Sex"];
 
-        if($data["Sex"])
-            $this->sex = "נקבה";
-        else
-            $this->sex = "זכר";
+
+        $this->role = array();
+        foreach (json_decode($data["Role"]) as $role)
+           array_push( $this->role, EUserRoles::search($role));
 
         if(!is_null($data["HaveHistory"]))
             if($data["HaveHistory"])
@@ -54,7 +57,7 @@ class User {
             else
                 $this->haveHistory = false;
         else
-            $data["HaveHistory"] = null;
+            $this->haveHistory = null;
 
     }
 
@@ -69,4 +72,144 @@ class User {
         return new User($data);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail() {
+        return $this->email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPersonId() {
+        return $this->personId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstName() {
+        return $this->firstName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName() {
+        return $this->lastName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSex(): string {
+        return $this->sex;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoneNumber() {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getBirthDate(): \DateTime {
+        return $this->BirthDate;
+    }
+
+    /**
+     * @return Address
+     */
+    public function getAddress(): Address {
+        return $this->address;
+    }
+
+    /**
+     * @return EUserRoles
+     */
+    public function getRole(): EUserRoles {
+        return $this->role;
+    }
+
+    /**
+     * @return null
+     */
+    public function getHaveHistory() {
+        return $this->haveHistory;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLicenceNumber() {
+        return $this->licenceNumber;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRegisterTime() {
+        return $this->registerTime;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getLastLogin(): \DateTime {
+        return $this->lastLogin;
+    }
+
+    public function setLastLogin(){
+        $this->lastLogin = new \DateTime('now',new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE));
+    }
+
+    public function save() {
+        $data = array(
+            "Email" => $this->email,
+            "FirstName" => $this->firstName,
+            "LastName" => $this->lastName,
+            "PhoneNumber" => $this->phoneNumber,
+            "Address" => $this->address->getAddress(),
+            "City" => $this->address->getCityId(),
+            "LastLogin" => $this->lastLogin->format("Y-m-d H:i:s"),
+            "LicenceNumber" => $this->licenceNumber,
+            "Sex" => $this->sex
+        );
+        $data["Role"] = array();
+        foreach ($this->role as $key => $item)
+            array_push($data["Role"], $key);
+
+        if(is_null($this->haveHistory))
+            $data["HaveHistory"] = null;
+        else if($this->haveHistory)
+            $data["HaveHistory"] = 1;
+        else
+            $data["HaveHistory"] = 0;
+
+
+        try {
+            BetterLife::GetDB()->where(self::TABLE_KEY_COLUMN, $this->id)->update(self::TABLE_NAME, $data);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+
+    /**
+     * @return User
+     */
+    public static function GetUserFromSession() {
+        return unserialize($_SESSION[SystemConstant::USER_SESSION_NAME]);
+    }
 }

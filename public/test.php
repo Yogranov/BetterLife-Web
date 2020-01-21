@@ -1,18 +1,21 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-require_once '../vendor/autoload.php';
 require_once "core/templates/header.php";
-/*
-try {
-    \BetterLife\System\Services::dump($user = \BetterLife\User\User::getById(1));
-}
-catch (\BetterLife\System\Exception $exception) {
-    echo $exception->getMessage();
-}
-*/
+
+use BetterLife\User\Session;
+use BetterLife\System\SystemConstant;
+use BetterLife\BetterLife;
+
+
+/* @var \BetterLife\User\User $userObj */
+
+if(Session::checkSession(SystemConstant::USER_SESSION_NAME))
+    $userObj = unserialize($_SESSION[SystemConstant::USER_SESSION_NAME]);
+
+$user = \BetterLife\User\User::getById(1);
+\BetterLife\System\Services::dump($user);
+$enum = \BetterLife\Enum\EUserRoles::search(1);
+
+\BetterLife\System\Services::dump($enum);
 ?>
 
 <div class="container">

@@ -1,8 +1,5 @@
 <?php
-
-
 namespace BetterLife\System;
-
 
 use BetterLife\BetterLife;
 
@@ -33,13 +30,13 @@ class Logger {
 
     public function writeToDb() {
         $this->checkFields();
-        BetterLife::GetDB()->insert(self::tableName, ["Status" => $this->status, "Log" => $this->message, "Timestamp" => $this->timestamp]);
+        BetterLife::GetDB()->insert(self::tableName, ["Status" => $this->status, "Log" => $this->message, "Timestamp" => $this->timestamp->format("Y-m-d H:i:s")]);
     }
 
     public function writeToFile(){
         $this->checkFields();
-        $messageFile = fopen(SystemConstant::LOG_PATH . "_" . $this->timestamp->format("Y-m") . ".txt", "a");
-        fwrite($messageFile,$this->timestamp->format("Y-m-d H:i:s") . ": " . $this->status . " - " . $this->message . "<br>" . "\n");
+        $messageFile = fopen(SystemConstant::LOG_PATH . $this->timestamp->format("Y-m") . ".txt", "a");
+        fwrite($messageFile,$this->timestamp->format("Y-m-d H:i:s") . ": " . $this->status . " - " . $this->message . "\n");
         fclose($messageFile);
     }
 

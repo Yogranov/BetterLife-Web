@@ -47,7 +47,7 @@ class Services
     }
 
     public static function RedirectHome(){
-        header("Location: " . \Gate\Constant::SYSTEM_DOMAIN);
+        header("Location: " . SystemConstant::SYSTEM_DOMAIN);
     }
 
     /**
