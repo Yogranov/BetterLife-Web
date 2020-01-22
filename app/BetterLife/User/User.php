@@ -61,7 +61,7 @@ class User {
 
     }
 
-    public static function getById(int $id) {
+    public static function &getById(int $id) {
         if(empty($id))
             throw new Exception("{0} is illegal Id!", null, $id);
 

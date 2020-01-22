@@ -1,7 +1,6 @@
 <?php
 namespace BetterLife\User;
 use BetterLife\BetterLife;
-use BetterLife\System\Exception;
 use BetterLife\System\Logger;
 use BetterLife\System\Services;
 use BetterLife\System\SystemConstant;
@@ -38,9 +37,6 @@ class Login {
     }
 
 
-    /**
-     * @throws \Exception
-     */
     private function connect() {
         $userData = BetterLife::GetDB()->where("Email", $this->email)->getOne(User::TABLE_NAME,["Id", "Password"]);
         if (empty($userData))
@@ -76,49 +72,53 @@ class Login {
 
         Services::RedirectHome();
     }
-        /**
-         * @param string $redirectHeader
-         * @return bool|void
-         * @throws Exception
-         * @throws \Exception
-         */
 
-        public static function Reconnect(string $redirectHeader = "index.php") {
-            if(Cookie::Exists(self::COOKIE_NAME) && empty($_SESSION["UserId"])) {
-                $hashCookie = Cookie::Get(self::COOKIE_NAME);
-                $hashCheck = Rimon::GetDB()->where("Hash",$hashCookie)->getOne(Cookie::TABLE_NAME);
 
-                if(count($hashCheck) > 0){
-                    $userObject = &User::GetById($hashCheck["UserId"]);
-                    $userObject->SetLastLogin();
-                    $_SESSION["UserId"] = $userObject->GetId();
+    public static function Reconnect() {
+        if(Cookie::Exists(self::COOKIE_NAME) && !Session::checkUserSession()) {
+            $hashCheck = Rimon::GetDB()->where("Hash",Cookie::Get(self::COOKIE_NAME))->getOne(Cookie::TABLE_NAME);
 
-                    //log
-                    $logString = "המשתמש {$userObject->GetFullName()} תז {$userObject->GetId()} נכנס למערכת אוטומטית על ידי עוגיה";
-                    Rimon::NewLog($logString);
+            if(!empty($hashCheck)){
+                $userObj = &User::GetById($hashCheck["UserId"]);
+                $userObj->SetLastLogin();
+                $userObj->save();
+                $_SESSION[SystemConstant::USER_SESSION_NAME] = serialize($userObj);
 
-                    header("Location: ".$redirectHeader);
-                }
+                //log
+                $log = new Logger("המשתמש {0} התחבר אוטומטית", $userObj->getId());
+                $log->info();
+                $log->writeToDb();
+                $log->writeToFile();
+
+                header("Refresh:0");
             }
-            return False;
         }
+        return False;
+    }
 
 
-    /**
-     *
-     */
     public static function Disconnect(){
-        Cookie::Delete(self::COOKIE_NAME);
-        if(Rimon::GetDB()->where("UserId", $_SESSION["UserId"])->getOne(self::COOKIE_TABLE_NAME))
-            Rimon::GetDB()->where("UserId", $_SESSION["UserId"])->delete(self::COOKIE_TABLE_NAME,1);
-        $userLoginObj = User::GetById($_SESSION["UserId"]);
-        //log
-        $logString = "המשתמש {$userLoginObj->GetFullName()} תז {$userLoginObj->GetId()} יצא מהמערכת";
-        Rimon::NewLog($logString);
+        if(!Session::checkUserSession())
+            throw new \Exception("Session doesnt found");
+        $userObj = User::GetUserFromSession();
 
-        unset($_SESSION["UserId"]);
+        if(Cookie::Exists(self::COOKIE_NAME))
+            Cookie::Delete(self::COOKIE_NAME);
+
+        $hashCheck = BetterLife::GetDB()->where("UserId", $userObj->getId())->get(Cookie::TABLE_NAME);
+        if(!empty($hashCheck))
+            BetterLife::GetDB()->where("UserId", $userObj->getId())->delete(Cookie::TABLE_NAME);
+
+        //log
+        $log = new Logger("המשתמש {0} התנתק מהמערכת", $userObj->getId());
+        $log->info();
+        $log->writeToDb();
+        $log->writeToFile();
+
+
+        unset($_SESSION[SystemConstant::USER_SESSION_NAME]);
         session_destroy();
-        \Services::RedirectHome();
+        Services::RedirectHome();
 
     }
 
