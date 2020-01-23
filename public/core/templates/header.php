@@ -75,7 +75,7 @@ const MemberMenu = <<<Member
                         <a class="dropdown-item" href="#"><i class="fas fa-inbox"></i> תיבת הודעות</a>
                         {MemberMenu}
                         <hr>
-                        <a class="dropdown-item" style="text-align: center" href="#">יציאה</a>
+                        <a class="dropdown-item" style="text-align: center" href="https://betterlife.845.co.il/core/logout.php">יציאה</a>
                     </div>
                 </div>
             </ul>

@@ -1,6 +1,7 @@
 <?php
 ?>
     <script src="system/jquary/jquery-3.4.1.min.js"></script>
+    <script src="system/jquary/jquery.validate.min.js"></script>
     <script src="system/bootstrap/js/bootstrap.min.js"></script>
     <script src="system/aos/aos.js"></script>
     <script>AOS.init()</script>

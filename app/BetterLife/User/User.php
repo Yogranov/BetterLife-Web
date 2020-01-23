@@ -1,12 +1,10 @@
 <?php
 namespace BetterLife\User;
 
-
 use BetterLife\BetterLife;
 use BetterLife\Enum\EUserRoles;
 use BetterLife\Repositories\Address;
 use BetterLife\System\Exception;
-use BetterLife\System\Services;
 use BetterLife\System\SystemConstant;
 
 class User {
@@ -31,7 +29,12 @@ class User {
     private $registerTime;
     private $lastLogin;
 
-    public function __construct(array $data) {
+    /**
+     * User constructor.
+     * @param array $data
+     * @throws Exception
+     */
+    private function __construct(array $data) {
         $this->id = $data["Id"];
         $this->email = $data["Email"];
         $this->password = $data["Password"];
@@ -49,7 +52,7 @@ class User {
 
         $this->role = array();
         foreach (json_decode($data["Role"]) as $role)
-           array_push( $this->role, EUserRoles::search($role));
+           array_push( $this->role, new Role($role));
 
         if(!is_null($data["HaveHistory"]))
             if($data["HaveHistory"])
@@ -61,7 +64,7 @@ class User {
 
     }
 
-    public static function &getById(int $id) {
+    public static function getById(int $id) {
         if(empty($id))
             throw new Exception("{0} is illegal Id!", null, $id);
 
@@ -186,9 +189,12 @@ class User {
             "LicenceNumber" => $this->licenceNumber,
             "Sex" => $this->sex
         );
+
         $data["Role"] = array();
-        foreach ($this->role as $key => $item)
-            array_push($data["Role"], $key);
+        foreach ($this->role as $role)
+            array_push($data["Role"], $role->getId());
+
+        $data["Role"] = json_encode($data["Role"]);
 
         if(is_null($this->haveHistory))
             $data["HaveHistory"] = null;
@@ -212,4 +218,6 @@ class User {
     public static function GetUserFromSession() {
         return unserialize($_SESSION[SystemConstant::USER_SESSION_NAME]);
     }
+
+
 }

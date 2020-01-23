@@ -70,16 +70,25 @@ class Login {
             Cookie::Put(self::COOKIE_NAME, $hashCookie, self::COOKIE_EXPIRY);
         }
 
-        Services::RedirectHome();
+        if(isset($_SESSION[Session::LOGIN_ATTEMTS]))
+            unset($_SESSION[Session::LOGIN_ATTEMTS]);
+
+        if(isset($_SESSION[Session::PREVIOUS_PAGE])){
+            $tmpUrl = $_SESSION[Session::PREVIOUS_PAGE];
+            unset($_SESSION[Session::PREVIOUS_PAGE]);
+            header("Location: " . $tmpUrl);
+        }
+        else
+            Services::RedirectHome();
     }
 
 
     public static function Reconnect() {
         if(Cookie::Exists(self::COOKIE_NAME) && !Session::checkUserSession()) {
-            $hashCheck = Rimon::GetDB()->where("Hash",Cookie::Get(self::COOKIE_NAME))->getOne(Cookie::TABLE_NAME);
+            $hashCheck = BetterLife::GetDB()->where("Hash",Cookie::Get(self::COOKIE_NAME))->getOne(Cookie::TABLE_NAME);
 
             if(!empty($hashCheck)){
-                $userObj = &User::GetById($hashCheck["UserId"]);
+                $userObj = User::GetById($hashCheck["UserId"]);
                 $userObj->SetLastLogin();
                 $userObj->save();
                 $_SESSION[SystemConstant::USER_SESSION_NAME] = serialize($userObj);
@@ -118,8 +127,7 @@ class Login {
 
         unset($_SESSION[SystemConstant::USER_SESSION_NAME]);
         session_destroy();
-        Services::RedirectHome();
-
+        header('Location: ' . $_SERVER["HTTP_REFERER"]);
     }
 
 }

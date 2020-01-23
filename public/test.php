@@ -5,14 +5,7 @@ use BetterLife\User\Session;
 use BetterLife\System\SystemConstant;
 use BetterLife\BetterLife;
 
-echo "test mac";
-/* @var \BetterLife\User\User $userObj */
-
-if(Session::checkSession(SystemConstant::USER_SESSION_NAME))
-    $userObj = unserialize($_SESSION[SystemConstant::USER_SESSION_NAME]);
-
-$user = \BetterLife\User\User::getById(1);
-$enum = \BetterLife\Enum\EUserRoles::search(1);
+//\BetterLife\User\Login::Reconnect();
 
 ?>
 
