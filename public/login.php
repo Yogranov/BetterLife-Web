@@ -100,7 +100,7 @@ $pageBody = <<<PageBody
     </div>
     <div class="row">
         <div class="col-12 forgot-password">
-            <h5>שכחת סיסמה?</h5>
+            <a href="/forgot-password.php">שכחת סיסמה?</a>
         </div>
     </div>
 </div>

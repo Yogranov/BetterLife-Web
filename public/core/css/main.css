@@ -1,11 +1,12 @@
 @import "https://fonts.googleapis.com/earlyaccess/opensanshebrew.css";
 @import url('https://fonts.googleapis.com/css?family=Secular+One');
 
-
-
-
 nav ul li {
     padding-right: 25px;
+}
+
+nav ul {
+    padding-right: 0;
 }
 
 footer {
@@ -29,6 +30,13 @@ body {
     text-align: center;
 }
 
+.page-title {
+    background-color: #fcf0e8;
+    padding: 10px 30px;
+    border-radius: 5px 15px 5px 15px;
+    border: 1px solid rgba(0,0,0,0.3);
+}
+
 @media only screen and (max-width: 767px) {
     footer .col-12{
         text-align: center !important;
@@ -40,3 +48,9 @@ body {
     }
 
 }
+
+.iframe iframe {
+    border: rgba(0,0,0,0.3) solid 1px !important;
+    border-radius: 10px;
+}
+

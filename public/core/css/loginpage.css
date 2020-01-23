@@ -6,11 +6,16 @@
     border: 1px solid rgba(0,0,0,0.3);
 }
 
-.forgot-password h5{
+.forgot-password {
     text-align: center;
     margin-bottom: 5%;
     color: #6a6a6a;
     letter-spacing: 5px;
+    font-size: 20px;
+}
+
+.forgot-password a{
+    color: #6a6a6a;
 }
 
 .img-fluid {
@@ -138,6 +143,10 @@
     background-color: #3b5998;
     font-size: 12px !important;
 
+}
+
+footer {
+    margin-top: 0 !important;
 }
 
 /* Fallback for Edge

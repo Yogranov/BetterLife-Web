@@ -34,13 +34,16 @@ require_once '../vendor/autoload.php';
                 <a class="nav-link" href="login.php">כניסה</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">כתבות</a>
+                <a class="nav-link" href="info.php">מידע</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">אודות</a>
+                <a class="nav-link" href="doctors.php">הרופאים</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">צור קשר</a>
+                <a class="nav-link" href="about-us.php">אודות</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="contact-us.php">צור קשר</a>
             </li>
         </ul>
     </div>
@@ -92,7 +95,7 @@ require_once '../vendor/autoload.php';
                 </p>
             </div>
         </div>
-        <div data-aos="zoom-in" class="row mt-5">
+        <div data-aos="zoom-in-up" class="row mt-5">
             <div class="col-7 doctorPhone">
                 <img class="img-fluid" src="media/homepage/horazionPhone.png">
             </div>

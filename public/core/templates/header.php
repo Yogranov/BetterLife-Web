@@ -31,7 +31,7 @@ Header;
 
 const Navbar = <<<NAVBAR
     <nav class="navbar navbar-expand-lg navbar-light bg-light px-lg-5 shadow-sm mb-5 flex-row-reverse">
-        <a class="navbar-brand pl-lg-3" href="#">
+        <a class="navbar-brand pl-lg-3" href="https://betterlife.845.co.il">
             <img src="media/logos/BetterLifeLogo.png" alt="logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,16 +40,19 @@ const Navbar = <<<NAVBAR
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="../../index.php">ראשי</a>
+                    <a class="nav-link" href="https://betterlife.845.co.il/index.php">ראשי</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">כתבות</a>
+                    <a class="nav-link" href="https://betterlife.845.co.il/info.php">מידע</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">אודות</a>
+                    <a class="nav-link" href="https://betterlife.845.co.il/doctors.php">הרופאים</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">צור קשר</a>
+                    <a class="nav-link" href="https://betterlife.845.co.il/about-us.php">אודות</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://betterlife.845.co.il/contact-us.php">צור קשר</a>
                 </li>
             </ul>
             {Menu}
