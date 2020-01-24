@@ -31,10 +31,13 @@ body {
 }
 
 .page-title {
-    background-color: #fcf0e8;
-    padding: 10px 30px;
-    border-radius: 5px 15px 5px 15px;
-    border: 1px solid rgba(0,0,0,0.3);
+    letter-spacing: 10px;
+    font-weight: bold;
+    color: #4e4e4e;
+}
+
+.page-title hr {
+    width: 40%;
 }
 
 @media only screen and (max-width: 767px) {
@@ -49,8 +52,23 @@ body {
 
 }
 
-.iframe iframe {
+iframe {
     border: rgba(0,0,0,0.3) solid 1px !important;
     border-radius: 10px;
+    width: 100% !important;
+    height: 530px !important;
 }
 
+#contact-form label {
+    font-weight: bold;
+}
+
+.drop-cap::first-letter {
+    color: #4e4e4e;
+    font-weight: bold;
+    font-size: 350%;
+    line-height: 5px;
+    float: right;
+    padding: 0 0 5px 5px;
+    margin-top: 20px;
+}

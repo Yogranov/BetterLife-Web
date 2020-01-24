@@ -16,14 +16,24 @@ const HeaderTemplate = <<<Header
 <html lang="he" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-    <link rel="stylesheet" href="system/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="system/aos/aos.css">
-    <link rel="stylesheet" href="system/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="core/css/main.css">
-
     <title>BetterLife</title>
-    <link rel="icon" href="media/favicon.png">
+    <link rel="icon" href="../../media/favicon.png">
+    
+    <link rel="stylesheet" type="text/css" href="../../system/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="../../system/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../../system/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="../../system/fontawesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../../core/css/main.css">
 
+    
+    <script src="../../system/jquery/jquery-3.4.1.min.js"></script>
+    <script src="../../system/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../../system/fontawesome/js/all.min.js"></script>
+    <script src="../../system/jquery/jquery.validate.min.js"></script>
+    <script src="../../system/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../system/aos/aos.js"></script>
+    
+    
 </head>
 <body>
 Header;
@@ -32,7 +42,7 @@ Header;
 const Navbar = <<<NAVBAR
     <nav class="navbar navbar-expand-lg navbar-light bg-light px-lg-5 shadow-sm mb-5 flex-row-reverse">
         <a class="navbar-brand pl-lg-3" href="https://betterlife.845.co.il">
-            <img src="media/logos/BetterLifeLogo.png" alt="logo">
+            <img src="../../media/logos/BetterLifeLogo.png" alt="logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

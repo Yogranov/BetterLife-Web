@@ -17,6 +17,10 @@ require_once '../vendor/autoload.php';
     <title>BetterLife</title>
     <link rel="icon" href="media/favicon.png">
 
+    <script src="system/fontawesome/js/all.min.js"></script>
+    <script src="system/jquery/jquery-3.4.1.min.js"></script>
+    <script src="system/bootstrap/js/bootstrap.min.js"></script>
+    <script src="system/aos/aos.js"></script>
 
 
 </head>
@@ -67,7 +71,7 @@ require_once '../vendor/autoload.php';
 <div class="container-fluid simple-stepts">
     <div class="container">
         <div class="row ">
-            <div data-aos="fade-right" class="col-12">
+            <div data-aos="fade-up" class="col-12">
                 <h2>פשוט!</h2>
             </div>
             <div data-aos="flip-left" class="col-md-4 col-12">
@@ -155,7 +159,7 @@ require_once '../vendor/autoload.php';
             <div class="col-md-7 col-12">
                 <div class="row">
                     <div class="col-md-6 col-12" data-aos="zoom-in-up">
-                        <img class="img-fluid" src="media/team/yogev.jpg">
+                        <img class="img-fluid" src="media/random/yogev.jpg">
                         <h4>יוגב אגרנוב <i>מנכל</i></h4>
                         <p>
                             סטודנט שנה ג' להנדסאי תוכנה,<br>
@@ -164,19 +168,19 @@ require_once '../vendor/autoload.php';
                         <div class="row">
                             <div class="col-2"></div>
                             <div class="col-3">
-                                <a class="fab fa-github" style="color: #323232;"></a>
+                                <a class="fab fa-github fa-2x" style="color: #323232;"></a>
                             </div>
                             <div class="col-2">
-                                <a class="fab fa-linkedin" style="color: #076BA5;"></a>
+                                <a class="fab fa-linkedin fa-2x" style="color: #076BA5;"></a>
                             </div>
                             <div class="col-3">
-                                <a class="fab fa-facebook-square" style="color:#385599"></a>
+                                <a class="fab fa-facebook-square fa-2x" style="color:#385599"></a>
                             </div>
                             <div class="col-2"></div>
                         </div>
                     </div>
                     <div class="col-md-6 col-12" data-aos="zoom-in-up">
-                        <img class="img-fluid" src="media/team/yogev.jpg">
+                        <img class="img-fluid" src="media/random/yogev.jpg">
                         <h4>יוגב אגרנוב <i>מנכל</i></h4>
                         <p>
                             סטודנט שנה ג' להנדסאי תוכנה,<br>
@@ -185,13 +189,13 @@ require_once '../vendor/autoload.php';
                         <div class="row">
                             <div class="col-2"></div>
                             <div class="col-3">
-                                <a class="fab fa-github" style="color: #323232;"></a>
+                                <a class="fab fa-github fa-2x" style="color: #323232;"></a>
                             </div>
                             <div class="col-2">
-                                <a class="fab fa-linkedin" style="color: #076BA5;"></a>
+                                <a class="fab fa-linkedin fa-2x" style="color: #076BA5;"></a>
                             </div>
                             <div class="col-3">
-                                <a class="fab fa-facebook-square" style="color:#385599"></a>
+                                <a class="fab fa-facebook-square fa-2x" style="color:#385599"></a>
                             </div>
                             <div class="col-2"></div>
                         </div>

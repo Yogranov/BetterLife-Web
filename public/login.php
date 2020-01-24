@@ -51,7 +51,6 @@ else {
 
 $pageBody = <<<PageBody
 <link rel="stylesheet" href="core/css/loginpage.css">
-<script src="system/jquary/jquery-3.4.1.min.js"></script>
 <div class="container">
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -114,7 +113,7 @@ $(function() {
       },
       password: {
           required: true,
-          minlength: 8
+          minlength: 4
       }
   },
   messages: {
@@ -124,9 +123,15 @@ $(function() {
       },
       password: {
           required:'אנא הכנס סיסמה',
-          minlength: 'הסיסמה חייבת להכיל לפחות 8 תווים'
+          minlength: 'הסיסמה חייבת להכיל לפחות 4 תווים'
       }
   },
+  highlight: function(element) {
+    $(element).removeClass('is-valid').addClass('is-invalid');
+    },
+    unhighlight: function(element) {
+      $(element).removeClass('is-invalid').addClass('is-valid');
+    },
   errorPlacement: function(error, element) {
       error.appendTo( element.parent("div").children("span") )
   }})
