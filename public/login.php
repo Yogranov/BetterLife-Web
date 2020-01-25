@@ -54,7 +54,7 @@ $pageBody = <<<PageBody
 <div class="container">
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-            <button type="button" class="btn btn-success register-btn">להרשמה</button>
+            <a href="register.php" type="button" class="btn btn-success register-btn">להרשמה</a>
         </div>
     </div>
     <div class="row">
@@ -82,7 +82,7 @@ $pageBody = <<<PageBody
                             <label class="custom-control-label" for="customCheck1">זכור סיסמה</label>
                         </div>
 
-                        <button class="btn btn-lg btn-primary btn-block" name="signInSubmit" type="submit" {$disable}>התחבר</button>
+                        <button class="btn btn-lg btn-primary btn-block"  name="signInSubmit" type="submit" {$disable}>התחבר</button>
                         <hr class="my-4">
                         <div class="row">
                             <div class="col-12 col-md-6 mb-2">
