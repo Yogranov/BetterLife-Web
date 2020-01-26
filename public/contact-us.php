@@ -38,10 +38,12 @@ $pageBody = <<<PageBody
                         </div>
                         <div class="form-group col-md-12">
                             <label for="contact-content">תוכן הפנייה</label>
-                            <textarea class="form-control" name="content" type="textarea" id="contact-content" placeholder="Message" maxlength="140" rows="7"></textarea>
+                            <textarea class="form-control" name="content" type="textarea" id="contact-content" placeholder="כתוב הודעה כאן..." maxlength="140" rows="7"></textarea>
                             <span class="text-danger"></span>
                         </div>
-                        <button type="submit" class="btn btn-block btn-primary mb-5">שלח טופס</button>
+                        <div class="form-group col-md-12">
+                            <button type="submit" class="btn btn-block btn-secondary mb-5 custom-button" style="width: 80%; margin: auto">שלח טופס</button>
+                        </div>
                     </div>
                 </form>
             </div>

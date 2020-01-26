@@ -28,6 +28,7 @@ const HeaderTemplate = <<<Header
     
     <script src="../../system/jquery/jquery-3.4.1.min.js"></script>
     <script src="../../system/jquery-ui/jquery-ui.min.js"></script>
+    <script src="system/jquery-ui/datepicker-he.js"></script>
     <script src="../../system/fontawesome/js/all.min.js"></script>
     <script src="../../system/jquery/jquery.validate.min.js"></script>
     <script src="../../system/bootstrap/js/bootstrap.min.js"></script>

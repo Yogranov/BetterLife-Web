@@ -1,6 +1,17 @@
 @import "https://fonts.googleapis.com/earlyaccess/opensanshebrew.css";
 @import url('https://fonts.googleapis.com/css?family=Secular+One');
 
+a:hover {
+    text-decoration: none;
+}
+
+body {
+    direction: rtl;
+    margin: 0;
+    font-family: "Open Sans Hebrew",Helvetica,Arial,sans-serif !important;
+    background-attachment: fixed;
+}
+
 nav ul li {
     padding-right: 25px;
 }
@@ -12,18 +23,35 @@ nav ul {
 footer {
     background-color: #F7F7F7;
 }
-.footer-icon {
-    margin-top: 15%;
-}
-a:hover {
-    text-decoration: none;
+
+footer li {
+    background: none !important;
+    border-top: none;
 }
 
-body {
-    direction: rtl;
-    margin: 0;
-    font-family: "Open Sans Hebrew",Helvetica,Arial,sans-serif !important;
-    background-attachment: fixed;
+footer .list-inline-item {
+    margin: 0 10px;
+}
+
+footer .list-inline {
+    padding: 0;
+}
+
+.footer-little-title {
+    text-align: left;
+}
+
+.footer-little-title-right {
+    text-align: right;
+}
+.footer-right-li {
+    padding-left: 30%;
+}
+
+.footer-icon li:hover {
+    opacity: 70%;
+    cursor: pointer;
+    filter: invert(100%);
 }
 
 .collapse, .collapsing{
@@ -40,9 +68,10 @@ body {
     width: 40%;
 }
 
+
+
 @media only screen and (max-width: 767px) {
     footer .col-12{
-        text-align: center !important;
         margin: 5% 0;
     }
 
@@ -50,6 +79,17 @@ body {
         margin-top: 0;
     }
 
+    .footer-little-title {
+        text-align: center;
+    }
+
+    .footer-little-title-right {
+        text-align: center;
+    }
+
+    .footer-right-li {
+        padding-left: 0;
+    }
 }
 
 iframe {
@@ -60,7 +100,7 @@ iframe {
 }
 
 #contact-form label {
-    font-weight: bold;
+    font-weight: normal;
 }
 
 .drop-cap::first-letter {
@@ -75,9 +115,119 @@ iframe {
 
 
 .custom-control-label::before ,.custom-control-label::after {
-    right: -6%;
+    right: -3%;
 }
 
 .custom-control-label {
     right: 3%;
 }
+
+
+#contact-form input[type="text"],input[type="email"], textarea {
+    font-size: 14px;
+    font-style: italic;
+}
+
+#contact-form label {
+    color: #4e4e4e;
+}
+
+.custom-button:hover {
+    background: #8BC34A;
+    border-color: #8BC34A;
+    color: #ffffff;
+}
+
+
+
+/* ##### Register Start #### */
+
+.register-form .custom-checkbox label {
+    margin-top: 0;
+}
+
+.register-form form {
+    width: 100%;
+    margin: 10px auto;
+    padding: 0 120px 80px 120px;
+    text-align: right;
+}
+.register-form label {
+    display: block;
+    position: relative;
+}
+.register-form input[type="date"] {
+    text-align: right;
+}
+
+.register-form .label-txt {
+    position: absolute;
+    top: -1.6em;
+    padding: 10px;
+    font-family: sans-serif;
+    font-size: .8em;
+    letter-spacing: 1px;
+    color: rgb(120,120,120);
+    transition: ease .3s;
+}
+.register-form .input {
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+.register-form .line-box {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background: #BCBCBC;
+}
+
+.register-form .line {
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #8BC34A;
+    transition: ease .6s;
+}
+
+.register-form .input:focus + .line-box .line {
+    width: 100%;
+}
+
+.register-form .label-active {
+    top: -3em;
+}
+
+.register-form button {
+    display: inline-block;
+    padding: 12px 24px;
+    background: rgb(220,220,220);
+    font-weight: bold;
+    color: rgb(120,120,120);
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: ease .3s;
+    width: 100%;
+}
+
+.register-form button:hover {
+    background: #8BC34A;
+    color: #ffffff;
+}
+
+.register-form .form-group {
+    margin: 30px 0px;
+}
+
+.register-form select {
+    border:0px;
+    outline:0px;
+}
+
+/* #### Register End #### */
