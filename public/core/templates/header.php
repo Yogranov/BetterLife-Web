@@ -41,8 +41,9 @@ Header;
 
 
 const Navbar = <<<NAVBAR
-    <nav class="navbar navbar-expand-lg navbar-light bg-light px-lg-5 shadow-sm mb-5 flex-row-reverse">
-        <a class="navbar-brand pl-lg-3" href="https://betterlife.845.co.il">
+<nav class="navbar navbar-expand-lg navbar-light bg-light px-lg-5 shadow-sm mb-5 flex-row-reverse">
+    <div class="container-fluid flex-row-reverse">
+    <a class="navbar-brand pl-lg-3" href="https://betterlife.845.co.il">
             <img src="../../media/logos/BetterLifeLogo.png" alt="logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +69,8 @@ const Navbar = <<<NAVBAR
             </ul>
             {Menu}
         </div>
-    </nav>
+    </div>
+</nav>
 NAVBAR;
 
 

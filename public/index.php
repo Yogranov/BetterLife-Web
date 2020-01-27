@@ -208,6 +208,5 @@ require_once '../vendor/autoload.php';
 </div>
 
 
-
  <?php
 include "core/templates/footer.php";

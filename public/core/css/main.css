@@ -37,6 +37,10 @@ footer .list-inline {
     padding: 0;
 }
 
+nav .container-fluid {
+    max-width: 1340px;
+}
+
 .footer-little-title {
     text-align: left;
 }
@@ -231,3 +235,34 @@ iframe {
 }
 
 /* #### Register End #### */
+
+.doctors img {
+    border-radius: 50% 50% 0 50%;
+    width: 80%;
+    border: solid rgba(0,0,0,0.4) 1px;
+    box-shadow: rgba(0,0,0,0.2) -2px 5px 10px;
+
+}
+
+.doctors .col-12 {
+    margin-bottom: 10%;
+}
+
+.doctors h5 {
+    color: #34849D;
+}
+
+.doctors h6 {
+    font-weight: bold;
+}
+
+.doctors p {
+    width: 80%;
+    color: #4e4e4e
+}
+
+.info-page img {
+    border-radius: 20px;
+    border: solid rgba(0,0,0,0.4) 1px;
+    box-shadow: rgba(0,0,0,0.2) -2px 5px 10px;
+}
