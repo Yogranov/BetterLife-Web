@@ -1,8 +1,8 @@
 <?php
 namespace BetterLife;
 
-use BetterLife\Enum\EUserRoles;
 use BetterLife\System\SystemConstant;
+use BetterLife\User\Role;
 use BetterLife\User\User;
 use MysqliDb;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -95,67 +95,39 @@ RIMON;
 
     }
 
-    public static function buildNavbar($navbarTemplate) {
-        if(Session::checkUserSession()) {
-            $userObj = User::GetUserFromSession();
-            Services::setPlaceHolder($navbarTemplate, "Menu", MemberMenu);
-            Services::setPlaceHolder($navbarTemplate, "MemberMenu", PatientMenu);
-            Services::setPlaceHolder($navbarTemplate, "userFirstName", $userObj->getFirstName());
-        } else {
-            Services::setPlaceHolder($navbarTemplate, "Menu", NoneUserMenu);
-        }
-        return $navbarTemplate;
+
+    public static function navBuider() {
+        if(Session::checkUserSession())
+            return User::GetUserFromSession()->getNavbar();
+         else
+            return NoneUserMenu;
     }
 
-    /**
-     * @param null $fromRole
-     * @return array
-     * @throws Exception
-     */
-    public static function GetPermissions($fromRole = null){
-        $permissions = array();
-        ///Menu Setting
-        if (Session::checkUserSession()) {
-            $userObj = User::GetUserFromSession();
-            if($userObj->GetRole()->getValue() !== EUserRoles::NewUser[0]) {
-                $permissions["Menu"] = MemberMenu;
 
-                switch ($userObj->GetRole()->getValue()){
 
-                    case EUserRoles::Patient[0]:
-                        $memberMenu = PatientMenu;
-                        break;
+    public static function GetPermissions($toRoles = null){
+        if ($toRoles != null) {
+            if(Session::checkUserSession()) {
+                $userObj = User::GetUserFromSession();
+                $flag = 1;
 
-                    case EUserRoles::Doctor[0]:
-                        $memberMenu = DoctorMenu;
-                        break;
-
-                    case EUserRoles::Admin[0]:
-                        $memberMenu = AdminMenu;
-                        break;
-
-                    default:
-                        $memberMenu = "";
-                        break;
+                if(is_array($toRoles)) {
+                    foreach ($userObj->getRoles() as $role) {
+                        foreach ($toRoles as $toRole) {
+                            if($role->getId() == $toRole)
+                                $flag = 0;
+                        }
+                    }
+                } else {
+                    foreach ($userObj->getRoles() as $role)
+                        if($role->getId() == $toRoles)
+                            $flag = 0;
                 }
-                $permissions["ManagerMenu"] = $memberMenu;
-
-            } else {
-                Login::Disconnect();
-            }
-        } else {
-            $permissions["Menu"] = NoneUserMenu;
-            $permissions["ManagerMenu"] = "";
-        }
-
-        /// Page Permissions
-        if ($fromRole != null) {
-            if(isset($_SESSION["UserId"])) {
-                if ($userObj->GetRole()->getValue() < $fromRole)
-                    \Services::RedirectHome();
+                if ($flag)
+                    Services::flashUser("הגישה נדחתה.");
             } else
-                \Services::RedirectHome();
+                Services::flashUser("אינך מחובר.");
         }
-        return $permissions;
     }
+
 }

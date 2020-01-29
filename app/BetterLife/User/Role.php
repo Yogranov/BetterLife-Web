@@ -11,6 +11,12 @@ class Role {
     const TABLE_NAME = "roles";
     const TABLE_KEY_COLUMN = "Id";
 
+    const NEW_USER_ID = 1;
+    const PATIENT_ID = 2;
+    const DOCTOR_ID = 3;
+    const ADMIN_ID = 4;
+
+
     private $id;
     private $name;
     private $description;

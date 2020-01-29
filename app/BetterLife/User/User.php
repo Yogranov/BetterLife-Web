@@ -2,9 +2,9 @@
 namespace BetterLife\User;
 
 use BetterLife\BetterLife;
-use BetterLife\Enum\EUserRoles;
 use BetterLife\Repositories\Address;
 use BetterLife\System\Exception;
+use BetterLife\System\Services;
 use BetterLife\System\SystemConstant;
 
 class User {
@@ -23,11 +23,12 @@ class User {
     private $phoneNumber;
     private $BirthDate;
     private $address;
-    private $role;
+    private $roles;
     private $haveHistory;
     private $licenceNumber;
     private $registerTime;
     private $lastLogin;
+    private $navbar = "";
 
     /**
      * User constructor.
@@ -50,9 +51,9 @@ class User {
         $this->sex = $data["Sex"];
 
 
-        $this->role = array();
-        foreach (json_decode($data["Role"]) as $role)
-           array_push( $this->role, new Role($role));
+        $this->roles = array();
+        foreach (json_decode($data["Roles"]) as $role)
+           array_push( $this->roles, new Role($role));
 
         if(!is_null($data["HaveHistory"]))
             if($data["HaveHistory"])
@@ -61,6 +62,38 @@ class User {
                 $this->haveHistory = false;
         else
             $this->haveHistory = null;
+
+        //navbar
+        if(!$this->checkNewUser()) {
+            $this->navbar = MemberMenu;
+            Services::setPlaceHolder($this->navbar, "userFirstName", $this->getFirstName());
+
+            $tmpSubMenu = "";
+            foreach ($this->getRoles() as $role) {
+                switch ($role->getId()){
+
+                    case Role::PATIENT_ID:
+                        $tmpSubMenu .= PatientMenu;
+                        break;
+
+                    case Role::DOCTOR_ID:
+                        $tmpSubMenu .= DoctorMenu;
+                        break;
+
+                    case Role::ADMIN_ID:
+                        $tmpSubMenu .= AdminMenu;
+                        break;
+
+                    default:
+                        $tmpSubMenu .= "";
+                        break;
+                }
+            }
+            Services::setPlaceHolder($this->navbar, "MemberMenu", $tmpSubMenu);
+
+        } else
+            Login::Disconnect();
+
 
     }
 
@@ -139,10 +172,10 @@ class User {
     }
 
     /**
-     * @return EUserRoles
+     * @return Role array
      */
-    public function getRole(): EUserRoles {
-        return $this->role;
+    public function getRoles() {
+        return $this->roles;
     }
 
     /**
@@ -173,6 +206,15 @@ class User {
         return $this->lastLogin;
     }
 
+    /**
+     * @return string
+     */
+    public function getNavbar(): string {
+        return $this->navbar;
+    }
+
+
+
     public function setLastLogin(){
         $this->lastLogin = new \DateTime('now',new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE));
     }
@@ -190,11 +232,12 @@ class User {
             "Sex" => $this->sex
         );
 
-        $data["Role"] = array();
-        foreach ($this->role as $role)
-            array_push($data["Role"], $role->getId());
+        $data["Roles"] = array();
+        foreach ($this->roles as $role)
+            array_push($data["Roles"], $role->getId());
 
-        $data["Role"] = json_encode($data["Role"]);
+
+        $data["Roles"] = json_encode($data["Roles"]);
 
         if(is_null($this->haveHistory))
             $data["HaveHistory"] = null;
@@ -202,7 +245,6 @@ class User {
             $data["HaveHistory"] = 1;
         else
             $data["HaveHistory"] = 0;
-
 
         try {
             BetterLife::GetDB()->where(self::TABLE_KEY_COLUMN, $this->id)->update(self::TABLE_NAME, $data);
@@ -219,5 +261,12 @@ class User {
         return unserialize($_SESSION[SystemConstant::USER_SESSION_NAME]);
     }
 
+    public function checkNewUser() {
+        foreach ($this->roles as $role) {
+            if($role->getId() == Role::NEW_USER_ID)
+                return true;
+        }
 
+        return false;
+    }
 }

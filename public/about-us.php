@@ -1,6 +1,8 @@
 <?php
 require_once "core/templates/header.php";
-?>
+
+
+$pageBody = <<<PageBody
 <style>
 
 
@@ -46,8 +48,8 @@ require_once "core/templates/header.php";
 
 
 </div>
+PageBody;
 
 
-<?php
+echo $pageBody;
 include "core/templates/footer.php";
-?>

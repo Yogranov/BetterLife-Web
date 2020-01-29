@@ -1,9 +1,11 @@
 <?php
-require_once "core/templates/navbar.php";
-
-use BetterLife\System\Services;
+require_once "core/templates/header.php";
 use BetterLife\User\Login;
 use BetterLife\User\Session;
+use BetterLife\System\Services;
+
+if(Session::checkUserSession())
+    Services::flashUser("הינך כבר מחובר, מועבר לדף הבית...");
 
 $errors = array();
 $errorMsg = "";

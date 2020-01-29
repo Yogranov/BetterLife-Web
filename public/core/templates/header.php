@@ -1,15 +1,9 @@
 <?php
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-
 require_once '../vendor/autoload.php';
 session_start();
 
 use BetterLife\BetterLife;
-
+use BetterLife\System\Services;
 
 //Header
 const HeaderTemplate = <<<Header
@@ -106,14 +100,20 @@ PatientMenu;
 
 const DoctorMenu = <<<PatientMenu
                         <hr>
-                        <a class="dropdown-item" href="#"><i class="fas fa-clinic-medical"></i> בדיקת שומות</a>
-                        <a class="dropdown-item" href="#"><i class="fas fa-inbox"></i> חיפוש מטופל</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-vial"></i> בדיקת שומות</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-search"></i> חיפוש מטופל</a>
 PatientMenu;
 
 const AdminMenu = <<<PatientMenu
                         <hr>
-                        <a class="dropdown-item" href="#"><i class="fas fa-clinic-medical"></i> ניהול משתמשים</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-user-friends"></i> ניהול משתמשים</a>
 PatientMenu;
 
 
-echo BetterLife::buildNavbar( HeaderTemplate. Navbar);
+echo HeaderTemplate;
+
+\BetterLife\User\Login::Reconnect();
+
+$pageTemplate = Navbar;
+Services::setPlaceHolder($pageTemplate, "Menu", BetterLife::navBuider());
+echo $pageTemplate;

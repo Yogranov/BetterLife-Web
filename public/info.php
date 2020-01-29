@@ -1,6 +1,7 @@
 <?php
 require_once "core/templates/header.php";
 
+
 $pageBody = <<<PageBody
 <style>
 span{
@@ -84,7 +85,6 @@ span{
         
 </div>
 PageBody;
-
 
 
 echo $pageBody;

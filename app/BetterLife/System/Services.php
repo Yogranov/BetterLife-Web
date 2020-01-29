@@ -50,6 +50,11 @@ class Services
         header("Location: " . SystemConstant::SYSTEM_DOMAIN);
     }
 
+    public static function flashUser(string $message) {
+        $_SESSION[SystemConstant::FLASH_MESSAGE] = $message;
+        header('Location: ' . SystemConstant::SYSTEM_FLASH);
+    }
+
     /**
      * @param $password
      * @return array
