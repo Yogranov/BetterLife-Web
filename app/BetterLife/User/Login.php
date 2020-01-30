@@ -46,6 +46,9 @@ class Login {
             throw new \Exception("שם המשתמש או הסיסמה אינם נכונים");
 
         $userObj = User::getById($userData["Id"]);
+        if(!isset($userObj))
+            throw new \Exception("User error, cannot sign right now");
+
         $userObj->setLastLogin();
         $userObj->save();
         Session::newSession(SystemConstant::USER_SESSION_NAME, serialize($userObj));

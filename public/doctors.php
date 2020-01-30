@@ -2,11 +2,7 @@
 require_once "core/templates/header.php";
 
 $pageBody = <<<PageBody
-<style>
-    body {
-        background-color: #f5f5f5;
-    }
-</style>
+<style>body {background-color: #f5f5f5;}</style>
 <div class="container">
     <div class="row mb-5">
         <div class="col-12 text-center page-title" data-aos="zoom-in">
@@ -18,7 +14,7 @@ $pageBody = <<<PageBody
     <div class="row doctors">
     
         <div class="col-md-4 col-12" data-aos="zoom-in-up">
-            <img class="img-fluid" src="imageHandle.php?image=1">
+            <img class="img-fluid" src="core/services/imageHandle.php?image=1">
             <div class="mt-2">
                 <h5>ד"ר מיכאל ג'רי</h5>
                 <h6>מנהל מחלקת סרטון עור באיכילוב</h6>
@@ -27,7 +23,7 @@ $pageBody = <<<PageBody
         </div>
         
         <div class="col-md-4 col-12" data-aos="zoom-in-up">
-            <img class="img-fluid" src="imageHandle.php?image=2">
+            <img class="img-fluid" src="core/services/imageHandle.php?image=2">
             <div class="mt-2">
                 <h5>ד"ר תכלת שהם </h5>
                 <h6>רופאת עור בכירה</h6>
@@ -36,7 +32,7 @@ $pageBody = <<<PageBody
         </div>
         
         <div class="col-md-4 col-12" data-aos="zoom-in-up">
-            <img class="img-fluid" src="imageHandle.php?image=3">
+            <img class="img-fluid" src="core/services/imageHandle.php?image=3">
             <div class="mt-2">
                 <h5>ד"ר שי מורן </h5>
                 <h6>חבר דריקטוריון בעמותה למלחמה בסרטן</h6>
@@ -45,7 +41,7 @@ $pageBody = <<<PageBody
         </div>
         
         <div class="col-md-4 col-12" data-aos="zoom-in-up">
-            <img class="img-fluid" src="imageHandle.php?image=4">
+            <img class="img-fluid" src="core/services/imageHandle.php?image=4">
             <div class="mt-2">
                 <h5>ד"ר שרון זיו </h5>
                 <h6>מומחא לרפואת העור בקפלן</h6>
@@ -54,7 +50,7 @@ $pageBody = <<<PageBody
         </div>
         
         <div class="col-md-4 col-12" data-aos="zoom-in-up">
-            <img class="img-fluid" src="imageHandle.php?image=5">
+            <img class="img-fluid" src="core/services/imageHandle.php?image=5">
             <div class="mt-2">
                 <h5>פרופסור שמעון רביב </h5>
                 <h6>בעל מחקר חדיש בתחום סרטן העור</h6>
@@ -63,7 +59,7 @@ $pageBody = <<<PageBody
         </div>
         
         <div class="col-md-4 col-12" data-aos="zoom-in-up">
-            <img class="img-fluid" src="imageHandle.php?image=6">
+            <img class="img-fluid" src="core/services/imageHandle.php?image=6">
             <div class="mt-2">
                 <h5>ד"ר עומר אברהם </h5>
                 <h6>רופא עור פרטי</h6>
@@ -72,7 +68,7 @@ $pageBody = <<<PageBody
         </div>
         
         <div class="col-md-4 col-12" data-aos="zoom-in-up">
-            <img class="img-fluid" src="imageHandle.php?image=7">
+            <img class="img-fluid" src="core/services/imageHandle.php?image=7">
             <div class="mt-2">
                 <h5>ד"ר שקד ניומן</h5>
                 <h6>רופא עור באסף הרופא</h6>
@@ -81,7 +77,7 @@ $pageBody = <<<PageBody
         </div>
         
         <div class="col-md-4 col-12" data-aos="zoom-in-up">
-            <img class="img-fluid" src="imageHandle.php?image=8">
+            <img class="img-fluid" src="core/services/imageHandle.php?image=8">
             <div class="mt-2">
                 <h5>ד"ר עפרי חדד </h5>
                 <h6>רופאת עור ומשפחה</h6>
@@ -90,7 +86,7 @@ $pageBody = <<<PageBody
         </div>
         
         <div class="col-md-4 col-12" data-aos="zoom-in-up">
-            <img class="img-fluid" src="imageHandle.php?image=9">
+            <img class="img-fluid" src="core/services/imageHandle.php?image=9">
             <div class="mt-2">
                 <h5>ד"ר ארביב דקל </h5>
                 <h6>כירורג בבית החולים הדסה עין כרם</h6>

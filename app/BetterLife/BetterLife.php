@@ -38,62 +38,37 @@ class BetterLife {
     }
 
 
-    /**
-     * @param string $subject
-     * @param string $message
-     * @param bool $clear
-     * @return PHPMailer
-     * @throws Exception
-     */
-    public static function GetEmail(string $subject, string $message, bool $clear = True) {
-        try {
-            if (isset(self::$email) && !empty(self::$email)) {
-                $ret = self::$email;
-            } else {
-                $Email = new PHPMailer();
 
-                //$Email->isSendmail();
-                $Email->IsHTML(true);
-                $Email->setFrom(SystemConstant::EMAIL_MAIN_ADDRESS, SystemConstant::EMAIL_MAIN_NAME);
-                $Email->ContentType = "text/html;charset=utf-8";
-                $Email->headerLine("MIME-Version", 1.0);
-                $Email->CharSet = "UTF-8";
+    public static function GetEmail(string $subject, string $message) {
+        $credential = Credential::GetCredential('sql_' . SystemConstant::MYSQL_SERVER . '_' . SystemConstant::MYSQL_SERVER_PORT . '_' . SystemConstant::MYSQL_DATABASE);
 
-                $body = <<<RIMON
-                    <html dir=rtl>
-                        <body>
-                            {$message}
-                        </body>
-                    </html>
-RIMON;
-                $Email->Subject = $subject;
-                $Email->Body = $body;
-                $Email->AltBody = strip_tags($message);
+        $Email = new PHPMailer();
+        $Email->IsSMTP();
+        $Email->SMTPAuth = true;
+        $Email->SMTPSecure = 'tls';
+        $Email->Host = "mail.845.co.il";
+        $Email->Port = 587;
+        $Email->IsHTML(true);
+        $Email->CharSet = 'UTF-8';
+        $Email->Username = SystemConstant::SYSTEM_EMAIL;
+        $Email->Password = $credential->GetPassword();
+        $Email->SetFrom(SystemConstant::SYSTEM_NAME);
 
 
-                $ret = self::$email = $Email;
-            }
+        $body ="<html dir=rtl>
+                    <body>
+                        {$message}
+                    </body>
+                </html>";
 
-            /*
-            $ret->addReplyTo(Constant::EMAIL_MAIN_ADDRESS, Constant::EMAIL_MAIN_NAME);
-            $ret->headerLine("Return-Path", Constant::EMAIL_MAIN_ADDRESS);
-            $ret->headerLine("From", Constant::EMAIL_MAIN_ADDRESS);
-            $ret->headerLine("Organization", Constant::EMAIL_MAIN_NAME);
-            $ret->headerLine("X-Priority", 1);
-            */
+        $Email->Subject = $subject;
+        $Email->Body = $body;
+        $Email->AltBody = strip_tags($message);
 
-            if ($clear) {
-                self::$email->ClearAddresses(); //
-                self::$email->ClearCCs();
-                self::$email->ClearBCCs();
-                self::$email->clearAttachments();
-            }
-            return $ret;
-        } catch (\Throwable $e) {
-            throw new Exception($e->getMessage());
-        }
+        return $Email;
 
     }
+
 
 
     public static function navBuider() {

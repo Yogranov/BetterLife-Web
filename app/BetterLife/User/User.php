@@ -91,9 +91,10 @@ class User {
             }
             Services::setPlaceHolder($this->navbar, "MemberMenu", $tmpSubMenu);
 
-        } else
-            Login::Disconnect();
-
+        } else {
+            Services::flashUser("משתמש לא מאומת");
+            //Login::Disconnect();
+        }
 
     }
 
@@ -106,6 +107,66 @@ class User {
             throw new Exception("Data empty, no user found!");
 
         return new User($data);
+    }
+
+    public function sendEmail(string $message, string $subject) {
+        if (empty($this->email))
+            throw new \Exception("Email not exist!");
+
+        $emailObject = BetterLife::GetEmail($subject, $message);
+        $emailObject->addAddress($this->email);
+
+        if (!$emailObject->send())
+            throw new Exception($emailObject->ErrorInfo);
+    }
+
+    public function save() {
+        $data = array(
+            "Email" => $this->email,
+            "FirstName" => $this->firstName,
+            "LastName" => $this->lastName,
+            "PhoneNumber" => $this->phoneNumber,
+            "Address" => $this->address->getAddress(),
+            "City" => $this->address->getCityId(),
+            "LastLogin" => $this->lastLogin->format("Y-m-d H:i:s"),
+            "LicenceNumber" => $this->licenceNumber,
+            "Sex" => $this->sex
+        );
+
+        $data["Roles"] = array();
+        foreach ($this->roles as $role)
+            array_push($data["Roles"], $role->getId());
+
+
+        $data["Roles"] = json_encode($data["Roles"]);
+
+        if(is_null($this->haveHistory))
+            $data["HaveHistory"] = null;
+        else if($this->haveHistory)
+            $data["HaveHistory"] = 1;
+        else
+            $data["HaveHistory"] = 0;
+
+        try {
+            BetterLife::GetDB()->where(self::TABLE_KEY_COLUMN, $this->id)->update(self::TABLE_NAME, $data);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function checkNewUser() {
+        foreach ($this->roles as $role) {
+            if($role->getId() == Role::NEW_USER_ID)
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return User
+     */
+    public static function GetUserFromSession() {
+        return unserialize($_SESSION[SystemConstant::USER_SESSION_NAME]);
     }
 
     /**
@@ -172,7 +233,7 @@ class User {
     }
 
     /**
-     * @return Role array
+     * @return array Role
      */
     public function getRoles() {
         return $this->roles;
@@ -213,60 +274,11 @@ class User {
         return $this->navbar;
     }
 
-
-
+    /**
+     * @throws \Exception
+     */
     public function setLastLogin(){
         $this->lastLogin = new \DateTime('now',new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE));
     }
 
-    public function save() {
-        $data = array(
-            "Email" => $this->email,
-            "FirstName" => $this->firstName,
-            "LastName" => $this->lastName,
-            "PhoneNumber" => $this->phoneNumber,
-            "Address" => $this->address->getAddress(),
-            "City" => $this->address->getCityId(),
-            "LastLogin" => $this->lastLogin->format("Y-m-d H:i:s"),
-            "LicenceNumber" => $this->licenceNumber,
-            "Sex" => $this->sex
-        );
-
-        $data["Roles"] = array();
-        foreach ($this->roles as $role)
-            array_push($data["Roles"], $role->getId());
-
-
-        $data["Roles"] = json_encode($data["Roles"]);
-
-        if(is_null($this->haveHistory))
-            $data["HaveHistory"] = null;
-        else if($this->haveHistory)
-            $data["HaveHistory"] = 1;
-        else
-            $data["HaveHistory"] = 0;
-
-        try {
-            BetterLife::GetDB()->where(self::TABLE_KEY_COLUMN, $this->id)->update(self::TABLE_NAME, $data);
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-        }
-    }
-
-
-    /**
-     * @return User
-     */
-    public static function GetUserFromSession() {
-        return unserialize($_SESSION[SystemConstant::USER_SESSION_NAME]);
-    }
-
-    public function checkNewUser() {
-        foreach ($this->roles as $role) {
-            if($role->getId() == Role::NEW_USER_ID)
-                return true;
-        }
-
-        return false;
-    }
 }

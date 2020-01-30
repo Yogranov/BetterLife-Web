@@ -53,6 +53,7 @@ class Services
     public static function flashUser(string $message) {
         $_SESSION[SystemConstant::FLASH_MESSAGE] = $message;
         header('Location: ' . SystemConstant::SYSTEM_FLASH);
+        exit();
     }
 
     /**
@@ -87,6 +88,36 @@ class Services
         }
         return $randomString;
     }
+
+    public static function validateID(string $str)  {
+        $count = 0;
+        //Validate the ID number
+        for($i=0; $i<8; $i++)  {
+            $char = mb_substr($str, $i, 1);
+            $incNum = intval($char);
+            $incNum*=($i%2)+1;
+            if($incNum > 9)
+                $incNum-=9;
+            $count+= $incNum;
+        }
+
+        if($count%10==0)
+            return true;
+        else
+            return false;
+    }
+
+    public static function validatePhoneNumber(string $number) {
+
+        if((strlen($number) != 10))
+            return false;
+
+        if(!preg_match("^05\d([-]{0,1})\d{7}$", $number))
+            return false;
+
+        return true;
+    }
+
 
     /**
      * @param $array
