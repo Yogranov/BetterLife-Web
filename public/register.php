@@ -3,6 +3,7 @@ require_once "core/templates/header.php";
 use BetterLife\User\Session;
 use BetterLife\System\Services;
 use BetterLife\System\SystemConstant;
+use BetterLife\System\EmailsConstant;
 use BetterLife\BetterLife;
 use BetterLife\User\User;
 
@@ -11,6 +12,7 @@ if(Session::checkUserSession())
 
 $errors = array();
 $errorMsg = "";
+$csrfToken = \BetterLife\System\CSRF::formField();
 
 if(isset($_POST['registerButton'])) {
 
@@ -27,8 +29,6 @@ if(isset($_POST['registerButton'])) {
     $sex = htmlspecialchars(trim($_POST["sex"]));
     $haveHistory = htmlspecialchars(trim($_POST["haveHistory"]));
     $confirmForm = htmlspecialchars(trim($_POST["termOfUse"]));
-
-
 
     $birthdateTmp = explode('/', $birthdate);
 
@@ -66,6 +66,11 @@ if(isset($_POST['registerButton'])) {
     elseif (Services::validateID($personId))
         array_push($errors, "תעודת זהות לא תקינה");
 
+    $dbEmail = BetterLife::GetDB()->where("Email", $email)->getOne(User::TABLE_NAME);
+    $dbPersonId = BetterLife::GetDB()->where("PersonId", $personId)->getOne(User::TABLE_NAME);
+    if(!empty($dbEmail) || !empty($dbPersonId))
+        array_push($errors, "המשתמש כבר קיים במערכת");
+
     if (empty($phoneNumber))
         array_push($errors, "לא הוזן מספר טלפון");
     elseif (Services::validatePhoneNumber($phoneNumber))
@@ -91,6 +96,7 @@ if(isset($_POST['registerButton'])) {
     $data = array();
     if(empty($errors)) {
             $dateTime = new \DateTime('now',new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE));
+            $randomToken = md5(Services::RandChars(64));
 
             $data = [
                 "Email" => $email,
@@ -105,11 +111,26 @@ if(isset($_POST['registerButton'])) {
                 "City" => $city,
                 "Roles" => "[1]",
                 "HaveHistory" => $haveHistory == "on" ? 1 : 0,
-                "RegisterTime" => $dateTime->format("Y-m-d H:i:s")
+                "RegisterTime" => $dateTime->format("Y-m-d H:i:s"),
+                "RecoverToken" => $randomToken
             ];
 
             try {
                 BetterLife::GetDB()->insert(User::TABLE_NAME, $data);
+
+                $emailUrl = SystemConstant::SYSTEM_DOMAIN . "/userConfirm.php?ConfirmToken=" . $randomToken;
+                $emailSubject = "אישור הרשמה לאתר";
+                $emailBody = EmailsConstant::emailConfirm;
+                Services::setPlaceHolder($emailBody, "firstName", $firstName);
+                Services::setPlaceHolder($emailBody, "emailUrl", $emailUrl);
+
+                $emailObj = BetterLife::GetEmail($emailSubject, $emailBody);
+                $emailObj->addAddress($email);
+                if($emailObj->send()) {
+                    $log = new \BetterLife\System\Logger("נשלח מייל אימות לכתובת $email");
+                    $log->info();
+                    $log->writeToDb();
+                }
 
                 $log = new \BetterLife\System\Logger("משתמש חדש נוצר, תז - $personId");
                 $log->info();
@@ -149,13 +170,12 @@ $pageBody = /** @lang HTML */<<<PageBody
                     <div class="col-12" id="register-form">
                         <form id="msform" method="post">
                         
-                            <!-- progressbar -->
                             <ul id="progressbar">
                                 <li class="active" id="account"><strong>פרטי כניסה</strong></li>
                                 <li id="personal"><strong>מידע אישי</strong></li>
                                 <li id="confirm"><strong>מידע נוסף</strong></li>
                                 <li id="confirm"><strong>אישור</strong></li>
-                            </ul> <!-- fieldsets -->
+                            </ul>
                             
                            <div class="form-row">
                                 <fieldset>
@@ -338,6 +358,7 @@ $pageBody = /** @lang HTML */<<<PageBody
                                              <span class="text-danger"><div></div></span>
                                          </div>
                                     </div>
+                                    {$csrfToken}
                                     <input type="button" name="previous" class="previous action-button-previous" value="חזור" />
                                     <input type="submit" name="registerButton" class="action-button" value="שלח" />
                                 </fieldset>
@@ -381,7 +402,7 @@ $( function() {
           }
         } );
       },
-      minLength: 1,
+      minLength: 2,
       select: function( event, ui ) {
         event.preventDefault();
         $("#cities").val(ui.item.label);

@@ -52,7 +52,7 @@ class BetterLife {
         $Email->CharSet = 'UTF-8';
         $Email->Username = SystemConstant::SYSTEM_EMAIL;
         $Email->Password = $credential->GetPassword();
-        $Email->SetFrom(SystemConstant::SYSTEM_NAME);
+        $Email->SetFrom(SystemConstant::SYSTEM_EMAIL, SystemConstant::SYSTEM_NAME);
 
 
         $body ="<html dir=rtl>
@@ -71,12 +71,46 @@ class BetterLife {
 
 
 
-    public static function navBuider() {
-        if(Session::checkUserSession())
-            return User::GetUserFromSession()->getNavbar();
-         else
-            return NoneUserMenu;
+    public static function navBuilder() {
+        $menu = "";
+        if(Session::checkUserSession()) {
+            $userObj = User::GetUserFromSession();
+            if(!$userObj->checkNewUser()) {
+                $menu = MemberMenu;
+                Services::setPlaceHolder($menu, "userFirstName", $userObj->getFirstName());
+                $tmpSubMenu = "";
+                foreach ($userObj->getRoles() as $role) {
+                    switch ($role->getId()){
+                        case Role::PATIENT_ID:
+                            $tmpSubMenu .= PatientMenu;
+                            break;
+
+                        case Role::DOCTOR_ID:
+                            $tmpSubMenu .= DoctorMenu;
+                            break;
+
+                        case Role::ADMIN_ID:
+                            $tmpSubMenu .= AdminMenu;
+                            break;
+
+                        default:
+                            $tmpSubMenu .= "";
+                            break;
+                    }
+                }
+                Services::setPlaceHolder($menu, "MemberMenu", $tmpSubMenu);
+            } else {
+                unset($_SESSION[SystemConstant::USER_SESSION_NAME]);
+                Services::flashUser("משתמש לא מאומת");
+                //Login::Disconnect();
+            }
+        } else
+            $menu = NoneUserMenu;
+
+        return $menu;
     }
+
+
 
 
 

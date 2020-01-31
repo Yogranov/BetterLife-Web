@@ -13,7 +13,7 @@ $pageBody = <<<PageBody
     <div class="row mb-5">
             <div class="col-xl-6 col-12" data-aos="zoom-in-down">
                 <h5 class="text-center mb-5"><i class="fas fa-file-signature" style="color: #4e4e4e;"></i> טופס פנייה</h5>
-                <form  id="contact-form">
+                <form  id="contact-form" method="post">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="contact-name">שם מלא</label>

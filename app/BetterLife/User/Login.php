@@ -1,6 +1,7 @@
 <?php
 namespace BetterLife\User;
 use BetterLife\BetterLife;
+use BetterLife\System\Exception;
 use BetterLife\System\Logger;
 use BetterLife\System\Services;
 use BetterLife\System\SystemConstant;
@@ -45,9 +46,16 @@ class Login {
         if (!password_verify($this->password, $userData["Password"]))
             throw new \Exception("שם המשתמש או הסיסמה אינם נכונים");
 
+        //reset login attempts
+        BetterLife::GetDB()->where("Ip", Services::getClientIp())->delete("loginAttempts");
+
         $userObj = User::getById($userData["Id"]);
+
         if(!isset($userObj))
             throw new \Exception("User error, cannot sign right now");
+
+        if($userObj->checkNewUser())
+            throw new \Exception("משתמש לא מאומת!");
 
         $userObj->setLastLogin();
         $userObj->save();
@@ -131,6 +139,41 @@ class Login {
         unset($_SESSION[SystemConstant::USER_SESSION_NAME]);
         session_destroy();
         header('Location: ' . $_SERVER["HTTP_REFERER"]);
+    }
+
+
+
+    public static function checkLoginAttempts(int $MaxAttempts= 5) {
+        $tableName = "loginAttempts";
+        $userIp = Services::getClientIp();
+        if(!$userIp)
+            throw new \Exception("אירע תקלה, אנא נסה מאוחר יותר");
+
+        $userAttempts = BetterLife::GetDB()->where("Ip", $userIp)->getOne($tableName, "Attempts");
+
+        if(!isset($userAttempts)){
+            BetterLife::GetDB()->insert($tableName, ["Ip" => $userIp, "Attempts" => 0]);
+            return true;
+        }
+        elseif($userAttempts["Attempts"] < $MaxAttempts)
+            return true;
+        else
+            return false;
+    }
+
+
+    public static function incLoginAttempts() {
+        $tableName = "loginAttempts";
+        $userIp = Services::getClientIp();
+        if(!$userIp)
+            throw new \Exception("אירע תקלה, אנא נסה מאוחר יותר");
+
+        $userAttempts = BetterLife::GetDB()->where("Ip", $userIp)->getOne($tableName, "Attempts");
+        if(!isset($userAttempts))
+            throw new \Exception("Cannot add attempts");
+
+        BetterLife::GetDB()->where("Ip", $userIp)->update($tableName, ["Attempts" => ++$userAttempts["Attempts"]]);
+
     }
 
 }

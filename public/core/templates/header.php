@@ -4,6 +4,14 @@ session_start();
 
 use BetterLife\BetterLife;
 use BetterLife\System\Services;
+use BetterLife\System\CSRF;
+
+if($_SERVER['REQUEST_METHOD'] === 'POST')
+    if(!isset($_POST[CSRF::FORM_FIELD_NAME]) || $_POST[CSRF::FORM_FIELD_NAME] !== $_SESSION[CSRF::SESSION_NAME])
+        Services::flashUser("לא נמצא מטבע");
+
+
+CSRF::generateToken();
 
 //Header
 const HeaderTemplate = <<<Header
@@ -115,5 +123,5 @@ echo HeaderTemplate;
 \BetterLife\User\Login::Reconnect();
 
 $pageTemplate = Navbar;
-Services::setPlaceHolder($pageTemplate, "Menu", BetterLife::navBuider());
+Services::setPlaceHolder($pageTemplate, "Menu", BetterLife::navBuilder());
 echo $pageTemplate;

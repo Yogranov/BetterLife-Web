@@ -3,17 +3,21 @@ require_once "core/templates/header.php";
 use BetterLife\User\Login;
 use BetterLife\User\Session;
 use BetterLife\System\Services;
-
+use BetterLife\System\CSRF;
 if(Session::checkUserSession())
     Services::flashUser("הינך כבר מחובר, מועבר לדף הבית...");
 
 $errors = array();
 $errorMsg = "";
 $disable = "";
+$exceptionError = "";
+$userEmail = "";
 
-if(Session::checkLoginAttempts())
+$token = CSRF::formField();
+
+if(Login::checkLoginAttempts())
     if(isset($_POST['signInSubmit'])) {
-        Session::incLoginAttempts();
+        Login::incLoginAttempts();
 
         if(empty($errors)) {
             if (empty($_POST["email"]))
@@ -34,7 +38,8 @@ if(Session::checkLoginAttempts())
             try {
                 new Login($email, $password, $remember);
             } catch (Exception $e) {
-                echo ($e->getMessage());
+                $exceptionError = "<h4 class='text-center mb-2'>" . $e->getMessage() . "</h4>";
+                $userEmail = "value='" . $email . "'";
             }
         } else {
             $errorMsg = "<ul class='list-group list-group-flush mb-3 ml-5' style='text-align: center'>";
@@ -66,9 +71,10 @@ $pageBody = <<<PageBody
                     <h5 class="card-title text-center">כניסה למערכת</h5>
                     <img class="img-fluid mb-4" src="media/icons/user-Icon.png">
                     {$errorMsg}
+                    {$exceptionError}
                     <form class="form-signin" method="post" id="login-form">
                         <div class="form-label-group">
-                            <input type="email" id="inputEmail" class="form-control" placeholder="דואר אלקטרוני" name="email" {$disable} autofocus>
+                            <input type="email" id="inputEmail" {$userEmail} class="form-control" placeholder="דואר אלקטרוני" name="email" {$disable} autofocus>
                             <label for="inputEmail">דואר אלקטרוני</label>
                             <span class="text-danger"></span>
                         </div>
@@ -84,12 +90,14 @@ $pageBody = <<<PageBody
                             <label class="custom-control-label" for="customCheck1">זכור סיסמה</label>
                         </div>
 
+                        {$token}
                         <button class="btn btn-lg btn-primary btn-block"  name="signInSubmit" type="submit" {$disable}>התחבר</button>
                         <hr class="my-4">
                         <div class="row">
                             <div class="col-12 col-md-6 mb-2">
                                 <button class="btn btn-lg btn-google btn-block" type="submit" {$disable}> כניסה עם גוגל<i class="fab fa-google mr-2"></i></button>
                             </div>
+                            
                             <div class="col-12 col-md-6">
                                 <button class="btn btn-lg btn-facebook btn-block" type="submit" {$disable}> כניסה עם פייסבוק<i class="fab fa-facebook-f mr-2"></i></button>
                             </div>

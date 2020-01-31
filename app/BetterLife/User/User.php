@@ -28,14 +28,13 @@ class User {
     private $licenceNumber;
     private $registerTime;
     private $lastLogin;
-    private $navbar = "";
 
     /**
      * User constructor.
      * @param array $data
      * @throws Exception
      */
-    private function __construct(array $data) {
+    private function __construct(array $data, bool $buildNav = false) {
         $this->id = $data["Id"];
         $this->email = $data["Email"];
         $this->password = $data["Password"];
@@ -63,38 +62,8 @@ class User {
         else
             $this->haveHistory = null;
 
-        //navbar
-        if(!$this->checkNewUser()) {
-            $this->navbar = MemberMenu;
-            Services::setPlaceHolder($this->navbar, "userFirstName", $this->getFirstName());
-
-            $tmpSubMenu = "";
-            foreach ($this->getRoles() as $role) {
-                switch ($role->getId()){
-
-                    case Role::PATIENT_ID:
-                        $tmpSubMenu .= PatientMenu;
-                        break;
-
-                    case Role::DOCTOR_ID:
-                        $tmpSubMenu .= DoctorMenu;
-                        break;
-
-                    case Role::ADMIN_ID:
-                        $tmpSubMenu .= AdminMenu;
-                        break;
-
-                    default:
-                        $tmpSubMenu .= "";
-                        break;
-                }
-            }
-            Services::setPlaceHolder($this->navbar, "MemberMenu", $tmpSubMenu);
-
-        } else {
-            Services::flashUser("משתמש לא מאומת");
-            //Login::Disconnect();
-        }
+        if($buildNav)
+            $this->buildNavbar();
 
     }
 
@@ -169,6 +138,49 @@ class User {
         return unserialize($_SESSION[SystemConstant::USER_SESSION_NAME]);
     }
 
+/*
+    private function buildNavbar() {
+        //navbar
+        if(!$this->checkNewUser()) {
+            $this->navbar = MemberMenu;
+            Services::setPlaceHolder($this->navbar, "userFirstName", $this->getFirstName());
+
+            $tmpSubMenu = "";
+            foreach ($this->getRoles() as $role) {
+                switch ($role->getId()){
+
+                    case Role::PATIENT_ID:
+                        $tmpSubMenu .= PatientMenu;
+                        break;
+
+                    case Role::DOCTOR_ID:
+                        $tmpSubMenu .= DoctorMenu;
+                        break;
+
+                    case Role::ADMIN_ID:
+                        $tmpSubMenu .= AdminMenu;
+                        break;
+
+                    default:
+                        $tmpSubMenu .= "";
+                        break;
+                }
+            }
+            Services::setPlaceHolder($this->navbar, "MemberMenu", $tmpSubMenu);
+
+        } else {
+            Services::flashUser("משתמש לא מאומת");
+            //Login::Disconnect();
+        }
+    }
+*/
+
+
+
+
+
+
+    ////////// Getters & Setters /////////////
     /**
      * @return mixed
      */
