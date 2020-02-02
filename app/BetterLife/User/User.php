@@ -3,6 +3,7 @@ namespace BetterLife\User;
 
 use BetterLife\BetterLife;
 use BetterLife\Repositories\Address;
+use BetterLife\System\EmailsConstant;
 use BetterLife\System\Exception;
 use BetterLife\System\Services;
 use BetterLife\System\SystemConstant;
@@ -138,44 +139,35 @@ class User {
         return unserialize($_SESSION[SystemConstant::USER_SESSION_NAME]);
     }
 
-/*
-    private function buildNavbar() {
-        //navbar
-        if(!$this->checkNewUser()) {
-            $this->navbar = MemberMenu;
-            Services::setPlaceHolder($this->navbar, "userFirstName", $this->getFirstName());
 
-            $tmpSubMenu = "";
-            foreach ($this->getRoles() as $role) {
-                switch ($role->getId()){
+    public function sendResetPasswordEmail(){
+        $recoverPassword = Services::GenerateRandomString(64);
+        $subject = "בקשה לאיפוס סיסמה";
+        $message = EmailsConstant::forgotPassword;
 
-                    case Role::PATIENT_ID:
-                        $tmpSubMenu .= PatientMenu;
-                        break;
 
-                    case Role::DOCTOR_ID:
-                        $tmpSubMenu .= DoctorMenu;
-                        break;
+        $forgotLink = "{$this->email}_{$recoverPassword}";
+        $forgotLinkEncode = base64_encode($forgotLink);
+        Services::setPlaceHolder($message,"forgotLink",$forgotLinkEncode);
 
-                    case Role::ADMIN_ID:
-                        $tmpSubMenu .= AdminMenu;
-                        break;
+        try {
+            BetterLife::GetDB()->where(self::TABLE_KEY_COLUMN, $this->id)->update(self::TABLE_NAME, ["RecoverToken" => $recoverPassword]);
 
-                    default:
-                        $tmpSubMenu .= "";
-                        break;
-                }
-            }
-            Services::setPlaceHolder($this->navbar, "MemberMenu", $tmpSubMenu);
+            Services::setPlaceHolder($message,"userName",self::getFirstName());
+            self::sendEmail($message, $subject);
 
-        } else {
-            Services::flashUser("משתמש לא מאומת");
-            //Login::Disconnect();
+            Services::flashUser("בקשתך התקבלה, בעוד רגע תקבל הודעה לדואר האלקטרוני על איפוס הסיסמה (עלול להגיע לספאם).");
+        } catch (\Throwable $e){
+            echo $e;
         }
     }
-*/
 
+    public function resetPassword(string $password) {
+        if(empty($password))
+            throw new \Exception("Password cannot be found");
 
+        BetterLife::GetDB()->where(self::TABLE_KEY_COLUMN, $this->id)->update(["Password" => $password]);
+    }
 
 
 

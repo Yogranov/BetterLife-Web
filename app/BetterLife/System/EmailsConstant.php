@@ -23,8 +23,8 @@ EmailConfirm;
 
     const forgotPassword = <<<ForgotPassword
 שלום {userName} <br>
-התקבלה בקשה לאיפוס סיסמתך באתר עמותת בוגרי רימון. <br>
-לחץ על מנת לבצע איפוס לסיסמה: <a href="https://845.co.il/reset-password.php?reset={forgotLink}">לחץ כאן!</a>
+התקבלה בקשה לאיפוס סיסמתך באתר betterlife. <br>
+לחץ על מנת לבצע איפוס לסיסמה: <a href="https://betterlife.845.co.il/reset-password.php?reset={forgotLink}">לחץ כאן!</a>
 ForgotPassword;
 
 

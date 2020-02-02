@@ -115,6 +115,11 @@ $pageBody = <<<PageBody
 </div>
 <script>
 $(function() {
+    
+    $.validator.addMethod("passCheck", function(value) {
+           return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) && /[a-z]/.test(value) && /\d/.test(value) && /[A-Z]/.test(value);
+        });
+    
   $("#login-form").validate({
   rules: {
       email: {
@@ -123,7 +128,8 @@ $(function() {
       },
       password: {
           required: true,
-          minlength: 4
+          minlength: 8,
+          passCheck: true
       }
   },
   messages: {
@@ -133,7 +139,8 @@ $(function() {
       },
       password: {
           required:'אנא הכנס סיסמה',
-          minlength: 'הסיסמה חייבת להכיל לפחות 4 תווים'
+          minlength: 'הסיסמה חייבת להכיל לפחות 8 תווים',
+          passCheck: 'הסיסמה חייבת להכיל לפחות אות קטנה, אות גדולה ומספר'
       }
   },
   highlight: function(element) {

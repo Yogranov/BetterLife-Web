@@ -8,7 +8,7 @@ use BetterLife\System\Services;
 
 if(isset($_GET["ConfirmToken"])) {
     $token = BetterLife::GetDB()->escape(htmlspecialchars(trim($_GET["ConfirmToken"])));
-    BetterLife::GetDB()->where("RecoverToken", $token)->update(User::TABLE_NAME, ["Roles" => "[2]", "RecoverToken" => ""]);
+    BetterLife::GetDB()->where("RecoverToken", $token)->update(User::TABLE_NAME, ["Roles" => "[2]", "RecoverToken" => null]);
 }
 
 Services::flashUser("המשתמש אומת, מיד נעבור לדף הבית");

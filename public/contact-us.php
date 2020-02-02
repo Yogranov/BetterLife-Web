@@ -60,66 +60,66 @@ $pageBody = <<<PageBody
     </div>
 </div>
 
-    <script>
-        $(document).ready(function() {
-            $("#contact-form").validate({
-                rules: {
-                    name: {
-                        required: true,
-                        minlength: 2
-                    },
-                    phoneNumber: {
-                        required: true,
-                        rangelength: [10, 10]
-                    },
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    subject: {
-                        required: true,
-                        minlength: 2
-                    },
-                    content: {
-                        required: true,
-                        rangelength: [2, 400]
-                    }
+<script>
+    $(document).ready(function() {
+        $("#contact-form").validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 2
                 },
-                messages: {
-                    email: {
-                        required: 'אנא הכנס אימייל',
-                        email: 'אנא הכנס כתובת תקינה'
-                    },
-                    name: {
-                        required:'אנא הכנס שם',
-                        minlength: 'השם חייב להכיל לפחות 2 תווים'
-                    },
-                    subject: {
-                        required:'אנא הכנס נושא',
-                        minlength: 'הנושא חייב להכיל לפחות 2 תווים'
-                    },
-                    content: {
-                        required:'אנא הכנס תוכן',
-                        rangelength: 'ניתן להכניס בין 2 ל-400 אותיות'
-                    },
-                    phoneNumber: {
-                        required: "אנא הכנס מספר",
-                        rangelength: "יש להכניס מספר בעל 10 מספרים"
-                        
-                    }
+                phoneNumber: {
+                    required: true,
+                    rangelength: [10, 10]
                 },
-                highlight: function(element) {
-                  $(element).removeClass('is-valid').addClass('is-invalid');
+                email: {
+                    required: true,
+                    email: true
                 },
-                unhighlight: function(element) {
-                  $(element).removeClass('is-invalid').addClass('is-valid');
+                subject: {
+                    required: true,
+                    minlength: 2
                 },
-                errorPlacement: function(error, element) {
-                    error.appendTo( element.parent("div").children("span"))
-                }});
-        });
+                content: {
+                    required: true,
+                    rangelength: [2, 400]
+                }
+            },
+            messages: {
+                email: {
+                    required: 'אנא הכנס אימייל',
+                    email: 'אנא הכנס כתובת תקינה'
+                },
+                name: {
+                    required:'אנא הכנס שם',
+                    minlength: 'השם חייב להכיל לפחות 2 תווים'
+                },
+                subject: {
+                    required:'אנא הכנס נושא',
+                    minlength: 'הנושא חייב להכיל לפחות 2 תווים'
+                },
+                content: {
+                    required:'אנא הכנס תוכן',
+                    rangelength: 'ניתן להכניס בין 2 ל-400 אותיות'
+                },
+                phoneNumber: {
+                    required: "אנא הכנס מספר",
+                    rangelength: "יש להכניס מספר בעל 10 מספרים"
+                    
+                }
+            },
+            highlight: function(element) {
+              $(element).removeClass('is-valid').addClass('is-invalid');
+            },
+            unhighlight: function(element) {
+              $(element).removeClass('is-invalid').addClass('is-valid');
+            },
+            errorPlacement: function(error, element) {
+                error.appendTo( element.parent("div").children("span"))
+            }});
+    });
 
-    </script>
+</script>
 PageBody;
 
 echo $pageBody;
