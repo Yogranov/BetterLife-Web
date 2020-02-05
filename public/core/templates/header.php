@@ -1,5 +1,10 @@
 <?php
-require_once '../vendor/autoload.php';
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+require_once '/home/goru/public_html/betterlife/vendor/autoload.php';
 session_start();
 
 use BetterLife\BetterLife;
@@ -30,7 +35,7 @@ const HeaderTemplate = <<<Header
     
     <script src="../../system/jquery/jquery-3.4.1.min.js"></script>
     <script src="../../system/jquery-ui/jquery-ui.min.js"></script>
-    <script src="system/jquery-ui/datepicker-he.js"></script>
+    <script src="../../system/jquery-ui/datepicker-he.js"></script>
     <script src="../../system/fontawesome/js/all.min.js"></script>
     <script src="../../system/jquery/jquery.validate.min.js"></script>
     <script src="../../system/bootstrap/js/bootstrap.min.js"></script>

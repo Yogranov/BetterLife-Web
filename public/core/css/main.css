@@ -22,7 +22,7 @@ nav ul {
 }
 
 footer {
-    background-color: #F7F7F7;
+    background-color: #f5f5f5;
 }
 
 footer li {
@@ -365,7 +365,11 @@ iframe {
     position: relative
 }
 
-
+.round-shadow {
+    border: 1px solid rgba(0,0,0,0.4);
+    border-radius: 10px;
+    box-shadow: rgba(0,0,0,0.2) -2px 5px 10px;
+}
 
 /* #### Register End #### */
 
@@ -398,4 +402,49 @@ iframe {
     border-radius: 20px;
     border: solid rgba(0,0,0,0.4) 1px;
     box-shadow: rgba(0,0,0,0.2) -2px 5px 10px;
+}
+
+
+/* ##### Mole Page Start #### */
+.mole-bold {
+    font-weight: bold;
+    color: #4e4e4e;
+}
+
+.mole-page h5 {
+    padding-top: 5%;
+}
+
+.img-row {
+    margin: 5% 0;
+}
+
+.history-title {
+    padding: 2% 0;
+}
+
+.history-title h2{
+    font-size: 50px;
+    position: absolute;
+    font-style: italic;
+}
+
+.history-row {
+    padding-top: 5%;
+}
+
+/* #### Mole Page End #### */
+
+.row-background-gray {
+    background: #f7f7f7;
+}
+
+.medical-profile-row td:nth-child(odd)  {
+    font-size: 18px;
+    font-weight: bold;
+    color: #6e6e6e;
+}
+
+.medical-profile-row {
+    padding: 5% 0;
 }
