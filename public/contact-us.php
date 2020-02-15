@@ -17,28 +17,28 @@ $pageBody = <<<PageBody
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="contact-name">שם מלא</label>
-                            <input id="contact-name " name="name" type="text" class="form-control" placeholder='ישראל ישראלי'>
+                            <input id="contact-name " name="name" type="text" class="form-control" placeholder='ישראל ישראלי' required>
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="contact-phone">מספר טלפון</label>
-                            <input id="contact-phone" name="phoneNumber" type="text" class="form-control" placeholder='0500000000'>
+                            <input id="contact-phone" name="phoneNumber" type="text" class="form-control" placeholder='0500000000' required>
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-12">
                             <label for="contact-email">דואר אלקטרוני</label>
-                            <input id="contact-email" name="email" type="email" class="form-control" placeholder='example@example.com'>
+                            <input id="contact-email" name="email" type="email" class="form-control" placeholder='example@example.com' required>
                             <span class="text-danger"></span>
                         </div>
 
                         <div class="form-group col-md-12">
                             <label for="contact-subject">נושא הפנייה</label>
-                            <input id="contact-subject" name="subject" type="text" class="form-control" placeholder='נושא לדוגמה'>
+                            <input id="contact-subject" name="subject" type="text" class="form-control" placeholder='נושא לדוגמה' required>
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-12">
                             <label for="contact-content">תוכן הפנייה</label>
-                            <textarea class="form-control" name="content" type="textarea" id="contact-content" placeholder="כתוב הודעה כאן..." maxlength="140" rows="7"></textarea>
+                            <textarea class="form-control" name="content" type="textarea" id="contact-content" placeholder="כתוב הודעה כאן..." maxlength="140" rows="7" required></textarea>
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-12">

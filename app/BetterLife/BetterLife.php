@@ -135,7 +135,7 @@ class BetterLife {
                 if ($flag)
                     Services::flashUser("הגישה נדחתה.");
             } else
-                Services::flashUser("אינך מחובר.");
+                Services::redirectUser(SystemConstant::SYSTEM_DOMAIN . "/login.php");
         }
     }
 

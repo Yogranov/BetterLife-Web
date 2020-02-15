@@ -185,7 +185,7 @@ $pageBody = /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                            <label>
                                              <p class="label-txt">דואר אלקטרוני</p>
-                                             <input type="email" class="input form-control" name="email">
+                                             <input type="email" class="input form-control" name="email" required>
                                              <div class="line-box">
                                                <div class="line"></div>
                                              </div>
@@ -196,7 +196,7 @@ $pageBody = /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                            <label>
                                              <p class="label-txt">סיסמה</p>
-                                             <input type="password" id="register-password" class="input form-control" name="password">
+                                             <input type="password" id="register-password" class="input form-control" name="password" required>
                                              <div class="line-box">
                                                <div class="line"></div>
                                              </div>
@@ -208,7 +208,7 @@ $pageBody = /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                            <label>
                                              <p class="label-txt">חזור על הסיסמה</p>
-                                             <input type="password" class="input form-control" name="rePassword">
+                                             <input type="password" class="input form-control" name="rePassword" required>
                                              <div class="line-box">
                                                <div class="line"></div>
                                              </div>
@@ -226,7 +226,7 @@ $pageBody = /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                            <label>
                                              <p class="label-txt">שם פרטי</p>
-                                             <input type="text" class="input form-control" name="firstName">
+                                             <input type="text" class="input form-control" name="firstName" required>
                                              <div class="line-box">
                                                <div class="line"></div>
                                              </div>
@@ -237,7 +237,7 @@ $pageBody = /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                            <label>
                                              <p class="label-txt">שם משפחה</p>
-                                             <input type="text" class="input form-control" name="lastName">
+                                             <input type="text" class="input form-control" name="lastName" required>
                                              <div class="line-box">
                                                <div class="line"></div>
                                              </div>
@@ -248,7 +248,7 @@ $pageBody = /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                            <label>
                                              <p class="label-txt">תעודת זהות</p>
-                                             <input type="text" class="input form-control" name="personId">
+                                             <input type="text" class="input form-control" name="personId" required>
                                              <div class="line-box">
                                                <div class="line"></div>
                                              </div>
@@ -259,7 +259,7 @@ $pageBody = /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                            <label>
                                              <p class="label-txt">מספר טלפון</p>
-                                             <input type="text" class="input form-control" name="phoneNumber">
+                                             <input type="text" class="input form-control" name="phoneNumber" required>
                                              <div class="line-box">
                                                <div class="line"></div>
                                              </div>
@@ -279,7 +279,7 @@ $pageBody = /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                             <label>
                                                 <p class="label-txt">כתובת מגורים</p>
-                                                <input type="text" class="input form-control" name="address">
+                                                <input type="text" class="input form-control" name="address" required>
                                                 <div class="line-box">
                                                   <div class="line"></div>
                                                 </div>
@@ -290,7 +290,7 @@ $pageBody = /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12 ">
                                             <label>
                                                 <p class="label-txt">עיר</p>
-                                                <input id="cities" type="text" class="input form-control" name="city">
+                                                <input id="cities" type="text" class="input form-control" name="city" required>
                                                 <input type="hidden"name="cityId">
                                                 <div class="line-box">
                                                   <div class="line"></div>
@@ -302,7 +302,7 @@ $pageBody = /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                             <label>
                                                 <p class="label-txt">תאריך לידה</p>
-                                                <input id="datepicker" type="text" class="input form-control" name="birthdate">
+                                                <input id="datepicker" type="text" class="input form-control" name="birthdate" required>
                                                 <div class="line-box">
                                                   <div class="line"></div>
                                                 </div>
@@ -313,7 +313,7 @@ $pageBody = /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                             <label>
                                                 <p class="label-txt">מין</p>
-                                                <select id="register-sex" class="custom-select form-control" name="sex">
+                                                <select id="register-sex" class="custom-select form-control" name="sex" required>
                                                     <option value="-1" hidden selected disabled>נא לבחור מהרשימה</option>
                                                     <option value="0">זכר</option>
                                                     <option value="1">נקבה</option>
@@ -353,7 +353,7 @@ $pageBody = /** @lang HTML */<<<PageBody
                                          <p><b><span id="register-summery-history"></span></b></p>
                                          <br>
                                          <div class="custom-control custom-checkbox col-md-12 mb-4 mt-2">
-                                             <input type="checkbox" class="custom-control-input" id="termOfUseCheckBox" name="termOfUse">
+                                             <input type="checkbox" class="custom-control-input" id="termOfUseCheckBox" name="termOfUse" required>
                                              <label class="custom-control-label" for="termOfUseCheckBox">אני מאשר שקראתי את <a target="_blank" href="terms-of-use.php">תנאי השימוש</a> ואני מאשר אותם</label>
                                              <span class="text-danger"><div></div></span>
                                          </div>

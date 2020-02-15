@@ -108,7 +108,7 @@ Member;
 //Account Dropdowns
 const PatientMenu = <<<PatientMenu
                         <hr>
-                        <a class="dropdown-item" href="#"><i class="fas fa-clinic-medical"></i> פרופיל רפואי</a>
+                        <a class="dropdown-item" href="https://betterlife.845.co.il/patient/medical-profile.php"><i class="fas fa-clinic-medical"></i> פרופיל רפואי</a>
 PatientMenu;
 
 const DoctorMenu = <<<PatientMenu

@@ -2,6 +2,7 @@
 namespace BetterLife\User;
 
 use BetterLife\BetterLife;
+use BetterLife\Mole\Mole;
 use BetterLife\Repositories\Address;
 use BetterLife\System\EmailsConstant;
 use BetterLife\System\Exception;
@@ -35,7 +36,7 @@ class User {
      * @param array $data
      * @throws Exception
      */
-    private function __construct(array $data, bool $buildNav = false) {
+    private function __construct(array $data) {
         $this->id = $data["Id"];
         $this->email = $data["Email"];
         $this->password = $data["Password"];
@@ -62,9 +63,6 @@ class User {
                 $this->haveHistory = false;
         else
             $this->haveHistory = null;
-
-        if($buildNav)
-            $this->buildNavbar();
 
     }
 
@@ -136,7 +134,12 @@ class User {
      * @return User
      */
     public static function GetUserFromSession() {
-        return unserialize($_SESSION[SystemConstant::USER_SESSION_NAME]);
+        try {
+            return unserialize($_SESSION[SystemConstant::USER_SESSION_NAME]);
+
+        } catch (\Throwable $e) {
+            return Services::flashUser("אירעה שגיאה, מועברים לדף הראשי");
+        }
     }
 
 
@@ -170,6 +173,27 @@ class User {
     }
 
 
+
+    public function getFullName() {
+        return $this->firstName . " " . $this->lastName;
+    }
+
+
+    /**
+     * @return Mole[]
+     * @throws Exception
+     */
+    public function getMoles() {
+        $moles = array();
+
+        $data = BetterLife::GetDB()->where("UserId", $this->id)->get("moles", null, "Id");
+
+
+        foreach ($data as $item)
+            array_push($moles, Mole::getById($item["Id"]));
+
+        return $moles;
+    }
 
 
     ////////// Getters & Setters /////////////

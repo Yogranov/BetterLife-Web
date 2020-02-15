@@ -56,6 +56,12 @@ class Services
         exit();
     }
 
+    public static function redirectUser(string  $location) {
+        header('Location: ' . $location);
+        exit();
+    }
+
+
     /**
      * @param $password
      * @return array
@@ -139,6 +145,25 @@ class Services
         return $ipAddress;
     }
 
+    public static function sendPostRequest($url, $postVars = array()){
+        $postStr = http_build_query($postVars);
+        $options = array(
+            'http' =>
+                array(
+                    'method'  => 'POST',
+                    'header'  => 'Content-type: application/x-www-form-urlencoded',
+                    'content' => $postStr
+                )
+        );
+        $streamContext  = stream_context_create($options);
+
+        $result = file_get_contents($url, false, $streamContext);
+        if($result === false){
+            $error = error_get_last();
+            throw new \Exception('POST request failed: ' . $error['message']);
+        }
+        return $result;
+    }
 
 
     /**

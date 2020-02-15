@@ -1,12 +1,18 @@
 <?php
+require_once '/home/goru/public_html/betterlife/vendor/autoload.php';
+use BetterLife\BetterLife;
 
-//todo: make this file protected!
-
-$image = $_GET["image"];
 $dir = $_GET["dir"];
+$imgDec = explode('-', base64_decode($_GET["image"]));
 
-$file = '/home/goru/public_html/betterlife/media/moles/' . $dir .'/' . $image . '.jpg';
+$img = $imgDec[1];
+$moleId = explode('_', $img)[1];
+$userId = BetterLife::GetDB()->where("Id", $moleId)->getOne("moles", null, "UserId")["UserId"];
 
-header('Content-type: image/jpeg');
-echo file_get_contents($file);
-?>
+
+if($userId == $imgDec[0]) {
+    $file = '/home/goru/public_html/betterlife/media/moles/' . $dir .'/' . $img . '.jpg';
+
+    header('Content-type: image/jpeg');
+    echo file_get_contents($file);
+}
