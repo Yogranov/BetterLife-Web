@@ -38,9 +38,13 @@ const HeaderTemplate = <<<Header
     <script src="../../system/jquery-ui/datepicker-he.js"></script>
     <script src="../../system/fontawesome/js/all.min.js"></script>
     <script src="../../system/jquery/jquery.validate.min.js"></script>
+    <script src="../../system/jquery/jquery.validate.additional.methods.min.js"></script>
     <script src="../../system/bootstrap/js/bootstrap.min.js"></script>
     <script src="../../system/aos/aos.js"></script>
+    <script src="../../core/js/functions.js"></script>
     
+    <script type="text/javascript" src="../../system/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="../../system/tinymce/init-tinymce.js"></script>
     
 </head>
 <body>
@@ -62,7 +66,7 @@ const Navbar = <<<NAVBAR
                     <a class="nav-link" href="https://betterlife.845.co.il/index.php">ראשי</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="https://betterlife.845.co.il/info.php">מידע</a>
+                    <a class="nav-link" href="https://betterlife.845.co.il/articles/articles.php">מידע</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="https://betterlife.845.co.il/doctors.php">הרופאים</a>
@@ -117,6 +121,11 @@ const DoctorMenu = <<<PatientMenu
                         <a class="dropdown-item" href="#"><i class="fas fa-search"></i> חיפוש מטופל</a>
 PatientMenu;
 
+const ContentWriterMenu = <<<PatientMenu
+                        <hr>
+                        <a class="dropdown-item" href="#"><i class="fas fa-user-friends"></i> כתבה חדשה</a>
+PatientMenu;
+
 const AdminMenu = <<<PatientMenu
                         <hr>
                         <a class="dropdown-item" href="#"><i class="fas fa-user-friends"></i> ניהול משתמשים</a>
@@ -129,4 +138,4 @@ echo HeaderTemplate;
 
 $pageTemplate = Navbar;
 Services::setPlaceHolder($pageTemplate, "Menu", BetterLife::navBuilder());
-echo $pageTemplate;
+//echo $pageTemplate;

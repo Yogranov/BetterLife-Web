@@ -15,21 +15,21 @@ class User {
     const TABLE_KEY_COLUMN = "Id";
 
 
-    private $id;
-    private $email;
-    private $password;
-    private $personId;
-    private $firstName;
-    private $lastName;
-    private $sex;
-    private $phoneNumber;
-    private $BirthDate;
-    private $address;
-    private $roles;
-    private $haveHistory;
-    private $licenceNumber;
-    private $registerTime;
-    private $lastLogin;
+    protected $id;
+    protected $email;
+    protected $password;
+    protected $personId;
+    protected $firstName;
+    protected $lastName;
+    protected $sex;
+    protected $phoneNumber;
+    protected $BirthDate;
+    protected $address;
+    protected $roles;
+    protected $haveHistory;
+    protected $registerTime;
+    protected $lastLogin;
+    protected $token;
 
     /**
      * User constructor.
@@ -48,8 +48,8 @@ class User {
         $this->address = new Address($data["Address"], $data["City"]);
         $this->registerTime = $data["RegisterTime"];
         $this->lastLogin = new \DateTime($data["LastLogin"]);
-        $this->licenceNumber = $data["LicenceNumber"];
         $this->sex = $data["Sex"];
+        $this->token = $data["Token"];
 
 
         $this->roles = array();
@@ -97,8 +97,8 @@ class User {
             "Address" => $this->address->getAddress(),
             "City" => $this->address->getCityId(),
             "LastLogin" => $this->lastLogin->format("Y-m-d H:i:s"),
-            "LicenceNumber" => $this->licenceNumber,
-            "Sex" => $this->sex
+            "Sex" => $this->sex,
+            "Token" => $this->token
         );
 
         $data["Roles"] = array();
@@ -196,6 +196,34 @@ class User {
     }
 
 
+    public static function checkIfUserExist($userId) {
+        if(empty($userId))
+            throw new \Exception("UserId not found");
+
+        $data = BetterLife::GetDB()->where(self::TABLE_KEY_COLUMN, $userId)->getOne(self::TABLE_NAME, "Id");
+        return empty($data) ? false : true;
+    }
+
+    public function checkRole($ids) {
+        $flag = 1;
+        if(is_array($ids)) {
+            foreach ($this->getRoles() as $role) {
+                foreach ($ids as $toRole) {
+                    if($role->getId() == $toRole)
+                        $flag = 0;
+                }
+            }
+        } else {
+            foreach ($this->getRoles() as $role)
+                if($role->getId() == $ids)
+                    $flag = 0;
+        }
+        if ($flag)
+            return false;
+
+        return true;
+    }
+
     ////////// Getters & Setters /////////////
     /**
      * @return mixed
@@ -261,7 +289,7 @@ class User {
     }
 
     /**
-     * @return array Role
+     * @return Role[]
      */
     public function getRoles() {
         return $this->roles;
@@ -272,13 +300,6 @@ class User {
      */
     public function getHaveHistory() {
         return $this->haveHistory;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLicenceNumber() {
-        return $this->licenceNumber;
     }
 
     /**
@@ -296,11 +317,19 @@ class User {
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getNavbar(): string {
-        return $this->navbar;
+    public function getToken() {
+        return $this->token;
     }
+
+    /**
+     * @param mixed $token
+     */
+    public function setToken($token): void {
+        $this->token = $token;
+    }
+
 
     /**
      * @throws \Exception

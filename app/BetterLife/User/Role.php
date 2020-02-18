@@ -10,7 +10,8 @@ class Role {
     const NEW_USER_ID = 1;
     const PATIENT_ID = 2;
     const DOCTOR_ID = 3;
-    const ADMIN_ID = 4;
+    const CONTENT_WRITER = 4;
+    const ADMIN_ID = 5;
 
 
     private $id;

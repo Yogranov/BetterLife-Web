@@ -89,6 +89,10 @@ class BetterLife {
                             $tmpSubMenu .= DoctorMenu;
                             break;
 
+                        case Role::CONTENT_WRITER:
+                            $tmpSubMenu .= ContentWriterMenu;
+                            break;
+
                         case Role::ADMIN_ID:
                             $tmpSubMenu .= AdminMenu;
                             break;
@@ -114,7 +118,7 @@ class BetterLife {
 
 
 
-    public static function GetPermissions($toRoles = null){
+    public static function GetPermissions($toRoles = null) {
         if ($toRoles != null) {
             if(Session::checkUserSession()) {
                 $userObj = User::GetUserFromSession();

@@ -9,7 +9,7 @@ if(empty($_SESSION["Flash_Message"]))
 $flashText = $_SESSION[SystemConstant::FLASH_MESSAGE];
 
 
-$pageBody = <<<PageBody
+$pageTemplate .= <<<PageBody
 <div class="container mt-5">
 
     <div class="row mt-5">
@@ -26,4 +26,4 @@ PageBody;
 
 unset($_SESSION["FlashText"]);
 
-echo $pageBody;
+echo $pageTemplate;

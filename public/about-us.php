@@ -2,7 +2,7 @@
 require_once "core/templates/header.php";
 
 
-$pageBody = <<<PageBody
+$pageTemplate .= <<<PageBody
 <style>
 
 
@@ -51,5 +51,5 @@ $pageBody = <<<PageBody
 PageBody;
 
 
-echo $pageBody;
+echo $pageTemplate;
 include "core/templates/footer.php";

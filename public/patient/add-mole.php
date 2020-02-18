@@ -91,7 +91,7 @@ if(isset($_POST["submit"])) {
 
 
 
-$pageBody = <<<PageBody
+$pageTemplate .= <<<PageBody
 
 <div id="loading-overlay" style="display: none">
     <div id="loading-svg"></div>
@@ -157,7 +157,6 @@ $pageBody = <<<PageBody
 
 
 
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 <script>
 $.validator.addMethod('filesize', function(value, element, param) {
     return this.optional(element) || (element.files[0].size <= param) 
@@ -238,5 +237,5 @@ function loading() {
 PageBody;
 
 
-echo $pageBody;
+echo $pageTemplate;
 include "../core/templates/footer.php";

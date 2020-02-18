@@ -56,7 +56,7 @@ else {
 }
 
 
-$pageBody = <<<PageBody
+$pageTemplate .= <<<PageBody
 <link rel="stylesheet" href="core/css/loginpage.css">
 <div class="container">
     <div class="row">
@@ -158,6 +158,6 @@ $(function() {
 
 PageBody;
 
-echo $pageBody;
+echo $pageTemplate;
 include "core/templates/footer.php";
 

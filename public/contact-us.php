@@ -1,7 +1,7 @@
 <?php
 require_once "core/templates/header.php";
 
-$pageBody = <<<PageBody
+$pageTemplate .= <<<PageBody
 <div class="container">
     <div class="row mb-5">
         <div class="col-12 text-center page-title" data-aos="zoom-in">
@@ -122,5 +122,5 @@ $pageBody = <<<PageBody
 </script>
 PageBody;
 
-echo $pageBody;
+echo $pageTemplate;
 include "core/templates/footer.php";

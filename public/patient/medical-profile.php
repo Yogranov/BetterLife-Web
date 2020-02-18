@@ -85,7 +85,7 @@ $rows .=$tmp;
 }
 
 
-$pageBody = <<<PageBody
+$pageTemplate .= <<<PageBody
 
 <div class="container">
     <div class="row mb-2">
@@ -103,5 +103,5 @@ $pageBody = <<<PageBody
 PageBody;
 
 
-echo $pageBody;
+echo $pageTemplate;
 include "../core/templates/footer.php";

@@ -1,21 +1,11 @@
 <?php
 require_once "../core/templates/header.php";
-use BetterLife\System\CSRF;
-use BetterLife\BetterLife;
-use BetterLife\System\Services;
 
-if(file_exists('/home/goru/public_html/betterlife/media/moles/regular/1_2.jpg'))
-    echo "ok";
-else
-    echo "Not ok";
+\BetterLife\System\Services::dump(\BetterLife\User\User::GetUserFromSession()->getRoles());
 
-$pageBody = /** @lang HTML */
-    <<<PageBody
-
-
+$pageTemplate .= <<<PageBody
 
 PageBody;
 
-
-echo $pageBody;
+echo $pageTemplate;
 include "../core/templates/footer.php";

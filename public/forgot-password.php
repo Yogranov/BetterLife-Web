@@ -57,7 +57,7 @@ if(isset($_POST["submit"])){
 
 
 
-$pageBody = <<<PageBody
+$pageTemplate .= <<<PageBody
 <div class="container register-form">
     <div class="row mb-5">
         <div class="col-12 text-center page-title" data-aos="zoom-in">
@@ -182,5 +182,5 @@ $(document).ready(function(){
 </script>
 PageBody;
 
-echo $pageBody;
+echo $pageTemplate;
 include "core/templates/footer.php";

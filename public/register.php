@@ -680,5 +680,5 @@ $(document).ready(function(){
 PageBody;
 
 
-echo $pageBody;
+echo $pageTemplate;
 include "core/templates/footer.php";

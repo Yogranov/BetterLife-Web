@@ -38,7 +38,7 @@ require_once '../vendor/autoload.php';
                 <a class="nav-link" href="login.php">כניסה</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="info.php">מידע</a>
+                <a class="nav-link" href="articles/articles.php">מידע</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="doctors.php">הרופאים</a>
@@ -120,19 +120,19 @@ require_once '../vendor/autoload.php';
             <div class="col-12 col-md-6">
                 <div class="row">
                     <div data-aos="flip-right" class="col-md-6 col-12">
-                        <img class="img-fluid" src="media/temp/down-graph.jpg">
+                        <img class="img-fluid" src="media/articles/2.jpg">
                         <h4>ירידה באחוז חולי סרטן העור</h4>
                     </div>
                     <div data-aos="flip-right" class="col-md-6 col-12">
-                        <img class="img-fluid" src="media/temp/sun-protection.jpg">
+                        <img class="img-fluid" src="media/articles/3.jpg">
                         <h4>התגוננות בפני קרינת השמש</h4>
                     </div>
                     <div data-aos="flip-right" class="col-md-6 col-12">
-                        <img class="img-fluid" src="media/temp/sun-protection-cream.jpg">
+                        <img class="img-fluid" src="media/articles/4.jpg">
                         <h4>תכשיר חדש מבטיח הגנה מושלמת</h4>
                     </div>
                     <div data-aos="flip-right" class="col-md-6 col-12">
-                        <img class="img-fluid" src="media/temp/clothing.jpg">
+                        <img class="img-fluid" src="media/articles/1.jpg">
                         <h4>הוראות כיצד יש להלבש ביום שמשי</h4>
                     </div>
                 </div>
