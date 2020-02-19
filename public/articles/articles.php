@@ -11,7 +11,7 @@ else
     $checkIfEditor = false;
 
 $articles = $checkIfEditor ? Article::getAllArticles() : Article::getAllActiveArticles();
-$newArticle = $checkIfEditor ? "<div class='col-12' style='direction: ltr'><a href='new-article.php' class='btn btn-secondary'>יצירת כתבה חדשה</a></div>" : "";
+$newArticle = $checkIfEditor ? "<div class='col-12' style='direction: ltr'><a href='new-article.php' class='btn btn-secondary' data-aos='zoom-in-down'>יצירת כתבה חדשה</a></div>" : "";
 
 $rows = "";
 foreach (array_reverse($articles) as $article) {
@@ -29,29 +29,40 @@ foreach (array_reverse($articles) as $article) {
     }
 
     $rows .= <<<Rows
-        <div class="row" style="margin-bottom: 20%">
-            <div class="col-md-6 col-12">
+        <div class="row" style="margin-bottom: 20%" data-aos="zoom-in-down">
+            <div class="col-lg-5 col-12">
                 <img class="img-fluid" src="../../media/articles/{$article->getImgUrl()}">
             </div>
-            <div class="col-md-6 col-12">
-                <div class="mt-3">
-                    <h3>{$article->getTitle()}</h3>
-                    <h5>מאת: {$article->getCreator()->getFullName()}</h5>
-                    <p>
-                        {$shortContent}
-                    </p>
+            <div class="col-lg-7 col-12">
+                <div class="col-12">
+                    <div class="mt-3">
+                        <h3>{$article->getTitle()}</h3>
+                        <h5>מאת: {$article->getCreator()->getFullName()}</h5>
+                        <p>
+                            {$shortContent}
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="article-status col-12 col-md-7">
+                                <a href="article.php?Article={$article->getId()}" class="btn btn-primary">להמשך קריאה</a>
+                                {$editButtom}
+                                {$publishButton}
+                            </div>
+                            <div class="article-status col-12 col-md-5 text-left">
+                                <span>{$countComments} <i class="far fa-comment" style="color: darkgoldenrod"></i></span>   
+                                <span>{$article->getLikes()} <i class="far fa-heart fa-lg" style="color: darkred"></i></span>
+                                <span>{$article->getViews()} <i class="far fa-eye" style="color:darkblue;"></i></span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
                 </div>
                 
-                <div class="" style="position: absolute; bottom:0; width: 95%; text-align: left; padding-left: 5%;">
-                    <span>{$countComments} <i class="far fa-comment" style="color: darkgoldenrod"></i></span>   
-                    <span>{$article->getLikes()} <i class="far fa-heart fa-lg" style="color: darkred"></i></span>
-                    <span>{$article->getViews()} <i class="far fa-eye" style="color:darkblue;"></i></span>
-                </div>
-                <div class="col-7" style="position: absolute; bottom: 0;">
-                    <a href="article.php?Article={$article->getId()}" class="btn btn-primary">להמשך קריאה</a>
-                    {$editButtom}
-                    {$publishButton}
-                </div>
+                
             </div>
         </div>
 Rows;

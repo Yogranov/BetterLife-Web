@@ -8,14 +8,14 @@
         <div class="row mt-3 dark-grey-text flex-row-reverse">
             <div class="col-md-4 col-12">
                 <div class="footer-little-title">
-                    <h6 >צור קשר</h6>
+                    <h6><a href="../../contact-us.php">צור קשר</a></h6>
                     <hr class="teal accent-3 mb-4 mt-0 d-inline-block" style="width: 60px;">
                 </div>
 
                 <div class="d-flex justify-content-center text-left">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">050-333-0412<i class="fas fa-home mr-3"></i> </li>
-                        <li class="list-group-item">frizen700@gmail.com<i class="fas fa-envelope mr-3"></i></li>
+                        <li class="list-group-item"><a href="mailto:<?php echo \BetterLife\System\SystemConstant::SYSTEM_EMAIL ?>"><?php echo \BetterLife\System\SystemConstant::SYSTEM_EMAIL ?></a><i class="fas fa-envelope mr-3"></i></li>
                         <li class="list-group-item">Kfar - Warburg, Hadarom<i class="fas fa-phone mr-3"></i></li>
                     </ul>
 
@@ -43,15 +43,15 @@
 
             <div class="col-md-4 col-12" style="direction: ltr">
                 <div class="footer-little-title-right">
-                    <h6 >חזור למעלה</h6>
+                    <h6 class="hover-fade" onclick="window.scrollTo(0, 0);">חזור למעלה</h6>
                     <hr class="teal accent-3 mb-4 mt-0 d-inline-block" style="width: 80px;">
                 </div>
 
                 <div class="d-flex justify-content-center text-right">
                     <ul class="list-group list-group-flush footer-right-li">
-                        <li class="list-group-item">לכל הכתבות <i class="fas fa-home ml-3"></i></li>
-                        <li class="list-group-item">צוות הרופאים <i class="fas fa-envelope ml-3"></i></li>
-                        <li class="list-group-item">אודות <i class="fas fa-phone ml-3"></i></li>
+                        <li class="list-group-item hover-fade"><a href="../../articles/articles.php">לכל הכתבות </a><i class="fas fa-home ml-3"></i></li>
+                        <li class="list-group-item hover-fade"><a href="../../doctors.php">צוות הרופאים </a><i class="fas fa-envelope ml-3"></i></li>
+                        <li class="list-group-item hover-fade"><a href="../../about-us.php">אודות </a><i class="fas fa-phone ml-3"></i></li>
                     </ul>
 
                 </div>

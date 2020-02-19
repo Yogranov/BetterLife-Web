@@ -3,28 +3,77 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once '../vendor/autoload.php';
-?>
-<html lang="he" xmlns="http://www.w3.org/1999/html">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-    <link rel="stylesheet" href="system/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="system/aos/aos.css">
-    <link rel="stylesheet" href="system/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="core/css/main.css">
+require_once "core/templates/header.php";
+
+
+use BetterLife\System\Services;
+use BetterLife\System\SystemConstant;
+use BetterLife\User\Role;
+use BetterLife\User\User;
+use BetterLife\User\Session;
+use BetterLife\Article\Article;
+
+$menu = '<ul class="mr-auto navbar-nav">
+            <a class="nav-link" href="login.php">כניסה</a>    
+         </ul>';
+
+
+if(Session::checkUserSession()){
+    $userObj = User::GetUserFromSession();
+
+    if(!$userObj->checkNewUser()) {
+        $menu = MemberMenu;
+        Services::setPlaceHolder($menu, "userFirstName", $userObj->getFirstName());
+        $tmpSubMenu = "";
+        foreach ($userObj->getRoles() as $role) {
+            switch ($role->getId()){
+                case Role::PATIENT_ID:
+                    $tmpSubMenu .= PatientMenu;
+                    break;
+
+                case Role::DOCTOR_ID:
+                    $tmpSubMenu .= DoctorMenu;
+                    break;
+
+                case Role::CONTENT_WRITER:
+                    $tmpSubMenu .= ContentWriterMenu;
+                    break;
+
+                case Role::ADMIN_ID:
+                    $tmpSubMenu .= AdminMenu;
+                    break;
+
+                default:
+                    $tmpSubMenu .= "";
+                    break;
+            }
+        }
+        Services::setPlaceHolder($menu, "MemberMenu", $tmpSubMenu);
+    } else {
+        unset($_SESSION[SystemConstant::USER_SESSION_NAME]);
+        Services::flashUser("משתמש לא מאומת");
+    }
+}
+
+
+$lastArticles = Article::getLastArticles(4);
+$articlesRow = "";
+foreach ($lastArticles as $article) {
+
+    $articlesRow .= <<<tmp
+            <div data-aos="flip-right" class="col-md-6 col-12">
+                <a style="color: #4e4e4e" href="articles/article.php?Article={$article->getId()}" class="hover-fade"><img class="img-fluid" src="media/articles/{$article->getImgUrl()}">
+                <h4>{$article->getTitle()}</h4></a>
+            </div>
+tmp;
+
+}
+
+
+$homepage = <<<homepage
+
     <link rel="stylesheet" href="core/css/homepage.css">
 
-    <title>BetterLife</title>
-    <link rel="icon" href="media/favicon.png">
-
-    <script src="system/fontawesome/js/all.min.js"></script>
-    <script src="system/jquery/jquery-3.4.1.min.js"></script>
-    <script src="system/bootstrap/js/bootstrap.min.js"></script>
-    <script src="system/aos/aos.js"></script>
-
-
-</head>
-<body>
 <nav data-aos="fade-down" class="navbar navbar-expand-lg px-lg-5 flex-row-reverse">
     <a class="navbar-brand pl-lg-3" href="#">
         <img src="media/logos/BetterLifeLogoWhite.png" alt="logo">
@@ -34,9 +83,12 @@ require_once '../vendor/autoload.php';
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="login.php">כניסה</a>
-            </li>
+            
+<!--            <li class="nav-item active">-->
+<!--                <a class="nav-link" href="login.php">כניסה</a>-->
+<!--            </li>-->
+
+
             <li class="nav-item">
                 <a class="nav-link" href="articles/articles.php">מידע</a>
             </li>
@@ -50,6 +102,7 @@ require_once '../vendor/autoload.php';
                 <a class="nav-link" href="contact-us.php">צור קשר</a>
             </li>
         </ul>
+                {profile-menu}
     </div>
 </nav>
 
@@ -119,22 +172,9 @@ require_once '../vendor/autoload.php';
             </div>
             <div class="col-12 col-md-6">
                 <div class="row">
-                    <div data-aos="flip-right" class="col-md-6 col-12">
-                        <img class="img-fluid" src="media/articles/2.jpg">
-                        <h4>ירידה באחוז חולי סרטן העור</h4>
-                    </div>
-                    <div data-aos="flip-right" class="col-md-6 col-12">
-                        <img class="img-fluid" src="media/articles/3.jpg">
-                        <h4>התגוננות בפני קרינת השמש</h4>
-                    </div>
-                    <div data-aos="flip-right" class="col-md-6 col-12">
-                        <img class="img-fluid" src="media/articles/4.jpg">
-                        <h4>תכשיר חדש מבטיח הגנה מושלמת</h4>
-                    </div>
-                    <div data-aos="flip-right" class="col-md-6 col-12">
-                        <img class="img-fluid" src="media/articles/1.jpg">
-                        <h4>הוראות כיצד יש להלבש ביום שמשי</h4>
-                    </div>
+
+                    {$articlesRow}
+                    
                 </div>
             </div>
         </div>
@@ -168,13 +208,13 @@ require_once '../vendor/autoload.php';
                         <div class="row">
                             <div class="col-2"></div>
                             <div class="col-3">
-                                <a class="fab fa-github fa-2x" style="color: #323232;"></a>
+                                <a class="fab fa-github fa-2x hover-fade" style="color: #323232;"></a>
                             </div>
                             <div class="col-2">
-                                <a class="fab fa-linkedin fa-2x" style="color: #076BA5;"></a>
+                                <a class="fab fa-linkedin fa-2x hover-fade" style="color: #076BA5;"></a>
                             </div>
                             <div class="col-3">
-                                <a class="fab fa-facebook-square fa-2x" style="color:#385599"></a>
+                                <a class="fab fa-facebook-square fa-2x hover-fade" style="color:#385599"></a>
                             </div>
                             <div class="col-2"></div>
                         </div>
@@ -189,13 +229,13 @@ require_once '../vendor/autoload.php';
                         <div class="row">
                             <div class="col-2"></div>
                             <div class="col-3">
-                                <a class="fab fa-github fa-2x" style="color: #323232;"></a>
+                                <a class="fab fa-github fa-2x hover-fade" style="color: #323232;"></a>
                             </div>
                             <div class="col-2">
-                                <a class="fab fa-linkedin fa-2x" style="color: #076BA5;"></a>
+                                <a class="fab fa-linkedin fa-2x hover-fade" style="color: #076BA5;"></a>
                             </div>
                             <div class="col-3">
-                                <a class="fab fa-facebook-square fa-2x" style="color:#385599"></a>
+                                <a class="fab fa-facebook-square fa-2x hover-fade" style="color:#385599"></a>
                             </div>
                             <div class="col-2"></div>
                         </div>
@@ -206,7 +246,10 @@ require_once '../vendor/autoload.php';
     </div>
 </div>
 </div>
+homepage;
 
 
- <?php
+
+Services::setPlaceHolder($homepage, "profile-menu", $menu);
+echo  $homepage;
 include "core/templates/footer.php";

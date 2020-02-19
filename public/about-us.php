@@ -40,7 +40,7 @@ $pageTemplate .= <<<PageBody
             </div>
         </div>
         <div class="col-md-5 col-12">
-            <img class="img-fluid" src="media/random/about-logo.png">
+            <img class="img-fluid" src="media/random/about-logo.png" data-aos="zoom-in-down">
         </div>
 
     </div>

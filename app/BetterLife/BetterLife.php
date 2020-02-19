@@ -106,7 +106,6 @@ class BetterLife {
             } else {
                 unset($_SESSION[SystemConstant::USER_SESSION_NAME]);
                 Services::flashUser("משתמש לא מאומת");
-                //Login::Disconnect();
             }
         } else
             $menu = NoneUserMenu;

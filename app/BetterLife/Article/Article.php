@@ -63,8 +63,10 @@ class Article {
         return $articles;
     }
 
+
     /**
      * @return Article[]
+     * @throws \Exception
      */
     public static function getAllArticles() {
         $articles = array();
@@ -80,6 +82,27 @@ class Article {
 
         return $articles;
     }
+
+    /**
+     * @param $numOfArticles
+     * @return Article[]
+     * @throws \Exception
+     */
+    public static function getLastArticles($numOfArticles) {
+        $articles = array();
+        $data = "";
+        try {
+            $data = BetterLife::GetDB()->orderBy("CreateTime", "DESC")->where("Publish", 1)->get(self::TABLE_NAME, $numOfArticles);
+        } catch (\Throwable $e) {
+            echo "Error accord, please try again later";
+        }
+
+        foreach ($data as $article)
+            array_push($articles, self::getById($article["Id"]));
+
+        return $articles;
+    }
+
 
     /**
      * @return ArticleComment[]

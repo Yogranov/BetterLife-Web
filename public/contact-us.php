@@ -48,7 +48,7 @@ $pageTemplate .= <<<PageBody
                 </form>
             </div>
 
-        <div class="col-xl-6 col-12 iframe">
+        <div class="col-xl-6 col-12 iframe" data-aos="zoom-in-down">
             <div class="row">
                 <div class="col-12" style="direction: ltr">
                 <h5 class="text-center mb-5">בואו למשרדינו הראשי <i class="fas fa-map-marker-alt" style="color: #4e4e4e"></i></h5>

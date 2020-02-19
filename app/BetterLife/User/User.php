@@ -136,7 +136,6 @@ class User {
     public static function GetUserFromSession() {
         try {
             return unserialize($_SESSION[SystemConstant::USER_SESSION_NAME]);
-
         } catch (\Throwable $e) {
             return Services::flashUser("אירעה שגיאה, מועברים לדף הראשי");
         }
