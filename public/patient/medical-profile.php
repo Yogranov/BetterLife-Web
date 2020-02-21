@@ -23,9 +23,8 @@ if(empty($moles))
         </div>
 ";
 else
-    foreach ($moles as $mole) {
+    foreach (array_reverse($moles) as $mole) {
         $linkEnc = base64_encode($mole->getId() . "_" . $mole->getCreateTime()->format("U"));
-        $imgEnc = base64_encode($user->getId() . "-" . $mole->getLastDetails()->getImgUrl());
 
         if(!file_exists($imgPath . 'figure/' .  $mole->getLastDetails()->getImgUrl() . '.jpg')
         || !file_exists($imgPath . 'surface/' .  $mole->getLastDetails()->getImgUrl() . '.jpg'))
@@ -70,7 +69,7 @@ else
                         {$moreInfoButton}
                     </div>
                     <div class="col-md-6 col-12">
-                        <img class="img-fluid round-shadow" src="imageHandle.php?image={$imgEnc}&dir=regular">
+                        <img class="img-fluid round-shadow" src="../../core/services/imageHandle.php?Method=Patient&UserId={$user->getId()}&Token={$user->getToken()}&MoleId={$mole->getLastDetails()->getId()}&Dir=regular">
                     </div>
                     
                 </div>

@@ -223,6 +223,11 @@ class User {
         return true;
     }
 
+    public function getAge(){
+        return $this->getBirthDate()->diff(new \DateTime('now',new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE)))->y;
+    }
+
+
     ////////// Getters & Setters /////////////
     /**
      * @return mixed

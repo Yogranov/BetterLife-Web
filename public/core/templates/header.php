@@ -117,7 +117,7 @@ PatientMenu;
 
 const DoctorMenu = <<<PatientMenu
                         <hr>
-                        <a class="dropdown-item" href="#"><i class="fas fa-vial"></i> בדיקת שומות</a>
+                        <a class="dropdown-item" href="../../doctors/moles-list.php"><i class="fas fa-vial"></i> בדיקת שומות</a>
                         <a class="dropdown-item" href="#"><i class="fas fa-search"></i> חיפוש מטופל</a>
 PatientMenu;
 

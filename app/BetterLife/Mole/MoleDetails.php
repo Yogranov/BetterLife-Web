@@ -5,6 +5,8 @@ namespace BetterLife\Mole;
 
 
 use BetterLife\BetterLife;
+use BetterLife\System\Services;
+use BetterLife\User\User;
 
 class MoleDetails {
 
@@ -54,8 +56,40 @@ class MoleDetails {
 
     }
 
+    /**
+     * @param $orderFiled
+     * @param $orderDirection
+     * @return MoleDetails[]
+     * @throws \Exception
+     */
+    public static function getAllUncheckMole($orderFiled, $orderDirection) {
+        $moles = array();
+        $data = "";
+        try {
+            $data = BetterLife::GetDB()->orderBy($orderFiled, $orderDirection)->where("DoctorId", null, "IS")->get(self::TABLE_NAME);
 
+        } catch (\Throwable $e) {
+            echo "Error accord, please try again later";
+        }
 
+        foreach ($data as $moleDetail)
+            array_push($moles, new MoleDetails($moleDetail["Id"]));
+
+        return $moles;
+    }
+
+    public function getMoleLocation() {
+        return BetterLife::GetDB()->where("Id", $this->moleId)->getOne(Mole::TABLE_NAME, "Location")["Location"];
+    }
+
+    /**
+     * @return User
+     * @throws \BetterLife\System\Exception
+     */
+    public function getPatientObj(){
+        $userId = BetterLife::GetDB()->where("Id", $this->moleId)->getOne(Mole::TABLE_NAME, "UserId")["UserId"];
+        return User::getById($userId);
+    }
     ////// Getters ////////
 
     /**

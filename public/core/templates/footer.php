@@ -1,5 +1,6 @@
 <?php
 ?>
+<script id="free_accessibility_plugin_script" src="../../core/js/accessibility.min.js?lan=he&place=bottom-right&distance=50" crossorigin="anonymous"></script>
     <script>AOS.init()</script>
 </body>
 

@@ -24,6 +24,27 @@ class RiskLevel {
     }
 
     /**
+     * @return RiskLevel[]
+     * @throws \Exception
+     */
+    public static function getAll() {
+        $risks = array();
+        $data = "";
+        try {
+            $data = BetterLife::GetDB()->get(self::TABLE_NAME);
+        } catch (\Throwable $e) {
+            echo "Error accord, please try again later";
+        }
+        unset($data[0]);
+        foreach ($data as $risk)
+            array_push($risks, new RiskLevel($risk["Id"]));
+
+        return $risks;
+
+    }
+
+
+    /**
      * @return mixed
      */
     public function getId() {

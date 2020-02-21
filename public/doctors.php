@@ -7,7 +7,7 @@ $rows = "";
 foreach ($doctors as $doctor)
     $rows .= <<<Rows
         <div class="col-md-4 col-12 text-center" data-aos="zoom-in-up">
-            <img class="img-fluid" src="core/services/imageHandle.php?image={$doctor->getImgUrl()}">
+            <img class="img-fluid" src="core/services/imageHandle.php?Method=DoctorsPage&image={$doctor->getImgUrl()}">
             <div class="mt-2 text-right doctor-details">
                 <h5>ד"ר {$doctor->getFullName()}</h5>
                 <h6>{$doctor->getTitle()}</h6>

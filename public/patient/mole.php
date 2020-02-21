@@ -123,15 +123,15 @@ foreach (array_reverse($mole->getDetails()) as $key => $detail) {
             <div class="row img-row">
                 <div class="col-md-4 col-12">
                     <h6 class="text-center">תמונת מקור</h6>
-                    <img class="img-fluid round-shadow" src="imageHandle.php?image={$imgEnc}&dir=regular">
+                    <img class="img-fluid round-shadow" src="../../core/services/imageHandle.php?Method=Patient&UserId={$userObj->getId()}&Token={$userObj->getToken()}&MoleId={$detail->getImgUrl()}&Dir=regular">
                 </div>
                 <div class="col-md-4 col-12">
                     <h6 class="text-center">חתימת גוונים</h6>
-                    <img class="img-fluid round-shadow" src="imageHandle.php?image={$imgEnc}&dir=figure">
+                    <img class="img-fluid round-shadow" src="../../core/services/imageHandle.php?Method=Patient&UserId={$userObj->getId()}&Token={$userObj->getToken()}&MoleId={$detail->getImgUrl()}&Dir=figure">
                 </div>
                 <div class="col-md-4 col-12">
                     <h6 class="text-center">שטח פנים</h6>
-                    <img class="img-fluid round-shadow" src="imageHandle.php?image={$imgEnc}&dir=surface">
+                    <img class="img-fluid round-shadow" src="../../core/services/imageHandle.php?Method=Patient&UserId={$userObj->getId()}&Token={$userObj->getToken()}&MoleId={$detail->getImgUrl()}&Dir=surface">
                 </div>
             </div>
         
@@ -146,7 +146,7 @@ tmp;
 
 $linkEnc = base64_encode($mole->getId() . "_" . $mole->getCreateTime()->format("U"));
 
-$pageBody = /** @lang HTML */
+$pageTemplate .= /** @lang HTML */
     <<<PageBody
 <div class="mole-page">
     <div class="container">

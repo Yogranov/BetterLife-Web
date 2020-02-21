@@ -1,7 +1,6 @@
 <?php
 require_once "../core/templates/header.php";
 
-\BetterLife\System\Services::dump(\BetterLife\User\User::GetUserFromSession()->getRoles());
 
 $pageTemplate .= <<<PageBody
 

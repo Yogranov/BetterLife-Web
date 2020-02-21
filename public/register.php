@@ -151,7 +151,7 @@ if(isset($_POST['registerButton'])) {
 }
 
 
-$pageBody = /** @lang HTML */<<<PageBody
+$pageTemplate = /** @lang HTML */<<<PageBody
 <div class="container register-form">
     <div class="row mb-5">
         <div class="col-12 text-center page-title" data-aos="zoom-in">
