@@ -52,8 +52,8 @@ else
                             <td>{$mole->getLastDetails()->getRiskLevel()->getName()}</td>
                         </tr>
                         <tr>
-                            <td>גודל (מ"מ):</td>
-                            <td>{$mole->getLastDetails()->getSize()}</td>
+                            <td>גודל:</td>
+                            <td>{$mole->getLastDetails()->getSize()} מ"מ</td>
                         </tr>
                         <tr>
                             <td>עדכון אחרון:</td>

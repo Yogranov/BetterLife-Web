@@ -8,6 +8,12 @@ class RiskLevel {
     const TABLE_NAME = "riskLevel";
     const TABLE_KEY_COLUMN = "Id";
 
+    const DOESNT_CHECKED  = "לא נבדק";
+    const NO_DANGER  = "לא קיימת סכנה";
+    const SUSPICIOUS  = "קיים חשד";
+    const DANGER  = "קיימת סכנה";
+    const IMMEDIATELY_DANGER  = "סכנה מיידית";
+
     private $id;
     private $name;
 

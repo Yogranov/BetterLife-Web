@@ -60,7 +60,7 @@ class Login {
         $userObj->setLastLogin();
         $userObj->setToken(Services::GenerateRandomString(64));
         $userObj->save();
-        Session::newSession(SystemConstant::USER_SESSION_NAME, serialize($userObj));
+        Session::newSession(SystemConstant::USER_SESSION_NAME, $userObj->getId());
 
 
         //log

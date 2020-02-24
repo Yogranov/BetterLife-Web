@@ -271,7 +271,7 @@ iframe {
 }
 
 #msform {
-    text-align: center;
+    #text-align: center;
     position: relative;
     margin-top: 20px
 }
@@ -576,3 +576,40 @@ iframe {
     cursor: pointer;
 }
 
+.self-check li {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+/* *********  rimon-table-start   ***************/
+
+.rimon-table td,.rimon-table th {
+    text-align: center;
+}
+
+.rimon-table table {
+    background-color: rgba(217, 217, 217, 0.77);
+    border-collapse: separate;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    box-shadow: 5px 5px 12px rgba(128, 128, 128, 0.37);
+}
+
+.rimon-table thead{
+    background-color: #d9e7d5;
+
+}
+
+.table>tbody>tr:nth-child(even)>td {
+    background-color: rgba(203, 203, 203, 0.76);
+
+}
+
+.rimon-table tbody:hover tr:hover td {
+    color: #ffffff;
+    background-color: rgba(110, 110, 110, 0.86);
+    cursor: pointer;
+}
+
+/* *********  rimon-table-End   ***************/

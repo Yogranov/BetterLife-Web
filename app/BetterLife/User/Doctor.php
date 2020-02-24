@@ -4,6 +4,7 @@
 namespace BetterLife\User;
 
 use BetterLife\BetterLife;
+use BetterLife\Mole\MoleDetails;
 use BetterLife\Repositories\Address;
 use BetterLife\System\Exception;
 
@@ -81,6 +82,22 @@ class Doctor extends User {
             array_push($doctors, self::getById($user["Id"]));
 
         return $doctors;
+    }
+
+    public function countDiagnosis() {
+        return count(BetterLife::GetDB()->where("DoctorId", $this->id)->get(MoleDetails::TABLE_NAME, null, "Id"));
+    }
+
+    /**
+     * @return MoleDetails
+     * @throws Exception
+     */
+    public function lastMole() {
+        $id = BetterLife::GetDB()->where("DoctorId", $this->id)->orderBy("Id", "DESC")->getOne(MoleDetails::TABLE_NAME, "Id")["Id"];
+        if ($id != null)
+            return new MoleDetails($id);
+        else
+            throw new \Exception("No data available");
     }
 
     /**

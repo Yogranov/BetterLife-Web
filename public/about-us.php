@@ -3,10 +3,6 @@ require_once "core/templates/header.php";
 
 
 $pageTemplate .= <<<PageBody
-<style>
-
-
-</style>
 <div class="container mt-5">
     <div class="row mb-5">
         <div class="col-12 text-center page-title" data-aos="zoom-in">

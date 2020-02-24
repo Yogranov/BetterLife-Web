@@ -46,7 +46,7 @@ class User {
         $this->phoneNumber = $data["PhoneNumber"];
         $this->BirthDate = new \DateTime($data["BirthDate"]);
         $this->address = new Address($data["Address"], $data["City"]);
-        $this->registerTime = $data["RegisterTime"];
+        $this->registerTime = new \DateTime($data["RegisterTime"]);
         $this->lastLogin = new \DateTime($data["LastLogin"]);
         $this->sex = $data["Sex"];
         $this->token = $data["Token"];
@@ -91,7 +91,9 @@ class User {
     public function save() {
         $data = array(
             "Email" => $this->email,
+            "Password" => $this->password,
             "FirstName" => $this->firstName,
+            "PersonId" => $this->personId,
             "LastName" => $this->lastName,
             "PhoneNumber" => $this->phoneNumber,
             "Address" => $this->address->getAddress(),
@@ -135,10 +137,20 @@ class User {
      */
     public static function GetUserFromSession() {
         try {
+            return User::getById($_SESSION[SystemConstant::USER_SESSION_NAME]);
+        } catch (\Throwable $e) {
+            //header("Location: https://google.com");
+            //return Services::flashUser("אירעה שגיאה, מועברים לדף הראשי");
+        }
+
+
+
+        /*
+        try {
             return unserialize($_SESSION[SystemConstant::USER_SESSION_NAME]);
         } catch (\Throwable $e) {
             return Services::flashUser("אירעה שגיאה, מועברים לדף הראשי");
-        }
+        }*/
     }
 
 
@@ -187,6 +199,8 @@ class User {
 
         $data = BetterLife::GetDB()->where("UserId", $this->id)->get("moles", null, "Id");
 
+        if(empty($data))
+            return false;
 
         foreach ($data as $item)
             array_push($moles, Mole::getById($item["Id"]));
@@ -228,12 +242,28 @@ class User {
     }
 
 
+    public function getSexString(){
+        return $this->sex ? "נקבה" : "זכר";
+    }
+
+    public function getHistoryString() {
+        return $this->haveHistory ? "כן" : "לא";
+    }
+
+
     ////////// Getters & Setters /////////////
     /**
      * @return mixed
      */
     public function getId() {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPassword() {
+        return $this->password;
     }
 
     /**
@@ -341,5 +371,101 @@ class User {
     public function setLastLogin(){
         $this->lastLogin = new \DateTime('now',new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE));
     }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void {
+        $this->id = $id;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email): void {
+        $this->email = $email;
+    }
+
+    /**
+     * @param mixed $password
+     */
+    public function setPassword($password): void {
+        $this->password = $password;
+    }
+
+    /**
+     * @param mixed $personId
+     */
+    public function setPersonId($personId): void {
+        $this->personId = $personId;
+    }
+
+    /**
+     * @param mixed $firstName
+     */
+    public function setFirstName($firstName): void {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName): void {
+        $this->lastName = $lastName;
+    }
+
+    /**
+     * @param mixed $sex
+     */
+    public function setSex($sex): void {
+        $this->sex = $sex;
+    }
+
+    /**
+     * @param mixed $phoneNumber
+     */
+    public function setPhoneNumber($phoneNumber): void {
+        $this->phoneNumber = $phoneNumber;
+    }
+
+    /**
+     * @param \DateTime $BirthDate
+     */
+    public function setBirthDate(\DateTime $BirthDate): void {
+        $this->BirthDate = $BirthDate;
+    }
+
+    /**
+     * @param Address $address
+     */
+    public function setAddress(Address $address): void {
+        $this->address = $address;
+    }
+
+
+    /**
+     * @param array $roles
+     * @throws \Exception
+     */
+    public function setRoles(array $roles): void {
+        $this->roles = array();
+        foreach ($roles as $role)
+            array_push( $this->roles, new Role($role));
+    }
+
+    /**
+     * @param null $haveHistory
+     */
+    public function setHaveHistory($haveHistory): void {
+        $this->haveHistory = $haveHistory;
+    }
+
+    /**
+     * @param \DateTime $registerTime
+     */
+    public function setRegisterTime(\DateTime $registerTime): void {
+        $this->registerTime = $registerTime;
+    }
+
 
 }

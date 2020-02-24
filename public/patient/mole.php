@@ -68,7 +68,7 @@ foreach (array_reverse($mole->getDetails()) as $key => $detail) {
 
                             <ul class="list-group">
                                 <li class="list-group-item border-0"><span>- תאריך: </span>{$detail->getCreateTime()->format("d/m/y H:m")}</li>
-                                <li class="list-group-item border-0"><span>- גודל: </span> {$detail->getSize()}</li>
+                                <li class="list-group-item border-0"><span>- גודל: </span> {$detail->getSize()} מ"מ</li>
                                 <li class="list-group-item border-0"><span>- צבע: </span>{$detail->getColor()}</li>
                             </ul>
                         </div>

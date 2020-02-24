@@ -33,6 +33,20 @@ class Role {
     }
 
     /**
+     * @return Role[]
+     * @throws \BetterLife\System\Exception
+     */
+    public static function getAll() {
+        $roles = array();
+        $data = BetterLife::GetDB()->get(self::TABLE_NAME);
+
+        foreach ($data as $role)
+            array_push($roles, new Role($role["Id"]));
+
+        return $roles;
+    }
+
+    /**
      * @return mixed
      */
     public function getId() {

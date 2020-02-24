@@ -54,8 +54,8 @@ else
                             <td>{$moleDetail->getMoleLocation()}</td>
                         </tr>
                         <tr>
-                            <td>גודל (מ"מ):</td>
-                            <td>{$moleDetail->getSize()}</td>
+                            <td>גודל:</td>
+                            <td>{$moleDetail->getSize()} מ"מ</td>
                         </tr>
                     </tbody>
                 </table>

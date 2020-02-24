@@ -33,8 +33,10 @@ const HeaderTemplate = <<<Header
     <link rel="stylesheet" type="text/css" href="../../core/css/main.css">
 
     
+    <script src="../../system/other/chart.min.js"></script>
     <script src="../../system/jquery/jquery-3.4.1.min.js"></script>
     <script src="../../system/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../../system/jquery/jquery.ui.touch-punch.min.js"></script>
     <script src="../../system/jquery-ui/datepicker-he.js"></script>
     <script src="../../system/fontawesome/js/all.min.js"></script>
     <script src="../../system/jquery/jquery.validate.min.js"></script>
@@ -72,6 +74,9 @@ const Navbar = <<<NAVBAR
                     <a class="nav-link" href="https://betterlife.845.co.il/doctors.php">הרופאים</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="https://betterlife.845.co.il/do-it-yourself.php">בדיקה עצמאית</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="https://betterlife.845.co.il/about-us.php">אודות</a>
                 </li>
                 <li class="nav-item">
@@ -102,6 +107,7 @@ const MemberMenu = <<<Member
                         <a class="dropdown-item" href="#"><i class="fas fa-inbox"></i> תיבת הודעות</a>
                         {MemberMenu}
                         <hr>
+                        <a class="dropdown-item" href="../../user/profile.php"><i class="fas fa-id-card"></i> פרופיל אישי</a>
                         <a class="dropdown-item" style="text-align: center" href="../../core/logout.php">יציאה</a>
                     </div>
                 </div>
@@ -123,12 +129,12 @@ PatientMenu;
 
 const ContentWriterMenu = <<<PatientMenu
                         <hr>
-                        <a class="dropdown-item" href="../../articles/new-article.php"><i class="fas fa-user-friends"></i> כתבה חדשה</a>
+                        <a class="dropdown-item" href="../../articles/new-article.php"><i class="fas fa-paragraph"></i> כתבה חדשה</a>
 PatientMenu;
 
 const AdminMenu = <<<PatientMenu
                         <hr>
-                        <a class="dropdown-item" href="#"><i class="fas fa-user-friends"></i> ניהול משתמשים</a>
+                        <a class="dropdown-item" href="../../admin/user-management.php"><i class="fas fa-user-friends"></i> ניהול משתמשים</a>
 PatientMenu;
 
 
