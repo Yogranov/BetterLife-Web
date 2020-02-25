@@ -77,16 +77,18 @@ if(isset($_POST['submit'])) {
     }
 
     if($admin) {
-        if (isset($_POST["doctorLicenseNumber"]) && empty($_POST["doctorLicenseNumber"]))
+        $doctorRoleInList = in_array('3', $_POST["role"]);
+
+        if ($doctorRoleInList && isset($_POST["doctorLicenseNumber"]) && empty($_POST["doctorLicenseNumber"]))
             array_push($errors, "רופא חייב מספר רישיון");
 
-        if (isset($_POST["doctorTitle"]) && empty($_POST["doctorTitle"]))
+        if ($doctorRoleInList && isset($_POST["doctorTitle"]) && empty($_POST["doctorTitle"]))
             array_push($errors, "רופא חייב כותרת");
 
-        if (isset($_POST["doctorAbout"]) && empty($_POST["doctorAbout"]))
+        if ($doctorRoleInList &&isset($_POST["doctorAbout"]) && empty($_POST["doctorAbout"]))
             array_push($errors, "רופא חייב תיאור");
 
-        if (empty($_FILES["doctorProfileImg"]["name"])) {
+        if ($doctorRoleInList && empty($_FILES["doctorProfileImg"]["name"])) {
             if (!file_exists("/home/goru/public_html/betterlife/media/doctors/" . $userObj->getId() . ".jpg"))
                 array_push($errors, "לא הוגדרה תמונת פרופיל לרופא");
         }

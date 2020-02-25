@@ -1,6 +1,6 @@
 <?php
 require_once "../core/templates/header.php";
-
+use BetterLife\Article\Article;
 use BetterLife\System\SystemConstant;
 use BetterLife\User\User;
 use BetterLife\User\Session;
@@ -8,7 +8,7 @@ use BetterLife\System\Services;
 use BetterLife\User\Role;
 use BetterLife\Mole\RiskLevel;
 use BetterLife\User\Doctor;
-
+use BetterLife\BetterLife;
 
 if(!Session::checkUserSession())
     Services::RedirectHome();
@@ -17,10 +17,14 @@ if(!Session::checkUserSession())
 if(isset($_GET["UserId"]) && User::GetUserFromSession()->checkRole(5)){
     $userObj = User::getById($_GET["UserId"]);
     $editButton = "<a class='btn btn-secondary' href='edit-profile.php?UserId={$userObj->getId()}'>עריכה</a>";
+
+    $adminObj = User::getById($_SESSION[SystemConstant::USER_SESSION_NAME]);
+    $admin = true;
 }
 else {
     $userObj = User::GetUserFromSession();
     $editButton = "<a class='btn btn-secondary' href='edit-profile.php'>עריכה</a>";
+    $admin = false;
 }
 
 
@@ -30,23 +34,22 @@ foreach ($userObj->getRoles() as $role)
     $roles .= "<li style='list-style: none'> - {$role->getName()}</li>";
 
 $lastMoleCheck = "";
-$jsData = "";
 $sysInfo = "";
+$pieChartPatient = "";
+$pieChartPatientRow = "";
 
 if($userObj->checkRole(2) && $userObj->getMoles()) {
     $moles = count($userObj->getMoles());
 
     $lastMoleCheck = array_reverse($userObj->getMoles())[0]->getCreateTime()->diff(new \DateTime('now',new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE)))->d;
-
     $pieDataTmp = array();
     foreach ($userObj->getMoles() as $mole) {
         $risk = $mole->getLastDetails()->getRiskLevel();
-
         if(array_key_exists($risk->getName(), $pieDataTmp))
             $pieDataTmp[$risk->getName()]++;
-        else {
+        else
             $pieDataTmp[$risk->getName()] = 1;
-        }
+
     }
 
     $pieLabels = "[";
@@ -78,26 +81,47 @@ if($userObj->checkRole(2) && $userObj->getMoles()) {
         $pieData .= "{$tmp},";
     $pieData[strlen($pieData)-1]= "]";
 
+    $pieChartPatient = "<script>
+                            new Chart($('#myChart'), {
+                                type: 'pie',
+                                data: {
+                                    labels: {$pieLabels},
+                                    datasets: [{
+                                        data: {$pieData},
+                                        labels: {$pieData},
+                                        backgroundColor: {$pieColors}
+                                    }]
+                                },
+                                options: {
+                                    title: {
+                                        display: true,
+                                        text: 'סיכום איבחון רופאים'
+                                    }
+                                }
+                            });
+                            </script>";
 
-    $jsData = "data: {
-                    labels: {$pieLabels},
-                    datasets: [{
-                        data: {$pieData},
-                        labels: {$pieData},
-                        backgroundColor: {$pieColors}
-                    }]
-                }";
+    $pieChartPatientRow = "<div class='col-md-12 col-12 mt-3 mb-3'>
+                                <h4>סטטיסטיקות</h4>
+                                <div class='row'>
+                                    <div class='col-2'></div>
+                                    <div class='col-sm-8 col-12'>
+                                        <canvas id='myChart'></canvas>
+                                    </div>
+                                    <div class='col-2'></div>
+                                </div>
+                            </div>";
 
     $sysInfo .= "<tr>
                     <td>בעל היסטוריה של סרטן העור?</td>
                     <td>{$userObj->getHistoryString()}</td>
                 </tr>
                 <tr>
-                    <td>כמות השומות שנבדקו</td>
+                    <td>כמות השומות שנבדקו:</td>
                     <td>{$moles}</td>
                 </tr>
                 <tr>
-                    <td>בדיקה אחרונה</td>
+                    <td>בדיקה אחרונה:</td>
                     <td>לפני {$lastMoleCheck} ימים</td>
                 </tr>";
 
@@ -105,44 +129,38 @@ if($userObj->checkRole(2) && $userObj->getMoles()) {
 
 if($userObj->checkRole(3)) {
     $doctorObj = Doctor::getById($userObj->getId());
-    $sysInfo .= "
-                <tr>
-                    <td>כמות השומות שנבדקו</td>
-                    <td>{$doctorObj->countDiagnosis()}</td>
-                </tr>";
+    $sysInfo .= "<tr>
+                     <td>כמות השומות שנבדקו:</td>
+                     <td>{$doctorObj->countDiagnosis()}</td>
+                 </tr>";
     if($doctorObj->countDiagnosis() > 0)
-        $sysInfo .= "
-                <tr>
-                    <td>בדיקה אחרונה</td>
-                    <td>לפני {$doctorObj->lastMole()->getCreateTime()->diff(new \DateTime('now',new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE)))->d} ימים</td>
-                </tr>";
+        $sysInfo .= "<tr>
+                         <td>:אבחון אחרונה</td>
+                         <td>לפני {$doctorObj->lastMole()->getCreateTime()->diff(new \DateTime('now',new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE)))->d} ימים</td>
+                     </tr>";
 }
 
+if($userObj->checkRole(4)){
+    $articles = count(BetterLife::GetDB()->where("Creator", $userObj->getId())->get(Article::TABLE_NAME, null, Article::TABLE_KEY_COLUMN));
+    $sysInfo .= "<tr>
+                     <td>כתבות:</td>
+                     <td>{$articles}</td>
+                 </tr>";
+}
 
+$disableUser = "";
+if($admin){
+    $enableOrDisable = $userObj->getEnable() ? "disable" : "enable";
+    $enableOrDisableColor = $userObj->getEnable() ? "btn-danger" : "btn-success";
+    $enableOrDisableText = $userObj->getEnable() ? "השבת חשבון" : "הפעל חשבון";
+
+    $disableUser = "<a class='btn {$enableOrDisableColor}' onclick='enableDisableUser({$userObj->getId()}, \"{$enableOrDisable}\", {$adminObj->getId()}, \"{$adminObj->getToken()}\", $(this))' style='color:white; cursor: pointer'>{$enableOrDisableText}</a>";
+    $sysInfo .= "<tr><td>:כניסה אחרונה</td>";
+    $sysInfo .= !is_null($userObj->getLastLogin()) ? "<td>{$userObj->getLastLogin()->format("d/m/y H:i")}</td></tr>" : "<td>לא נכנס למערכת</td></tr>";
+}
 
 
 $pageTemplate .= <<<PageBody
-<style>
-table {
-    background: #fbfbff;
-    box-shadow: rgba(0,0,0,0.2) 2px 2px 6px;
-    border-collapse: collapse;
-    overflow: hidden;
-}
-
-tr {
-    border: 1px solid rgba(0,0,0,0.3) !important;
-}
-
-tr:nth-child(even){
-    background-color: #f2f2f2;
-}
-
-td {
-    padding: 15px 5% !important;
-}
-
-</style>
 <div class="container mt-5">
     <div class="row mb-5">
         <div class="col-12 text-center page-title" data-aos="zoom-in">
@@ -151,8 +169,9 @@ td {
         </div>
     </div>
 
-    <div class="row">
+    <div class="row my-profile">
         <div class="col-12 text-left">
+            {$disableUser}
             {$editButton}
         </div>
         
@@ -221,7 +240,7 @@ td {
                         <tbody>
                             <tr>
                                 <td>תאריך רישום:</td>
-                                <td>{$userObj->getRegisterTime()->format("d/m/y h:i ")}</td>
+                                <td>{$userObj->getRegisterTime()->format("d/m/y H:i")}</td>
                             </tr>
                             <tr>
                                 <td>תפקידים:</td>
@@ -238,28 +257,16 @@ td {
             </div>
         </div>
 
-            
-        <div class="col-md-12 col-12 mt-3 mb-3">
-            <h4>סטטיסטיקות</h4>
-            <div class="row">
-                <div class="col-sm-6 col-12">
-                    <canvas id="myChart"></canvas>
-                </div>
-            </div>
-        </div>
+        {$pieChartPatientRow}
+        
 
     </div>
 </div>
 
-<script>
-var ctx = document.getElementById('myChart');
-var myChart = new Chart(ctx, {
-    type: 'pie',
-    {$jsData}
-    
-});
 
-</script>
+{$pieChartPatient}
+
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 PageBody;

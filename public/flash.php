@@ -3,7 +3,7 @@ require_once "core/templates/header.php";
 use BetterLife\System\Services;
 use BetterLife\System\SystemConstant;
 
-if(empty($_SESSION["Flash_Message"]))
+if(empty($_SESSION[SystemConstant::FLASH_MESSAGE]))
     Services::RedirectHome();
 
 $flashText = $_SESSION[SystemConstant::FLASH_MESSAGE];

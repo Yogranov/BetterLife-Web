@@ -118,11 +118,10 @@ class Login {
     }
 
 
-    public static function Disconnect(){
+    public static function Disconnect($message = null){
         if(!Session::checkUserSession())
             throw new \Exception("Session doesnt found");
-        $userObj = User::GetUserFromSession();
-
+        $userObj = User::getById($_SESSION[SystemConstant::USER_SESSION_NAME]);
         if(Cookie::Exists(self::COOKIE_NAME))
             Cookie::Delete(self::COOKIE_NAME);
 
@@ -138,8 +137,13 @@ class Login {
 
 
         unset($_SESSION[SystemConstant::USER_SESSION_NAME]);
-        session_destroy();
+        //session_destroy();
+
+        if(!is_null($message))
+            Services::flashUser($message);
+
         header('Location: ' . $_SERVER["HTTP_REFERER"]);
+        exit();
     }
 
 

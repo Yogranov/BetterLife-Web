@@ -78,3 +78,21 @@ if($switch === 'showHideArticle') {
         }
     }
 }
+
+
+if($switch === 'enableDisableUser') {
+    if(User::checkIfUserExist($_POST["adminId"])) {
+
+        $adminObj = User::getById($_POST["adminId"]);
+        if($adminObj->getToken() === $_POST["adminToken"] && $adminObj->checkRole([5])) {
+            $userObj = User::getById($_POST["UserId"]);
+
+            if($_POST["Method"] == "enable")
+                $userObj->enableUser();
+
+            if($_POST["Method"] == "disable")
+                $userObj->disableUser();
+
+        }
+    }
+}

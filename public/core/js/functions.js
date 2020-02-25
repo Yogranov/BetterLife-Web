@@ -92,12 +92,30 @@ function showHideArticle(articleId, method, userId, token, button) {
             Method:  method,
             Token: token
         }, function (data) {
-            console.log(data);
-
             if(method == "hide")
                 button.addClass("btn-success").removeClass("btn-danger").text("הצג").attr("onclick", 'showHideArticle('+ articleId +', "show",'+ userId + ', "'+ token + '", $(this))');
 
             if(method == "show")
                 button.addClass("btn-danger").removeClass("btn-success").text("הסתר").attr("onclick", 'showHideArticle('+ articleId +', "hide",'+ userId + ', "'+ token + '", $(this))');
         });
+}
+
+
+function enableDisableUser(userId, method, adminId, adminToken, button) {
+    console.log("asD");
+    $.post( "https://betterlife.845.co.il/core/services/AjaxApi.php",
+        {
+            Type: "enableDisableUser",
+            UserId: userId,
+            Method: method,
+            adminId:  adminId,
+            adminToken: adminToken
+        }, function (data) {
+            if(method == "enable")
+                button.addClass("btn-danger").removeClass("btn-success").text("השבת חשבון").attr("onclick", 'enableDisableUser('+ userId +', "disable",'+ adminId + ', "'+ adminToken + '", $(this))');
+
+            if(method == "disable")
+                button.addClass("btn-success").removeClass("btn-danger").text("הפעל חשבון").attr("onclick", 'enableDisableUser('+ userId +', "enable",'+ adminId + ', "'+ adminToken + '", $(this))');
+
+    });
 }

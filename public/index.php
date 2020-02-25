@@ -83,17 +83,14 @@ $homepage = <<<homepage
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
-            
-<!--            <li class="nav-item active">-->
-<!--                <a class="nav-link" href="login.php">כניסה</a>-->
-<!--            </li>-->
-
-
             <li class="nav-item">
                 <a class="nav-link" href="articles/articles.php">מידע</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="doctors.php">הרופאים</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://betterlife.845.co.il/do-it-yourself.php">בדיקה עצמאית</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="about-us.php">אודות</a>

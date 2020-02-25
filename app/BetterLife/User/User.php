@@ -30,6 +30,7 @@ class User {
     protected $registerTime;
     protected $lastLogin;
     protected $token;
+    protected $enable;
 
     /**
      * User constructor.
@@ -47,9 +48,10 @@ class User {
         $this->BirthDate = new \DateTime($data["BirthDate"]);
         $this->address = new Address($data["Address"], $data["City"]);
         $this->registerTime = new \DateTime($data["RegisterTime"]);
-        $this->lastLogin = new \DateTime($data["LastLogin"]);
+        $this->lastLogin = is_null($data["LastLogin"]) ? null : new \DateTime($data["LastLogin"]);
         $this->sex = $data["Sex"];
         $this->token = $data["Token"];
+        $this->enable = $data["Enable"];
 
 
         $this->roles = array();
@@ -100,7 +102,8 @@ class User {
             "City" => $this->address->getCityId(),
             "LastLogin" => $this->lastLogin->format("Y-m-d H:i:s"),
             "Sex" => $this->sex,
-            "Token" => $this->token
+            "Token" => $this->token,
+            "Enable" => $this->enable
         );
 
         $data["Roles"] = array();
@@ -137,12 +140,14 @@ class User {
      */
     public static function GetUserFromSession() {
         try {
-            return User::getById($_SESSION[SystemConstant::USER_SESSION_NAME]);
+            $tmpUser =  User::getById($_SESSION[SystemConstant::USER_SESSION_NAME]);
+            if($tmpUser->enable == 0)
+                Login::Disconnect("משתמש מושבת");
+            else
+                return $tmpUser;
         } catch (\Throwable $e) {
-            //header("Location: https://google.com");
-            //return Services::flashUser("אירעה שגיאה, מועברים לדף הראשי");
+            return Services::flashUser("אירעה שגיאה, מועברים לדף הראשי");
         }
-
 
 
         /*
@@ -250,8 +255,26 @@ class User {
         return $this->haveHistory ? "כן" : "לא";
     }
 
+    public function enableUser() {
+        $this->enable = 1;
+        $this->save();
+    }
+
+    public function disableUser() {
+        $this->enable = 0;
+        $this->save();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEnable() {
+        return $this->enable;
+    }
 
     ////////// Getters & Setters /////////////
+
+
     /**
      * @return mixed
      */
@@ -344,9 +367,9 @@ class User {
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime | bool
      */
-    public function getLastLogin(): \DateTime {
+    public function getLastLogin() {
         return $this->lastLogin;
     }
 
@@ -465,6 +488,13 @@ class User {
      */
     public function setRegisterTime(\DateTime $registerTime): void {
         $this->registerTime = $registerTime;
+    }
+
+    /**
+     * @param mixed $enable
+     */
+    public function setEnable($enable): void {
+        $this->enable = $enable;
     }
 
 

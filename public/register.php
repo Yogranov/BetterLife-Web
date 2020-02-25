@@ -112,7 +112,8 @@ if(isset($_POST['registerButton'])) {
                 "Roles" => "[1]",
                 "HaveHistory" => $haveHistory == "on" ? 1 : 0,
                 "RegisterTime" => $dateTime->format("Y-m-d H:i:s"),
-                "RecoverToken" => $randomToken
+                "RecoverToken" => $randomToken,
+                "Enable" => 0
             ];
 
             try {
