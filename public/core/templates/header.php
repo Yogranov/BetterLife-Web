@@ -30,9 +30,9 @@ const HeaderTemplate = <<<Header
     <link rel="stylesheet" type="text/css" href="../../system/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../../system/aos/aos.css">
     <link rel="stylesheet" type="text/css" href="../../system/fontawesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../../system/datatables/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="../../core/css/main.css">
-
-    
+ 
     <script src="../../system/other/chart.min.js"></script>
     <script src="../../system/jquery/jquery-3.4.1.min.js"></script>
     <script src="../../system/jquery-ui/jquery-ui.min.js"></script>
@@ -43,10 +43,14 @@ const HeaderTemplate = <<<Header
     <script src="../../system/jquery/jquery.validate.additional.methods.min.js"></script>
     <script src="../../system/bootstrap/js/bootstrap.min.js"></script>
     <script src="../../system/aos/aos.js"></script>
-    <script src="../../core/js/functions.js"></script>
-    
     <script type="text/javascript" src="../../system/tinymce/tinymce.min.js"></script>
     <script type="text/javascript" src="../../system/tinymce/init-tinymce.js"></script>
+    <script type="text/javascript" src="../../system/datatables/datatables.min.js"></script>
+
+    <script src="../../core/js/ajaxFunctions.js"></script>
+    <script src="../../core/js/main.js"></script>
+    
+    
     
 </head>
 <body>

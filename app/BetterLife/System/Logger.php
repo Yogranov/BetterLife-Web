@@ -10,15 +10,17 @@ class Logger {
 
     private $message;
     private $status;
+    private $userId;
     private $timestamp;
 
 
-    public function __construct($message = "", ...$vars) {
+    public function __construct($userId = null, $message = "", ...$vars) {
         $this->timestamp = new \DateTime('now', new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE));
 
         for ($i=0; $i < count($vars); $i++)
             $message = str_replace("{".$i."}", $vars[$i], $message);
 
+        $this->userId = $userId;
         $this->message = $message;
     }
 
@@ -30,13 +32,19 @@ class Logger {
 
     public function writeToDb() {
         $this->checkFields();
-        BetterLife::GetDB()->insert(self::tableName, ["Status" => $this->status, "Log" => $this->message, "Timestamp" => $this->timestamp->format("Y-m-d H:i:s")]);
+        $data = array(
+            "Status" => $this->status,
+            "UserId" => $this->userId,
+            "Log" => $this->message,
+            "Timestamp" => $this->timestamp->format("Y-m-d H:i:s")
+        );
+        BetterLife::GetDB()->insert(self::tableName, $data);
     }
 
     public function writeToFile(){
         $this->checkFields();
         $messageFile = fopen(SystemConstant::LOG_PATH . $this->timestamp->format("Y-m") . ".txt", "a");
-        fwrite($messageFile,$this->timestamp->format("Y-m-d H:i:s") . ": " . $this->status . " - " . $this->message . "\n");
+        fwrite($messageFile,$this->timestamp->format("Y-m-d H:i:s") . ": " . $this->status . "UserId = ". $this->userId ." - " . $this->message . "\n");
         fclose($messageFile);
     }
 

@@ -11,11 +11,6 @@ function likeArticle(likeButton, userId, articleId, token) {
 }
 
 
-
-
-
-
-
 function addOrRemoveLike(likeButton, userId, commentId,token) {
     $.post( "https://betterlife.845.co.il/core/services/AjaxApi.php",
         {
@@ -27,13 +22,6 @@ function addOrRemoveLike(likeButton, userId, commentId,token) {
             likeButton.html("<i class='fas fa-thumbs-up' style='margin-bottom: 2px' ></i> " + data);
     });
 }
-
-
-
-
-
-
-
 
 
 function addComment(articleId, userId, textArea, token) {

@@ -64,7 +64,7 @@ class Login {
 
 
         //log
-        $log = new Logger("המשתמש {0} התחבר בהצלחה!", $userObj->getId());
+        $log = new Logger($userObj->getId(),"המשתמש התחבר בהצלחה!");
         $log->info();
         $log->writeToDb();
         $log->writeToFile();
@@ -106,7 +106,7 @@ class Login {
                 $_SESSION[SystemConstant::USER_SESSION_NAME] = serialize($userObj);
 
                 //log
-                $log = new Logger("המשתמש {0} התחבר אוטומטית", $userObj->getId());
+                $log = new Logger($userObj->getId(),"המשתמש התחבר אוטומטית");
                 $log->info();
                 $log->writeToDb();
                 $log->writeToFile();
@@ -130,7 +130,7 @@ class Login {
             BetterLife::GetDB()->where("UserId", $userObj->getId())->delete(Cookie::TABLE_NAME);
 
         //log
-        $log = new Logger("המשתמש {0} התנתק מהמערכת", $userObj->getId());
+        $log = new Logger($userObj->getId(), "המשתמש התנתק מהמערכת");
         $log->info();
         $log->writeToDb();
         $log->writeToFile();

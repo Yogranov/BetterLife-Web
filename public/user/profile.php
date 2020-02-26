@@ -33,11 +33,7 @@ $roles = "";
 foreach ($userObj->getRoles() as $role)
     $roles .= "<li style='list-style: none'> - {$role->getName()}</li>";
 
-$lastMoleCheck = "";
-$sysInfo = "";
-$pieChartPatient = "";
-$pieChartPatientRow = "";
-
+$lastMoleCheck = "";$sysInfo = "";$pieChartPatient = "";$pieChartPatientRow = "";
 if($userObj->checkRole(2) && $userObj->getMoles()) {
     $moles = count($userObj->getMoles());
 
@@ -102,7 +98,6 @@ if($userObj->checkRole(2) && $userObj->getMoles()) {
                             </script>";
 
     $pieChartPatientRow = "<div class='col-md-12 col-12 mt-3 mb-3'>
-                                <h4>סטטיסטיקות</h4>
                                 <div class='row'>
                                     <div class='col-2'></div>
                                     <div class='col-sm-8 col-12'>
@@ -148,15 +143,63 @@ if($userObj->checkRole(4)){
                  </tr>";
 }
 
-$disableUser = "";
+$logTable = "";$disableUser = "";$lastLogin = "";$logTab = "";
 if($admin){
     $enableOrDisable = $userObj->getEnable() ? "disable" : "enable";
     $enableOrDisableColor = $userObj->getEnable() ? "btn-danger" : "btn-success";
     $enableOrDisableText = $userObj->getEnable() ? "השבת חשבון" : "הפעל חשבון";
 
     $disableUser = "<a class='btn {$enableOrDisableColor}' onclick='enableDisableUser({$userObj->getId()}, \"{$enableOrDisable}\", {$adminObj->getId()}, \"{$adminObj->getToken()}\", $(this))' style='color:white; cursor: pointer'>{$enableOrDisableText}</a>";
-    $sysInfo .= "<tr><td>:כניסה אחרונה</td>";
-    $sysInfo .= !is_null($userObj->getLastLogin()) ? "<td>{$userObj->getLastLogin()->format("d/m/y H:i")}</td></tr>" : "<td>לא נכנס למערכת</td></tr>";
+    $lastLogin .= "<tr><td>כניסה אחרונה:</td>";
+    $lastLogin .= !is_null($userObj->getLastLogin()) ? "<td>{$userObj->getLastLogin()->format("d/m/y H:i")}</td></tr>" : "<td>לא נכנס למערכת</td></tr>";
+
+
+    $logRows = "";
+    $logDB = BetterLife::GetDB()->where("UserId", $userObj->getId())->get("logs");
+    foreach ($logDB as $key => $log) {
+        $logTime = new \DateTime($log["Timestamp"]);
+        $logRows .= "<tr>
+                    <td>
+                        {$key}
+                    </td>
+                    <td>
+                        {$log["Status"]}
+                    </td>
+                    <td>
+                        {$log["Log"]}
+                    </td>
+                    <td>
+                        {$logTime->format("d/m/y H:i")}
+                    </td>
+                </tr>";
+    }
+
+    $logTable = "<div id='log' class='container tab-pane fade'>
+                     <div class='row my-profile mt-5'>
+                        <div class='col-12'>
+                            <h4>לוג משתמש</h4>
+                            <div class='row mb-5'>
+                                <div class='col-12'>
+                                    <table id='log-table' class='table table-striped table-bordered'>
+                                        <thead>
+                                          <tr>
+                                            <th>מספר לוג</th>
+                                            <th>סטאטוס</th>
+                                            <th>לוג</th>
+                                            <th>חותמת זמן</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                            {$logRows}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                  </div>";
+
+    $logTab = "<li class='nav-item'><a class='nav-link' data-toggle='tab' href='#log'>לוג</a></li>";
 }
 
 
@@ -169,105 +212,167 @@ $pageTemplate .= <<<PageBody
         </div>
     </div>
 
-    <div class="row my-profile">
-        <div class="col-12 text-left">
-            {$disableUser}
-            {$editButton}
-        </div>
-        
-        <div class="col-md-5 col-12" >
-            <div class="col-12">
-            <h4>פרטים אישיים</h4>
-            </div>
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td class="border-0"><i class="fas fa-user-alt"></i> שם פרטי:</td>
-                        <td class="border-0">{$userObj->getFirstName()}</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-users"></i> שם משפחה:</td>
-                        <td>{$userObj->getLastName()}</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-address-card"></i> תעודת זהות:</td>
-                        <td>{$userObj->getPersonId()}</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-venus-mars"></i> מין:</td>
-                        <td>{$userObj->getSexString()}</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-birthday-cake"></i> תאריך לידה</td>
-                        <td>{$userObj->getBirthDate()->format("d/m/y")}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <div class="col-2"></div>
-        <div class="col-md-5 col-12">
-            <div class="col-12">
-                <h4>פרטי התקשרות</h4>
-            </div>
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td class="border-0"><i class="fas fa-at"></i> דואר אלקטרוני:</td>
-                        <td class="border-0">{$userObj->getEmail()}</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-mobile-alt"></i> מספר טלפון:</td>
-                        <td>{$userObj->getPhoneNumber()}</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-map-marker-alt"></i> כתובת:</td>
-                        <td>{$userObj->getAddress()->getAddress()}</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-city"></i> עיר:</td>
-                        <td>{$userObj->getAddress()->getCity()}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-       
+
+    <div class="col-12 text-left mb-1">
+        {$disableUser}
+        {$editButton}
+    </div>
+    <div class="row">
         <div class="col-12">
-            <h4>מידע מערכת</h4>
-            <div class="row">
-                <div class="col-12">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#info">מידע</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#statistics">סטטיסטיקות</a>
+                </li>
+                {$logTab}
+            </ul>
+        </div>
+    </div>
+    
+
+    <!-- Tab panes -->
+    <div class="tab-content mb-5 mt-3">
+        <div id="info" class="container tab-pane active"><br>
+            
+            <div class="row my-profile">    
+                <div class="col-md-5 col-12" >
+                    <div class="col-12">
+                        <h4>פרטים אישיים</h4>
+                    </div>
                     <table class="table">
                         <tbody>
                             <tr>
-                                <td>תאריך רישום:</td>
-                                <td>{$userObj->getRegisterTime()->format("d/m/y H:i")}</td>
+                                <td class="border-0"><i class="fas fa-user-alt"></i> שם פרטי:</td>
+                                <td class="border-0">{$userObj->getFirstName()}</td>
                             </tr>
                             <tr>
-                                <td>תפקידים:</td>
-                                <td>
-                                    <ul class="list-group list-group-flush" style="padding: 0">
-                                        {$roles}
-                                    </ul>
-                                </td>
+                                <td><i class="fas fa-users"></i> שם משפחה:</td>
+                                <td>{$userObj->getLastName()}</td>
                             </tr>
-                            {$sysInfo}
+                            <tr>
+                                <td><i class="fas fa-address-card"></i> תעודת זהות:</td>
+                                <td>{$userObj->getPersonId()}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-venus-mars"></i> מין:</td>
+                                <td>{$userObj->getSexString()}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-birthday-cake"></i> תאריך לידה</td>
+                                <td>{$userObj->getBirthDate()->format("d/m/y")}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
+                
+                <div class="col-2"></div>
+                
+                <div class="col-md-5 col-12">
+                    <div class="col-12">
+                        <h4>פרטי התקשרות</h4>
+                    </div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="border-0"><i class="fas fa-at"></i> דואר אלקטרוני:</td>
+                                <td class="border-0">{$userObj->getEmail()}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-mobile-alt"></i> מספר טלפון:</td>
+                                <td>{$userObj->getPhoneNumber()}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-map-marker-alt"></i> כתובת:</td>
+                                <td>{$userObj->getAddress()->getAddress()}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-city"></i> עיר:</td>
+                                <td>{$userObj->getAddress()->getCity()}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+               
+                <div class="col-12">
+                    <h4>מידע מערכת</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>תאריך רישום:</td>
+                                        <td>{$userObj->getRegisterTime()->format("d/m/y H:i")}</td>
+                                    </tr>
+                                    {$lastLogin}
+                                    <tr>
+                                        <td>תפקידים:</td>
+                                        <td>
+                                            <ul class="list-group list-group-flush" style="padding: 0">
+                                                {$roles}
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            
             </div>
         </div>
-
-        {$pieChartPatientRow}
         
+        <div id="statistics" class="container tab-pane fade mt-3">
+            <div class="row my-profile mt-5">
+                <div class="col-12 ">
+                    <h4>סטטיסטיקות</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table">
+                                <tbody>
+                                    {$sysInfo}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            
+                {$pieChartPatientRow}
+            </div>
+        </div>
+        {$logTable}
+    </div>
+</div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+        
+        
+        
+       
+
+        
+        
+        
+        
     </div>
 </div>
 
 
 {$pieChartPatient}
-
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 PageBody;
 
