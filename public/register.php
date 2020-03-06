@@ -152,7 +152,7 @@ if(isset($_POST['registerButton'])) {
 }
 
 
-$pageTemplate = /** @lang HTML */<<<PageBody
+$pageTemplate .= /** @lang HTML */<<<PageBody
 <div class="container register-form">
     <div class="row mb-5">
         <div class="col-12 text-center page-title" data-aos="zoom-in">
@@ -292,7 +292,7 @@ $pageTemplate = /** @lang HTML */<<<PageBody
                                             <label>
                                                 <p class="label-txt">עיר</p>
                                                 <input id="cities" type="text" class="input form-control" name="city" required>
-                                                <input type="hidden"name="cityId">
+                                                <input type="hidden" name="cityId">
                                                 <div class="line-box">
                                                   <div class="line"></div>
                                                 </div>
@@ -613,6 +613,9 @@ $(document).ready(function(){
                 },
                 termOfUse:{
                     required: true
+                },
+                birthdate: {
+                    required: true
                 }
             },
             messages: {
@@ -661,6 +664,9 @@ $(document).ready(function(){
                 },
                 termOfUse: {
                     required: 'חייב לקרוא את תנאי השימוש'
+                },
+                birthdate: {
+                    required: "חובה להזין תאריך לידה"
                 }
 
             },

@@ -67,9 +67,9 @@ foreach (array_reverse($mole->getDetails()) as $key => $detail) {
                             <h5 class="mole-bold">פרטים:</h5>
 
                             <ul class="list-group">
-                                <li class="list-group-item border-0"><span>- תאריך: </span>{$detail->getCreateTime()->format("d/m/y H:m")}</li>
-                                <li class="list-group-item border-0"><span>- גודל: </span> {$detail->getSize()} מ"מ</li>
-                                <li class="list-group-item border-0"><span>- צבע: </span>{$detail->getColor()}</li>
+                                <li class="list-group-item border-0" style="background-color: transparent"><span>- תאריך: </span>{$detail->getCreateTime()->format("d/m/y H:i")}</li>
+                                <li class="list-group-item border-0" style="background-color: transparent"><span>- גודל: </span> {$detail->getSize()} מ"מ</li>
+                                <li class="list-group-item border-0" style="background-color: transparent"><span>- צבע: </span>{$detail->getColor()}</li>
                             </ul>
                         </div>
                     </div>
@@ -90,7 +90,7 @@ foreach (array_reverse($mole->getDetails()) as $key => $detail) {
                            </div>
                         </div>
                         <div class="col-12 mt-4">
-                            <span id="our-recommendation" style="font-weight: bold"></span>
+                            <span id="our-recommendation" style="font-weight: bold" aria-valuenow="{$detail->getMalignantPred()}"></span>
                         </div>
                     </div>
                 </div>
@@ -123,15 +123,15 @@ foreach (array_reverse($mole->getDetails()) as $key => $detail) {
             <div class="row img-row">
                 <div class="col-md-4 col-12">
                     <h6 class="text-center">תמונת מקור</h6>
-                    <img class="img-fluid round-shadow" src="../../core/services/imageHandle.php?Method=Patient&UserId={$userObj->getId()}&Token={$userObj->getToken()}&MoleId={$detail->getImgUrl()}&Dir=regular">
+                    <img class="img-fluid round-shadow" src="../../core/services/imageHandle.php?Method=Patient&UserId={$userObj->getId()}&Token={$userObj->getToken()}&MoleId={$detail->getId()}&Dir=regular">
                 </div>
                 <div class="col-md-4 col-12">
                     <h6 class="text-center">חתימת גוונים</h6>
-                    <img class="img-fluid round-shadow" src="../../core/services/imageHandle.php?Method=Patient&UserId={$userObj->getId()}&Token={$userObj->getToken()}&MoleId={$detail->getImgUrl()}&Dir=figure">
+                    <img class="img-fluid round-shadow" src="../../core/services/imageHandle.php?Method=Patient&UserId={$userObj->getId()}&Token={$userObj->getToken()}&MoleId={$detail->getId()}&Dir=figure">
                 </div>
                 <div class="col-md-4 col-12">
                     <h6 class="text-center">שטח פנים</h6>
-                    <img class="img-fluid round-shadow" src="../../core/services/imageHandle.php?Method=Patient&UserId={$userObj->getId()}&Token={$userObj->getToken()}&MoleId={$detail->getImgUrl()}&Dir=surface">
+                    <img class="img-fluid round-shadow" src="../../core/services/imageHandle.php?Method=Patient&UserId={$userObj->getId()}&Token={$userObj->getToken()}&MoleId={$detail->getId()}&Dir=surface">
                 </div>
             </div>
         
@@ -184,19 +184,22 @@ $(document).ready(function() {
             $(this).addClass("bg-warning");
         else 
             $(this).addClass("bg-danger");
+              
     });
     
-    $('.container-fluid').each(function() {
+    $('.container-fluid').find('#our-recommendation').each(function() {
+        let predict = $(this).attr("aria-valuenow");
         if(predict < 20)
-            $(this).find('#our-recommendation').text("הכל נראה בסדר");
+            $(this).text("הכל נראה בסדר");
         else if(predict >= 21 && predict <= 30)
-            $(this).find('#our-recommendation').text("אין חשש אך מומלץ להמשיך מעקב");
-        else if(predict >= 41 && predict <= 60)
-            $(this).find('#our-recommendation').text("למערכת היה קשה לזהות, נא להמתין לאבחון הרופא");
-        else if(predict >= 61 && predict <= 79)
-            $(this).find('#our-recommendation').text("קיים חשש, מומלץ לקבוע בהקדם");
+            $(this).text("אין חשש אך מומלץ להמשיך מעקב");
+        else if(predict >= 31 && predict <= 60)
+            $(this).text("למערכת היה קשה לזהות, נא להמתין לאבחון הרופא");
+        else if(predict >= 61 && predict < 79)
+            $(this).text("קיים חשש, מומלץ לקבוע בהקדם");
         else 
-            $(this).find('#our-recommendation').text("קיים חשש מיידי, נא לפנות לרופא בהקדם");
+            $(this).text("קיים חשש מיידי, נא לפנות לרופא בהקדם");
+
     });
 });
 

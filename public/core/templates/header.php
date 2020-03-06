@@ -105,10 +105,10 @@ const MemberMenu = <<<Member
             <ul class="mr-auto navbar-nav">
                 <div class="dropdown">
                     <a class="nav-item mr-auto ml-lg-2 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {userFirstName}
+                        {NotiBadge}{userFirstName}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="text-align: right">
-                        <a class="dropdown-item" href="#"><i class="fas fa-inbox"></i> תיבת הודעות</a>
+                        <a class="dropdown-item" href="../../user/mail-box.php"><i class="fas fa-inbox"></i> תיבת הודעות</a>
                         {MemberMenu}
                         <hr>
                         <a class="dropdown-item" href="../../user/profile.php"><i class="fas fa-id-card"></i> פרופיל אישי</a>

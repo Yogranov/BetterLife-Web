@@ -8,7 +8,7 @@ use BetterLife\System\EmailsConstant;
 use BetterLife\System\Exception;
 use BetterLife\System\Services;
 use BetterLife\System\SystemConstant;
-
+use BetterLife\MailBox\Conversation;
 class User {
 
     const TABLE_NAME = "users";
@@ -271,6 +271,25 @@ class User {
     public function getEnable() {
         return $this->enable;
     }
+
+    public function countUnreadCon() {
+        $cons = BetterLife::GetDB()->where("CreatorId", $this->id)->orWhere("RecipientId", $this->id)->get(Conversation::TABLE_NAME, null, "Views");
+        $count = 0;
+
+        foreach ($cons as $con) {
+            $tmp = json_decode($con["Views"]);
+
+            if(!is_null($tmp)) {
+                !in_array($this->id, $tmp) ? $count++ : null;
+            } else
+                $count++;
+
+        }
+        return $count;
+
+    }
+
+
 
     ////////// Getters & Setters /////////////
 

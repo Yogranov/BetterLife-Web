@@ -94,12 +94,8 @@ $pageTemplate .= <<<PageBody
                         <button class="btn btn-lg btn-primary btn-block"  name="signInSubmit" type="submit" {$disable}>התחבר</button>
                         <hr class="my-4">
                         <div class="row">
-                            <div class="col-12 col-md-6 mb-2">
-                                <button class="btn btn-lg btn-google btn-block" type="submit" {$disable}> כניסה עם גוגל<i class="fab fa-google mr-2"></i></button>
-                            </div>
-                            
-                            <div class="col-12 col-md-6">
-                                <button class="btn btn-lg btn-facebook btn-block" type="submit" {$disable}> כניסה עם פייסבוק<i class="fab fa-facebook-f mr-2"></i></button>
+                            <div class="col-12">
+                                <button class="btn btn-lg btn-facebook btn-block" type="submit" {$disable}> כניסה באמצעות טלגרם<i class="fab fa-telegram-plane mr-2"></i></button>
                             </div>
                         </div>
                     </form>

@@ -5,6 +5,10 @@ use BetterLife\Article\ArticleComment;
 use BetterLife\Article\Article;
 use BetterLife\System\SystemConstant;
 use BetterLife\BetterLife;
+use BetterLife\MailBox\Message;
+use BetterLife\MailBox\Conversation;
+use BetterLife\System\Encryption;
+use BetterLife\User\Session;
 
 $switch = $_POST["Type"];
 
@@ -92,6 +96,68 @@ if($switch === 'enableDisableUser') {
 
             if($_POST["Method"] == "disable")
                 $userObj->disableUser();
+
+        }
+    }
+}
+
+
+if($switch === 'ConMessage') {
+
+    if(User::checkIfUserExist($_POST["UserId"])) {
+
+        $conObj = new Conversation($_POST["ConId"]);
+        $userObj = User::getById($_POST["UserId"]);
+
+        if($userObj->getToken() === $_POST["Token"] && ($conObj->getCreator() == $userObj || $conObj->getRecipient() == $userObj)) {
+            if(empty($_POST["Message"])) {
+                echo  json_encode(array("Error" => 1));
+                return ;
+            }
+
+            $conObj->newMessage($_POST["Message"], $userObj->getId());
+
+            $dateTime = new \DateTime('now',new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE));
+            $json = array("FirstName" => $userObj->getFirstName(), "Timestamp" => $dateTime->format("d/m/y h:i"), "Sex" => $userObj->getSex());
+            echo json_encode($json);
+
+        }
+    }
+}
+
+
+if($switch === 'LoadMessages') {
+
+    if (User::checkIfUserExist($_POST["UserId"])) {
+
+        $conObj = new Conversation($_POST["ConId"]);
+        $userObj = User::getById($_POST["UserId"]);
+
+        if ($userObj->getToken() === $_POST["Token"] && ($conObj->getCreator() == $userObj || $conObj->getRecipient() == $userObj)) {
+            !$conObj->checkView($userObj->getId()) ? $conObj->setView($userObj->getId()) : null;
+            $messagesRows = "";
+            foreach ($conObj->getMessages() as $message) {
+
+                $side = $message->getCreator() == $userObj ? 'self' : 'other';
+                $otherImg = file_exists(SystemConstant::DOCTOR_IMG_PATH . $message->getCreator()->getId() . '.jpg') ? "../../core/services/imageHandle.php?Method=DoctorsPage&image={$message->getCreator()->getId()}" : '../media/characters/male2.jpg';
+                $selfImg = $userObj->getSex() ? '../media/characters/female2.jpg' : '../media/characters/male1.jpg';
+                $img = $side == 'self' ? $selfImg : $otherImg;
+
+                $messagesRows .= "<li class='{$side}'>
+                                        <div class='avatar'><img src='{$img}'/></div>
+                                        <div class='msg'>
+                                            <h6>{$message->getCreator()->getFirstName()}</h6>
+                                            <p>{$message->getContent()}</p>
+                                            <time>{$message->getCreateTime()->format("d/m/y H:i")}</time>
+                                        </div>
+                                    </li>";
+
+            }
+
+            $json = array("Messages" => $messagesRows);
+            echo json_encode($json);
+            $conObj = null;
+            unset($conObj);
 
         }
     }

@@ -1,7 +1,6 @@
 <?php
 require_once "../core/templates/header.php";
 
-
 $pageTemplate .= <<<PageBody
 
 PageBody;

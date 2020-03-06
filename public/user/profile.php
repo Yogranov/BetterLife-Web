@@ -143,7 +143,7 @@ if($userObj->checkRole(4)){
                  </tr>";
 }
 
-$logTable = "";$disableUser = "";$lastLogin = "";$logTab = "";
+$logTable = "";$disableUser = "";$lastLogin = "";$logTab = "";$privateMessage="";
 if($admin){
     $enableOrDisable = $userObj->getEnable() ? "disable" : "enable";
     $enableOrDisableColor = $userObj->getEnable() ? "btn-danger" : "btn-success";
@@ -153,6 +153,8 @@ if($admin){
     $lastLogin .= "<tr><td>כניסה אחרונה:</td>";
     $lastLogin .= !is_null($userObj->getLastLogin()) ? "<td>{$userObj->getLastLogin()->format("d/m/y H:i")}</td></tr>" : "<td>לא נכנס למערכת</td></tr>";
 
+    $messageToken = base64_encode($userObj->getId() . '-' . Services::GenerateRandomString(10));
+    $privateMessage = "<a href='new-conversation.php?Token={$messageToken}' class='btn btn-success'>הודעה פרטית</a>";
 
     $logRows = "";
     $logDB = BetterLife::GetDB()->where("UserId", $userObj->getId())->get("logs");
@@ -214,6 +216,7 @@ $pageTemplate .= <<<PageBody
 
 
     <div class="col-12 text-left mb-1">
+        {$privateMessage}
         {$disableUser}
         {$editButton}
     </div>

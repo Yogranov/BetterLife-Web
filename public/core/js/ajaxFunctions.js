@@ -90,7 +90,6 @@ function showHideArticle(articleId, method, userId, token, button) {
 
 
 function enableDisableUser(userId, method, adminId, adminToken, button) {
-    console.log("asD");
     $.post( "https://betterlife.845.co.il/core/services/AjaxApi.php",
         {
             Type: "enableDisableUser",
@@ -106,4 +105,55 @@ function enableDisableUser(userId, method, adminId, adminToken, button) {
                 button.addClass("btn-success").removeClass("btn-danger").text("הפעל חשבון").attr("onclick", 'enableDisableUser('+ userId +', "enable",'+ adminId + ', "'+ adminToken + '", $(this))');
 
     });
+}
+
+function addConMessage(conId, message, userId, token) {
+    $.post(
+        "https://betterlife.845.co.il/core/services/AjaxApi.php",
+        {
+            Type: "ConMessage",
+            ConId:  conId,
+            UserId: userId,
+            Message: message.val(),
+            Token: token
+        }, function (data) {
+            var response = jQuery.parseJSON(data);
+
+            if(response.Error) {
+                $('#messageEmpty').text('ההודעה לא מכילה תוכן');
+                return;
+            }
+            let sexImg = "";
+            if(response.Sex == 0)
+                sexImg = "male1.jpg";
+            else
+                sexImg = "female2.jpg";
+            let comment = `<li class='self'>
+                                <div class='avatar'><img src='../media/characters/${sexImg}'/></div>
+                                <div class='msg'>
+                                    <h6>${response.FirstName}</h6>
+                                    <p>${message.val()}</p>
+                                    <time>${response.Timestamp}</time>
+                                </div>
+                            </li>`;
+
+            message.val('');
+            $('.chat').append(comment);
+        });
+}
+
+function loadMessages(conId, userId, token) {
+    setInterval(function(){
+        $.post(
+            "https://betterlife.845.co.il/core/services/AjaxApi.php",
+            {
+                Type: "LoadMessages",
+                ConId:  conId,
+                UserId: userId,
+                Token: token
+            }, function (data) {
+                var response = jQuery.parseJSON(data);
+                $('.chat').html(response.Messages);
+            });
+    }, 3000);
 }

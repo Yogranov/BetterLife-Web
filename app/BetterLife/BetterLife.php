@@ -78,6 +78,8 @@ class BetterLife {
             if(!$userObj->checkNewUser()) {
                 $menu = MemberMenu;
                 Services::setPlaceHolder($menu, "userFirstName", $userObj->getFirstName());
+                $noti = $userObj->countUnreadCon() > 0 ? "<div class='icon-badge'><i>{$userObj->countUnreadCon()}</i></div>" : "";
+                Services::setPlaceHolder($menu, "NotiBadge", $noti);
                 $tmpSubMenu = "";
                 foreach ($userObj->getRoles() as $role) {
                     switch ($role->getId()){

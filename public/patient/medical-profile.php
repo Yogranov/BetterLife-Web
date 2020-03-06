@@ -4,7 +4,6 @@ use BetterLife\User\User;
 use BetterLife\BetterLife;
 use BetterLife\System\SystemConstant;
 
-
 BetterLife::GetPermissions(2);
 
 $user = User::GetUserFromSession();
