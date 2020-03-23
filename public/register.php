@@ -117,7 +117,7 @@ if(isset($_POST['registerButton'])) {
             ];
 
             try {
-                BetterLife::GetDB()->insert(User::TABLE_NAME, $data);
+                $userId = BetterLife::GetDB()->insert(User::TABLE_NAME, $data);
 
                 $emailUrl = SystemConstant::SYSTEM_DOMAIN . "/userConfirm.php?ConfirmToken=" . $randomToken;
                 $emailSubject = "אישור הרשמה לאתר";
@@ -128,12 +128,12 @@ if(isset($_POST['registerButton'])) {
                 $emailObj = BetterLife::GetEmail($emailSubject, $emailBody);
                 $emailObj->addAddress($email);
                 if($emailObj->send()) {
-                    $log = new \BetterLife\System\Logger("נשלח מייל אימות לכתובת $email");
+                    $log = new \BetterLife\System\Logger($userId, "נשלח מייל אימות");
                     $log->info();
                     $log->writeToDb();
                 }
 
-                $log = new \BetterLife\System\Logger("משתמש חדש נוצר, תז - $personId");
+                $log = new \BetterLife\System\Logger($userId, "נרשם לאתר");
                 $log->info();
                 $log->writeToDb();
                 Services::flashUser("היי {$firstName}, נרשמת בהצלחה, על מנת להשלים את הרישום, נשלח אליך לדואר האלקטרוני מייל עם קישור לאימות הכתובת.");

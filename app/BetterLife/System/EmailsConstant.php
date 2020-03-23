@@ -17,8 +17,25 @@ class EmailsConstant {
 {emailUrl}
 EmailConfirm;
 
+    const contactUs = <<<ContactUs
+<h3>פנייה חדשה</h3>
+<p>
+    מאת: {name} <br>
+    טלפון: {phone} <br>
+    דוא"ל: {email} <br>
+    נושא: {subject} <br>
+    תוכן הפנייה: <br>
+    {content} <br>
+</p>
+ContactUs;
 
-
+    const checkingReminder = <<<checkingReminder
+<h3>שלום {firstName} </h3>
+<p>לא בוצעה אף בדיקה בחצי שנה האחרונה, אנו ממליצים לבצע מעקב ממושך על מנת להבטיח שמירה על הבריאות</p>
+<br>
+<p>בברכה, <br>
+צוות האתר</p>
+checkingReminder;
 
 
     const forgotPassword = <<<ForgotPassword
