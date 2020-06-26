@@ -112,6 +112,7 @@ if(isset($_POST['registerButton'])) {
                 "Roles" => "[1]",
                 "HaveHistory" => $haveHistory == "on" ? 1 : 0,
                 "RegisterTime" => $dateTime->format("Y-m-d H:i:s"),
+                "Token" => Services::GenerateRandomString(256),
                 "RecoverToken" => $randomToken,
                 "Enable" => 0
             ];

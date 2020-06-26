@@ -119,7 +119,7 @@ $pageTemplate .= <<<PageBody
             <div class="row">
                 <div class="col-12" style="direction: ltr">
                 <h5 class="text-center mb-5">בואו למשרדינו הראשי <i class="fas fa-map-marker-alt" style="color: #4e4e4e"></i></h5>
-                    <iframe class="google-maps" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d847.5950285261038!2d34.656721170761706!3d31.814639998829563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1502a3150a99af63%3A0xd208a6dee36193b9!2z15TXnteb15zXnNeUINec157Xmdeg15TXnA!5e0!3m2!1siw!2sil!4v1579814244651!5m2!1siw!2sil"></iframe>
+                    
                 </div>
             </div>
 

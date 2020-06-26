@@ -58,7 +58,7 @@ class Login {
             throw new \Exception("משתמש לא מאומת!");
 
         $userObj->setLastLogin();
-        $userObj->setToken(Services::GenerateRandomString(64));
+//        $userObj->setToken(Services::GenerateRandomString(64));
         $userObj->save();
         Session::newSession(SystemConstant::USER_SESSION_NAME, $userObj->getId());
 

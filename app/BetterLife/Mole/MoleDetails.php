@@ -6,6 +6,7 @@ namespace BetterLife\Mole;
 
 use BetterLife\BetterLife;
 use BetterLife\System\Services;
+use BetterLife\User\Doctor;
 use BetterLife\User\User;
 
 class MoleDetails {
@@ -190,5 +191,8 @@ class MoleDetails {
         return $this->diagnosisCreateTime;
     }
 
+    public function getDoctor() {
+        return Doctor::getById($this->doctorId);
+    }
 
 }

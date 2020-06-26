@@ -95,6 +95,35 @@ class Mole {
         return end($this->details);
     }
 
+    public function convertToJson() {
+        $tmp = [
+            "Id" => $this->id,
+            "Location" => $this->location,
+            "CreateTime" => $this->createTime->format('Y-m-d H:i'),
+            "details" => []
+        ];
 
+        foreach (array_reverse($this->details) as $detail) {
+            $detailsTmp = [
+                "imgUrl" => $detail->getImgUrl(),
+                "size" => $detail->getSize(),
+                "color" => $detail->getColor(),
+                "benignPred" => $detail->getBenignPred(),
+                "malignantPred" => $detail->getMalignantPred(),
+                "createTime" => $detail->getCreateTime()->format("Y-m-d H:i"),
+                "doctor" => $detail->getDoctor()->getFullName(),
+                "diagnosis" => $detail->getDiagnosis(),
+                "riskLevel" => $detail->getRiskLevel()->getName(),
+                "diagnosisCreateTime" => $detail->getDiagnosisCreateTime()->format("Y-m-d H:i")
+            ];
+
+            array_push($tmp["details"], $detailsTmp);
+
+        }
+
+        $json = json_encode($tmp);
+        return $json;
+
+    }
 
 }
