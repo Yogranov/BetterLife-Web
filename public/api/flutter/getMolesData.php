@@ -12,6 +12,9 @@ $userObj = \BetterLife\User\User::getById($data["Id"]);
 
 $moles = $userObj->getMoles();
 
+$jsonMoles = [];
 foreach ($moles as $mole)
-    echo $mole->convertToJson();
+    array_push($jsonMoles, $mole->convertToJson());
+
+echo json_encode($jsonMoles);
 

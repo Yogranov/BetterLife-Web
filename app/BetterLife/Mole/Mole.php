@@ -111,11 +111,17 @@ class Mole {
                 "benignPred" => $detail->getBenignPred(),
                 "malignantPred" => $detail->getMalignantPred(),
                 "createTime" => $detail->getCreateTime()->format("Y-m-d H:i"),
-                "doctor" => $detail->getDoctor()->getFullName(),
-                "diagnosis" => $detail->getDiagnosis(),
-                "riskLevel" => $detail->getRiskLevel()->getName(),
-                "diagnosisCreateTime" => $detail->getDiagnosisCreateTime()->format("Y-m-d H:i")
             ];
+
+            try {
+                $detailsTmp +=[
+                    "doctor" => $detail->getDoctor()->getFullName(),
+                    "diagnosis" => $detail->getDiagnosis(),
+                    "riskLevel" => $detail->getRiskLevel()->getName(),
+                    "diagnosisCreateTime" => $detail->getDiagnosisCreateTime()->format("Y-m-d H:i")
+                ];
+            } catch (Exception $e){}
+
 
             array_push($tmp["details"], $detailsTmp);
 
