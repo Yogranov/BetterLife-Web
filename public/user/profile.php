@@ -33,11 +33,11 @@ $roles = "";
 foreach ($userObj->getRoles() as $role)
     $roles .= "<li style='list-style: none'> - {$role->getName()}</li>";
 
-$lastMoleCheck = "";$sysInfo = "";$pieChartPatient = "";$pieChartPatientRow = "";
+$lastMoleCheck = $sysInfo = $pieChartPatient = $pieChartPatientRow = "";
 if($userObj->checkRole(2) && $userObj->getMoles()) {
     $moles = count($userObj->getMoles());
 
-    $lastMoleCheck = array_reverse($userObj->getMoles())[0]->getCreateTime()->diff(new \DateTime('now',new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE)))->d;
+    $lastMoleCheck = array_reverse($userObj->getMoles())[0]->getCreateTime()->diff(new \DateTime('now',new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE)))->days;
     $pieDataTmp = array();
     foreach ($userObj->getMoles() as $mole) {
         $risk = $mole->getLastDetails()->getRiskLevel();
