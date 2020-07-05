@@ -119,7 +119,7 @@ if(isset($_POST['submit'])) {
         array_push($errors, "לא הוזנה עיר");
 
     if (empty($birthdate))
-        array_push($errors, "לא תאריך לידה");
+        array_push($errors, "לא הוזן תאריך לידה");
     elseif (!checkdate($birthdateTmp[1], $birthdateTmp[0], $birthdateTmp[2]))
         array_push($errors, "תאריך לידה לא תקין");
 
