@@ -118,7 +118,7 @@ class Services
         if((strlen($number) != 10))
             return false;
 
-        if(preg_match("/^05\d([-]{0,1})\d{7}$/", $number))
+        if(preg_match("^\+?(972|0)(\-)?0?(([23489]{1}\d{7})|[5]{1}\d{8})$", $number))
             return false;
 
         return true;

@@ -1,7 +1,9 @@
 <?php
 require_once '../header.php';
 use BetterLife\BetterLife;
+use BetterLife\Repositories\Address;
 use BetterLife\System\Services;
+use BetterLife\System\SystemConstant;
 use BetterLife\User\User;
 
 $data = BetterLife::GetDB()->where('Token', $_POST['userToken'])->getOne('users', ['Id']);
@@ -10,6 +12,7 @@ if(empty($data))
     exit("User cannot be found");
 
 
+$userObj = User::getById($data['Id']);
 
 $firstName = htmlspecialchars(trim($_POST["firstName"]));
 $lastName = htmlspecialchars(trim($_POST["lastName"]));
@@ -19,17 +22,17 @@ $phoneNumber = htmlspecialchars(trim($_POST["phoneNumber"]));
 $address = htmlspecialchars(trim($_POST["address"]));
 $city = htmlspecialchars(trim($_POST["cityId"]));
 $sex = $_POST["sex"];
-$haveHistory = isset($_POST["haveHistory"]) ? true : false;
+$haveHistory = $_POST["haveHistory"] == '1' ? true : false;
 
 $changePassword = isset($_POST["changePassword"]) ? true : false;
 
 $birthdate = htmlspecialchars(trim($_POST["birthdate"]));
-$birthdateTmp = explode('/', $birthdate);
-$birthdate = $birthdateTmp[2] . "-";
-$birthdate .= $birthdateTmp[1] . "-";
-$birthdate .= $birthdateTmp[0];
+//$birthdateTmp = explode('/', $birthdate);
+//$birthdate = $birthdateTmp[2] . "-";
+//$birthdate .= $birthdateTmp[1] . "-";
+//$birthdate .= $birthdateTmp[0];
 
-
+$errors = [];
 if (empty($firstName))
     array_push($errors, "לא הוזן שם פרטי");
 
@@ -47,11 +50,14 @@ if (empty($personId))
 elseif (Services::validateID($personId))
     array_push($errors, "תעודת זהות לא תקינה");
 
-$dbEmail = BetterLife::GetDB()->where("Email", $email)->getOne(User::TABLE_NAME);
-$dbPersonId = BetterLife::GetDB()->where("PersonId", $personId)->getOne(User::TABLE_NAME);
+
+$dbEmail = BetterLife::GetDB()->where("Email", $email)->getOne(User::TABLE_NAME, ['Email']);
+
+
 if(!empty($dbEmail) && $userObj->getEmail() != $email)
     array_push($errors, "דואר אלקטרוני קיים במערכת");
 
+$dbPersonId = BetterLife::GetDB()->where("PersonId", $personId)->getOne(User::TABLE_NAME);
 if(!empty($dbPersonId) && $userObj->getPersonId() != $personId)
     array_push($errors, "לא ניתן לעדכן תעודת זהות");
 
@@ -68,14 +74,14 @@ if (empty($city))
 
 if (empty($birthdate))
     array_push($errors, "לא הוזן תאריך לידה");
-elseif (!checkdate($birthdateTmp[1], $birthdateTmp[0], $birthdateTmp[2]))
-    array_push($errors, "תאריך לידה לא תקין");
+//elseif (!checkdate($birthdateTmp[1], $birthdateTmp[0], $birthdateTmp[2]))
+//    array_push($errors, "תאריך לידה לא תקין");
 
-
+//
 if ($changePassword) {
     $oldPassword = htmlspecialchars(trim($_POST["oldPassword"]));
-    $password = htmlspecialchars(trim($_POST["password"]));
-    $rePassword = htmlspecialchars(trim($_POST["rePassword"]));
+    $password = htmlspecialchars(trim($_POST["newPassword"]));
+    $rePassword = htmlspecialchars(trim($_POST["repeatPassword"]));
 
     if (empty($oldPassword))
         array_push($errors, "לא הוזנה סיסמה ישנה");
@@ -99,10 +105,35 @@ if ($changePassword) {
 
 $respone = 0;
 if(empty($errors)) {
-    $insertData = BetterLife::GetDB()->where('Id', $data["Id"])->getOne('users');
-    $respone = 0;
+
+
+    $dateTime = new \DateTime('now',new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE));
+
+    $userObj->setFirstName($firstName);
+    $userObj->setLastName($lastName);
+    $userObj->setSex($sex);
+    $userObj->setPhoneNumber($phoneNumber);
+    $userObj->setBirthDate(new \DateTime($birthdate));
+    $userObj->setHaveHistory($haveHistory);
+    $userObj->setEmail($email);
+    $userObj->setPersonId($personId);
+
+    $tmpAdd = new Address($address, $city);
+    $userObj->setAddress($tmpAdd);
+
+    if ($changePassword)
+        $userObj->setPassword(password_hash($password, PASSWORD_DEFAULT));
+
+    try {
+        $userObj->save();
+    } catch (\Exception $e) {
+        $respone = ["Error, cannot update info right now"];
+    }
+
+
+    $respone = [];
 } else {
-    $respone = json_encode($errors);
+    $respone = $errors;
 }
 
-echo $respone;
+echo json_encode($respone);

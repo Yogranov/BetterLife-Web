@@ -52,7 +52,7 @@ class Doctor extends User {
 
     }
 
-    public static function getById(int $id) {
+    public static function getById($id) {
         if(empty($id))
             throw new Exception("{0} is illegal Id!", null, $id);
 
