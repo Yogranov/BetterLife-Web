@@ -64,7 +64,8 @@ if(isset($_POST["submit"])) {
 
 $errorMsg = "";
 $sex = $patient->getSex() ? "נקבה" : "זכר";
-$haveHistory = $patient->getHaveHistory() ? "בעל היסטוריה של סרטן העור" : "";
+$haveHistory = $patient->getHaveHistory() ? "יש היסטוריה של סרטן העור" : "אין היסטוריה של סרטן העור";
+$haveHistoryColor = $patient->getHaveHistory() ? "alert-danger" : "alert-success";
 
 $risks = RiskLevel::getAll();
 
@@ -86,65 +87,56 @@ $pageTemplate .= <<<PageBody
     </div>
 
     <div class="row">
-        <div class="col-12">
-            <h4>פרטי המטופל</h4>
-        </div>
-        <div class="col-12 text-center">
-            <div class="row">
-                <div class="col-4">
-                    <span>תעודת זהות:</span>{$patient->getPersonId()}
-                </div>
-                <div class="col-4">
-                    <span>שם פרטי: </span> {$patient->getFirstName()}
-                </div>
-                <div class="col-4">
-                    <span>שם משפחה: </span> {$patient->getLastName()}
-                </div>
-                <div class="col-4">
-                    <span>מין: </span> {$sex}
-                </div>
-                <div class="col-4">
-                    <span>גיל: </span> {$patient->getAge()}
-                </div>
-                <div class="col-4">
-                    <span>טלפון: </span> {$patient->getPhoneNumber()}
-                </div>
-                <div class="col-4">
-                    <span>כתובת: </span> {$patient->getAddress()->getAddress()}, {$patient->getAddress()->getCity()}
-                </div>
-                <div class="col-4">
-                    <span>{$haveHistory}<strong></strong></span>
+        
+        <div class="col-md-4 col-12">
+            <div class="card">
+                <h5 class="card-header border border">פרטי המטופל</h5>
+                <div class="card-body" style="padding: 0">
+                    <ul style="padding: 0" class="list-group">
+                        <li class="list-group-item border-top-0"><i class="fas fa-at text-muted"></i><span> תעודת זהות: </span><span class="float-left ml-4"> {$patient->getPersonId()} </span></li>
+                        <li class="list-group-item"><i class="fab fa-discord text-muted"></i><span> שם פרטי: </span><span class="float-left ml-4"> {$patient->getFirstName()} </span></li>
+                        <li class="list-group-item"><i class="fas fa-mobile-alt text-muted"></i><span> שם משפחה: </span><span class="float-left ml-4"> {$patient->getLastName()} </span></li>
+                        <li class="list-group-item"><i class="fas fa-id-card text-muted"></i><span> מין: </span><span class="float-left ml-4"> {$sex} </span></li>
+                        <li class="list-group-item"><i class="fas fa-id-card text-muted"></i><span> גיל: </span><span class="float-left ml-4"> {$patient->getAge()} </span></li>
+                    </ul>
                 </div>
             </div>
-           
         </div>
         
-    </div>
-    
-    
-    <div class="row">
-        <div class="col-12">
-            <h4>פרטי השומה</h4>
-        </div>
-        <div class="col-12 text-center">
-            <div class="row">
-                <div class="col-4">
-                    <span>תאריך צילום:</span> {$moleDetails->getCreateTime()->format("d/m/y")}
-                </div>
-                <div class="col-4">
-                    <span>מיקום:</span> {$moleDetails->getMoleLocation()}
-                </div>
-                <div class="col-4">
-                    <span>דרגת סיכון משוערת:</span> {$moleDetails->getMalignantPred()}%
-                </div>
-                <div class="col-4">
-                    <span>גודל:</span> {$moleDetails->getSize()}
-                </div>
-                <div class="col-4">
-                    <span>צבע:</span> {$moleDetails->getColor()}
+        <div class="col-md-4 col-12">
+            <div class="card">
+                <h5 class="card-header border">דרכי התקשרות</h5>
+                <div class="card-body" style="padding: 0">
+                    <ul style="padding: 0" class="list-group">
+                        <li class="list-group-item"><i class="fas fa-id-card text-muted"></i><span> מספר טלפון: </span><span class="float-left ml-4"> {$patient->getPhoneNumber()} </span></li>
+                        <li class="list-group-item"><i class="fas fa-id-card text-muted"></i><span> דוא"ל: </span><span class="float-left ml-4"> {$patient->getEmail()} </span></li>
+                        <li class="list-group-item"><i class="fas fa-id-card text-muted"></i><span> כתובת: </span><span class="float-left ml-4"> {$patient->getAddress()->getAddress()}, {$patient->getAddress()->getCity()} </span></li>
+                    </ul>
+
                 </div>
             </div>
-        </div>       
+            
+            <div class="card mt-4">
+                <h5 class="card-header text-center {$haveHistoryColor}">{$haveHistory}</h5>
+                <div class="card-body" style="padding: 0">
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 col-12">
+            <div class="card">
+                <h5 class="card-header border">פרטי השומה</h5>
+                <div class="card-body" style="padding: 0">
+                    <ul style="padding: 0" class="list-group">
+                        <li class="list-group-item border-top-0"><i class="fas fa-at text-muted"></i><span> תאריך צילום: </span><span class="float-left ml-4"> {$moleDetails->getCreateTime()->format("d/m/y")} </span></li>
+                        <li class="list-group-item"><i class="fab fa-discord text-muted"></i><span> מיקום: </span><span class="float-left ml-4"> {$moleDetails->getMoleLocation()} </span></li>
+                        <li class="list-group-item"><i class="fas fa-mobile-alt text-muted"></i><span> דרגת סיכון משוערת: </span><span class="float-left ml-4"> {$moleDetails->getMalignantPred()} </span></li>
+                        <li class="list-group-item"><i class="fas fa-id-card text-muted"></i><span> גודל: </span><span class="float-left ml-4"> {$moleDetails->getSize()} </span></li>
+                        <li class="list-group-item"><i class="fas fa-id-card text-muted"></i><span> צבע: </span><span class="float-left ml-4"> {$moleDetails->getColor()} </span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
     
     <div class="row img-row">

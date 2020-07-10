@@ -130,8 +130,8 @@ if($userObj->checkRole(3)) {
                  </tr>";
     if($doctorObj->countDiagnosis() > 0)
         $sysInfo .= "<tr>
-                         <td>:אבחון אחרונה</td>
-                         <td>לפני {$doctorObj->lastMole()->getCreateTime()->diff(new \DateTime('now',new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE)))->d} ימים</td>
+                         <td>אבחון אחרון:</td>
+                         <td>לפני {$doctorObj->lastMole()->getCreateTime()->diff(new \DateTime('now',new \DateTimeZone(SystemConstant::SYSTEM_TIMEZONE)))->days} ימים</td>
                      </tr>";
 }
 
