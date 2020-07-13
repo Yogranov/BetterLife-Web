@@ -5,7 +5,7 @@ use BetterLife\User\User;
 
 $errors = [];
 
-$userData = BetterLife::GetDB()->where("Email", $_POST['email'])->getOne(User::TABLE_NAME,["Id", "Password, Token"]);
+$userData = BetterLife::GetDB()->where("Email", $_POST['email'])->getOne(User::TABLE_NAME,["Id", "Password, Token", "Enable"]);
 
 
 
@@ -24,8 +24,10 @@ if(empty($errors)) {
 
 
 $response;
-if(empty($errors))
+if(empty($errors)) {
     $response["Token"] = $userData['Token'];
+    $response["Enable"] = $userData['Enable'];
+}
 else
     $response["Errors"] = $errors;
 

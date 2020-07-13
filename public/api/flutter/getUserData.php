@@ -3,7 +3,7 @@ require_once '../header.php';
 use BetterLife\BetterLife;
 use BetterLife\User\User;
 
-$data = BetterLife::GetDB()->where('Token', $_POST['userToken'])->getOne('users', ['Id', 'Email', 'FirstName', 'LastName', 'phoneNumber', 'personId', 'haveHistory', 'birthdate', 'sex']);
+$data = BetterLife::GetDB()->where('Token', $_POST['userToken'])->getOne('users', ['Id', 'Email', 'FirstName', 'LastName', 'PhoneNumber', 'PersonId', 'HaveHistory', 'Birthdate', 'Sex', 'Enable']);
 
 
 if(empty($data))
