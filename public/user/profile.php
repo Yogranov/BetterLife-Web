@@ -145,16 +145,22 @@ if($userObj->checkRole(4)){
 
 $logTable = "";$disableUser = "";$lastLogin = "";$logTab = "";$privateMessage="";
 if($admin){
-    $enableOrDisable = $userObj->getEnable() ? "disable" : "enable";
-    $enableOrDisableColor = $userObj->getEnable() ? "btn-danger" : "btn-success";
-    $enableOrDisableText = $userObj->getEnable() ? "השבת חשבון" : "הפעל חשבון";
+    $messageToken = base64_encode($userObj->getId() . '-' . Services::GenerateRandomString(10));
 
-    $disableUser = "<a class='btn {$enableOrDisableColor}' onclick='enableDisableUser({$userObj->getId()}, \"{$enableOrDisable}\", {$adminObj->getId()}, \"{$adminObj->getToken()}\", $(this))' style='color:white; cursor: pointer'>{$enableOrDisableText}</a>";
+    // check if the profile belong to the viewer
+    if($userObj->getId() != User::GetUserFromSession()->getId()) {
+        $enableOrDisable = $userObj->getEnable() ? "disable" : "enable";
+        $enableOrDisableColor = $userObj->getEnable() ? "btn-danger" : "btn-success";
+        $enableOrDisableText = $userObj->getEnable() ? "השבת חשבון" : "הפעל חשבון";
+        $disableUser = "<a class='btn {$enableOrDisableColor}' onclick='enableDisableUser({$userObj->getId()}, \"{$enableOrDisable}\", {$adminObj->getId()}, \"{$adminObj->getToken()}\", $(this))' style='color:white; cursor: pointer'>{$enableOrDisableText}</a>";
+
+        $privateMessage = "<a href='new-conversation.php?Token={$messageToken}' class='btn btn-success'>הודעה פרטית</a>";
+
+    }
+
     $lastLogin .= "<tr><td>כניסה אחרונה:</td>";
     $lastLogin .= !is_null($userObj->getLastLogin()) ? "<td>{$userObj->getLastLogin()->format("d/m/y H:i")}</td></tr>" : "<td>לא נכנס למערכת</td></tr>";
 
-    $messageToken = base64_encode($userObj->getId() . '-' . Services::GenerateRandomString(10));
-    $privateMessage = "<a href='new-conversation.php?Token={$messageToken}' class='btn btn-success'>הודעה פרטית</a>";
 
     $logRows = "";
     $logDB = BetterLife::GetDB()->where("UserId", $userObj->getId())->get("logs");
