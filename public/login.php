@@ -4,6 +4,8 @@ use BetterLife\User\Login;
 use BetterLife\User\Session;
 use BetterLife\System\Services;
 use BetterLife\System\CSRF;
+
+
 if(Session::checkUserSession())
     Services::flashUser("הינך כבר מחובר, מועבר לדף הבית...");
 
@@ -14,10 +16,59 @@ $exceptionError = "";
 $userEmail = "";
 
 $token = CSRF::formField();
+$modal = '';
+$qrcode = '';
 
-if(Login::checkLoginAttempts())
+if(Login::checkLoginAttempts()) {
+    $qrcode = Services::GenerateRandomString(128);
+    $modal = "
+        <div class='modal fade' id='appLogin' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+          <div class='modal-dialog modal-lg' role='document'>
+            <div class='modal-content'>
+              <div class='modal-header' style='background: #f1f9ff'>
+                <h5 class='modal-title' id='exampleModalLabel'>כניסה באמצעות אפליקציה</h5>
+                <button type='button' class='close m-0 p-0'' style='outline: none' data-dismiss='modal' aria-label='Close'>
+                  <span aria-hidden='true'>&times;</span>
+                </button>
+              </div>
+              <div class='modal-body'>
+                <div class='row justify-content-center align-items-center'>
+                    <div class='col-12 col-lg-5'>
+                        <h2 class='text-center'>יש לסרוק את הברקוד באמצעות האפליקציה</h2>
+                    </div>
+                    <div class='col-0 col-lg-2'></div>
+                    <div class='col-12 col-lg-5'>
+                        <div id='qrcode'>
+                            <script>
+                                var qrcode = new QRCode(document.getElementById('qrcode'), {
+                                    text: '{$qrcode}',
+                                    width: 256,
+                                    height: 256,
+                                    colorDark : '#000000',
+                                    colorLight : '#ffffff',
+                                    correctLevel : QRCode.CorrectLevel.H
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class='modal-footer' style='background: #f5f5f5'>
+                <button type='button' class='btn btn-secondary' data-dismiss='modal'>סגירה</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    ";
+
+    if(isset($_POST['userTokenInput']))
+        Login::connectViaQrCode($_POST['userTokenInput']);
+
+
+
     if(isset($_POST['signInSubmit'])) {
         Login::incLoginAttempts();
+
 
         if(empty($errors)) {
             if (empty($_POST["email"]))
@@ -50,6 +101,7 @@ if(Login::checkLoginAttempts())
         }
     } else
         \BetterLife\User\Session::savePreviousPage();
+}
 else {
     $errorMsg = "<div style='margin-bottom: 10px; text-align: center; font-weight: bold'>יותר מדי ניסיונות</div>";
     $disable = "disabled";
@@ -92,10 +144,15 @@ $pageTemplate .= <<<PageBody
 
                         {$token}
                         <button class="btn btn-lg btn-primary btn-block"  name="signInSubmit" type="submit" {$disable}>התחבר</button>
+                        
+                        
                         <hr class="my-4">
+                    </form>
+                    <form method="post" id="qrLogin">
                         <div class="row">
                             <div class="col-12">
-                                <button class="btn btn-lg btn-facebook btn-block" type="submit" {$disable}> כניסה באמצעות טלגרם<i class="fab fa-telegram-plane mr-2"></i></button>
+                                <button class="btn btn-lg btn-facebook btn-block" onclick="qrCodeStore('{$qrcode}')" data-toggle="modal" data-target="#appLogin" type="button" {$disable}> כניסה באמצעות אפליקציה<i class="fas fa-qrcode mr-2"></i></button>
+                                {$token}
                             </div>
                         </div>
                     </form>
@@ -109,12 +166,23 @@ $pageTemplate .= <<<PageBody
         </div>
     </div>
 </div>
+
+{$modal}
+
 <script>
+
+
+
+function abortTimer() {
+  clearInterval(tid);
+}
+
+
 $(function() {
     
     $.validator.addMethod("passCheck", function(value) {
-           return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) && /[a-z]/.test(value) && /\d/.test(value) && /[A-Z]/.test(value);
-        });
+       return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) && /[a-z]/.test(value) && /\d/.test(value) && /[A-Z]/.test(value);
+    });
     
   $("#login-form").validate({
   rules: {

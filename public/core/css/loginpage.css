@@ -139,10 +139,15 @@
 }
 
 .btn-facebook {
+    padding: 15px 0;
     color: white;
-    background-color: #3b5998;
-    font-size: 12px !important;
+    background-color: #b34e4e;
+    font-size: 14px !important;
+}
 
+.btn-facebook:hover {
+    color: white;
+    background-color: #a03d3d;
 }
 
 footer {

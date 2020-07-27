@@ -157,3 +157,40 @@ function loadMessages(conId, userId, token) {
             });
     }, 3000);
 }
+
+function qrCodeStore(qrCode) {
+
+    $.post( "https://betterlife.845.co.il/core/services/AjaxApi.php",
+        {
+            Type: "qrCodeStore",
+            QrCode: qrCode,
+        }
+    );
+
+    var interval = setInterval(checkQr, 2000);
+    var counter = 0;
+    function checkQr() {
+        if(counter > 60)
+            clearInterval(interval);
+
+        counter++;
+        qrCodeCheck(qrCode);
+    }
+}
+
+function qrCodeCheck(qrCode) {
+    $.post( "https://betterlife.845.co.il/core/services/AjaxApi.php",
+        {
+            Type: "qrCodeCheck",
+            QrCode: qrCode,
+        },
+        function (data) {
+            var response = jQuery.parseJSON(data);
+            if(response.UserToken != 'noToken'){
+                $("#qrLogin").append(`<input id='userTokenInput' name="userTokenInput" type='hidden' value=${response.UserToken}>`);
+                $("#qrLogin").submit();
+            }
+        }
+    );
+
+}

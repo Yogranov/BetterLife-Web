@@ -58,7 +58,6 @@ class Login {
             throw new \Exception("משתמש לא מאומת!");
 
         $userObj->setLastLogin();
-//        $userObj->setToken(Services::GenerateRandomString(64));
         $userObj->save();
         Session::newSession(SystemConstant::USER_SESSION_NAME, $userObj->getId());
 
@@ -94,6 +93,39 @@ class Login {
             Services::RedirectHome();
     }
 
+    public static function connectViaQrCode($userToken) {
+
+        $data = BetterLife::GetDB()->where('Token', $userToken)->getOne(User::TABLE_NAME);
+
+        if(empty($data))
+            throw new Exception("Cannot login, user token cannot be found");
+
+        BetterLife::GetDB()->where("Ip", Services::getClientIp())->delete("loginAttempts");
+        $userObj = User::getById($data['Id']);
+
+        if($userObj->checkNewUser())
+            throw new \Exception("משתמש לא מאומת!");
+        $userObj->setLastLogin();
+        $userObj->save();
+        Session::newSession(SystemConstant::USER_SESSION_NAME, $userObj->getId());
+
+        //log
+        $log = new Logger($userObj->getId(),"המשתמש התחבר באמצעות האפליקציה");
+        $log->info();
+        $log->writeToDb();
+        $log->writeToFile();
+
+        if(isset($_SESSION[Session::LOGIN_ATTEMTS]))
+            unset($_SESSION[Session::LOGIN_ATTEMTS]);
+
+        if(isset($_SESSION[Session::PREVIOUS_PAGE])) {
+            $tmpUrl = $_SESSION[Session::PREVIOUS_PAGE];
+            unset($_SESSION[Session::PREVIOUS_PAGE]);
+            header("Location: " . $tmpUrl);
+        } else
+            Services::RedirectHome();
+
+    }
 
     public static function Reconnect() {
         if(Cookie::Exists(self::COOKIE_NAME) && !Session::checkUserSession()) {

@@ -1,5 +1,8 @@
 <?php
 require_once '/home/goru/public_html/betterlife/vendor/autoload.php';
+
+use BetterLife\System\Services;
+use BetterLife\User\Login;
 use BetterLife\User\User;
 use BetterLife\Article\ArticleComment;
 use BetterLife\Article\Article;
@@ -161,4 +164,32 @@ if($switch === 'LoadMessages') {
 
         }
     }
+}
+
+
+if($switch === 'qrCodeStore') {
+    $data = BetterLife::GetDB()->where('UserIp', Services::getClientIp())->getOne('qrCodes');
+    if(!empty($data))
+        BetterLife::GetDB()->where('UserIp', Services::getClientIp())->delete('qrCodes');
+
+    if(isset($_POST['QrCode']) && !empty($_POST['QrCode']))
+        BetterLife::GetDB()->insert('qrCodes', ['UserIp' => Services::getClientIp(), 'QrCode' => $_POST['QrCode']]);
+}
+
+
+
+if($switch === 'qrCodeCheck') {
+    $data = BetterLife::GetDB()->where('UserIp', Services::getClientIp())->where('QrCode', $_POST['QrCode'])->getOne('qrCodes');
+
+    $token = json_encode(['UserToken' => 'noToken']);
+    if(!empty($data) && !empty($data['UserToken'])) {
+        $userData = BetterLife::GetDB()->where('Token', $data['UserToken'])->getOne('users');
+        BetterLife::GetDB()->where('UserIp', Services::getClientIp())->delete('qrCodes');
+        $token = json_encode(['UserToken' => $userData['Token']]);
+
+    }
+    echo $token;
+
+
+
 }
