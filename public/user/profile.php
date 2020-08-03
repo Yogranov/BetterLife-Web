@@ -20,6 +20,10 @@ if(isset($_GET["UserId"]) && User::GetUserFromSession()->checkRole(5)){
 
     $adminObj = User::getById($_SESSION[SystemConstant::USER_SESSION_NAME]);
     $admin = true;
+} elseif (User::GetUserFromSession()->checkRole(3) && User::getById($_GET["UserId"])->checkRole(2)) {
+    $userObj = User::getById($_GET["UserId"]);
+    $editButton = "";
+    $admin = false;
 }
 else {
     $userObj = User::GetUserFromSession();
@@ -163,7 +167,7 @@ if($admin){
 
 
     $logRows = "";
-    $logDB = BetterLife::GetDB()->where("UserId", $userObj->getId())->get("logs");
+    $logDB = BetterLife::GetDB()->where("UserId", $userObj->getId())->orderBy('Id', 'DESC')->get("logs");
     foreach ($logDB as $key => $log) {
         $logTime = new \DateTime($log["Timestamp"]);
         $logRows .= "<tr>
