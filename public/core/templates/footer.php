@@ -15,9 +15,9 @@
 
                 <div class="d-flex justify-content-center text-left">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">050-333-0412<i class="fas fa-home mr-3"></i> </li>
+                        <li class="list-group-item">050-333-0412 <i class="fas fa-phone-alt"></i> </li>
                         <li class="list-group-item"><a href="mailto:<?php echo \BetterLife\System\SystemConstant::SYSTEM_EMAIL ?>"><?php echo \BetterLife\System\SystemConstant::SYSTEM_EMAIL ?></a><i class="fas fa-envelope mr-3"></i></li>
-                        <li class="list-group-item">Kfar - Warburg, Hadarom<i class="fas fa-phone mr-3"></i></li>
+                        <li class="list-group-item">Kfar - Warburg, Hadarom<i class="fas fa-home mr-3"></i></li>
                     </ul>
 
                 </div>
@@ -50,9 +50,9 @@
 
                 <div class="d-flex justify-content-center text-right">
                     <ul class="list-group list-group-flush footer-right-li">
-                        <li class="list-group-item hover-fade"><a href="../../articles/articles.php">לכל הכתבות </a><i class="fas fa-home ml-3"></i></li>
-                        <li class="list-group-item hover-fade"><a href="../../doctors.php">צוות הרופאים </a><i class="fas fa-envelope ml-3"></i></li>
-                        <li class="list-group-item hover-fade"><a href="../../about-us.php">אודות </a><i class="fas fa-phone ml-3"></i></li>
+                        <li class="list-group-item hover-fade"><a href="../../articles/articles.php">לכל הכתבות </a><i class="fas fa-newspaper ml-3"></i></li>
+                        <li class="list-group-item hover-fade"><a href="../../doctors.php">צוות הרופאים </a><i class="fas fa-user-md  ml-3"></i></li>
+                        <li class="list-group-item hover-fade"><a href="../../about-us.php">אודות </a><i class="fas fa-address-card ml-3"></i></li>
                     </ul>
 
                 </div>

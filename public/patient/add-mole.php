@@ -146,7 +146,7 @@ $pageTemplate .= <<<PageBody
         <div class="col-md-6 col-12">
             <div class="row">
                 <div class="col-12">
-                    <img class="img-fluid round-shadow" id="selected-image" src="../media/random/image-placeholder.jpg" />
+                    <img class="img-fluid round-shadow" id="selected-image" src="../media/random/correct-pic.jpg" />
                 </div>
             </div>
 

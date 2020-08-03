@@ -105,7 +105,7 @@ NoneUser;
 const MemberMenu = <<<Member
             <ul class="mr-auto navbar-nav">
                 <div class="dropdown">
-                    <a class="nav-item mr-auto ml-lg-2 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-item mr-auto ml-lg-2 dropdown-toggle" style="color: rgba(255,255,255,0.5)" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {NotiBadge}{userFirstName}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="text-align: right">
@@ -124,6 +124,7 @@ Member;
 const PatientMenu = <<<PatientMenu
                         <hr>
                         <a class="dropdown-item" href="../../patient/medical-profile.php"><i class="fas fa-clinic-medical"></i> פרופיל רפואי</a>
+                        <a class="dropdown-item" href="../../patient/new-check.php"><i class="fas fa-file-medical"></i> בדיקה חדשה</a>
 PatientMenu;
 
 const DoctorMenu = <<<PatientMenu
@@ -140,6 +141,8 @@ PatientMenu;
 const AdminMenu = <<<PatientMenu
                         <hr>
                         <a class="dropdown-item" href="../../admin/user-management.php"><i class="fas fa-user-friends"></i> ניהול משתמשים</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-list-alt"></i> לוג</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-chart-pie"></i> סטטיסטיקות</a>
 PatientMenu;
 
 

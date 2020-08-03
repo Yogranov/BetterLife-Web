@@ -150,7 +150,7 @@ $pageTemplate .= <<<PageBody
                 <div class="form-group col-12">
                     <label>
                         <p class="label-txt mt-2">תוכן ההודעה</p>
-                        <textarea type="text" style="border: 1px solid rgba(0,0,0,0.3);background-color: red" rows="4" class="input form-control" name="content" required></textarea>
+                        <textarea type="text" style="border: 1px solid rgba(0,0,0,0.3);background-color: red" rows="8" class="input form-control" name="content" required></textarea>
                         <div class="line-box">
                             <div class="line"></div>
                         </div>
@@ -197,7 +197,7 @@ $(document).ready(function(){
                 content: {
                     required: true,
                     minlength: 2,
-                    maxlength: 80
+                    maxlength: 200
                 }
             },
             messages: {
@@ -212,7 +212,7 @@ $(document).ready(function(){
                 content: {
                     required: "חובה לכתוב תוכן",
                     minlength: "מינימום 2 תווים",
-                    maxlength: "מקסימום 80 תווים"
+                    maxlength: "מקסימום 200 תווים"
                 }
             },
             highlight: function(element) {
