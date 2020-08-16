@@ -1,8 +1,6 @@
 <?php
 
-
 namespace BetterLife\Mole;
-
 
 use BetterLife\BetterLife;
 use BetterLife\System\Exception;
@@ -13,7 +11,6 @@ class Mole {
 
     const TABLE_NAME = "moles";
     const TABLE_KEY_COLUMN = "Id";
-
 
     private $id;
     private $userId;
@@ -30,11 +27,8 @@ class Mole {
 
         $dbDetails = BetterLife::GetDB()->where("MoleId", $this->id)->get("moleDetails");
 
-
         foreach ($dbDetails as $detail)
             array_push($this->details, new MoleDetails($detail["Id"]));
-
-
 
     }
 

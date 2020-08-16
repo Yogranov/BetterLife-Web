@@ -1,8 +1,6 @@
 <?php
 
-
 namespace BetterLife\Mole;
-
 
 use BetterLife\BetterLife;
 use BetterLife\System\Services;
@@ -29,7 +27,6 @@ class MoleDetails {
     private $riskLevel = 0;
     private $diagnosisCreateTime = NULL;
 
-
     public function __construct($detailId) {
         if(empty($detailId))
             throw new \Exception("{0} is illegal Id!", null, $detailId);
@@ -54,7 +51,6 @@ class MoleDetails {
 
         if($data["DiagnosisCreateTime"] != NULL)
             $this->diagnosisCreateTime = new \DateTime($data["DiagnosisCreateTime"]);
-
     }
 
     /**

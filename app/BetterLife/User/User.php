@@ -53,7 +53,6 @@ class User {
         $this->token = $data["Token"];
         $this->enable = $data["Enable"];
 
-
         $this->roles = array();
         foreach (json_decode($data["Roles"]) as $role)
            array_push( $this->roles, new Role($role));
@@ -65,7 +64,6 @@ class User {
                 $this->haveHistory = false;
         else
             $this->haveHistory = null;
-
     }
 
     public static function getById(int $id) {

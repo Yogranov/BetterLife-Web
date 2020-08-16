@@ -24,7 +24,7 @@ $pageTemplate .= <<<PageBody
                 </div>
             </div>
 
-            <div class="row text-right justify-content-center mt-5" data-aos="zoom-in-down">
+            <div class="row text-right justify-content-center mt-5 mb-5" data-aos="zoom-in-down">
                 <div class="col-sm-10 offset-sm">
                     <h3 class="mr-3">החזון</h3>
                     <p class="drop-cap">

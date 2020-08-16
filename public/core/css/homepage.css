@@ -224,20 +224,21 @@ body {
 
 .dropdown {
     color: white;
+    text-align: right;
 }
 
 .dropdown-item {
     border: none;
-    color: white;
-    text-align: center;
+    color: #4e4e4e;
+    text-align: right;
 
 }
 
 .dropdown-item:hover {
-    background-color: transparent;
+    background-color: white;
 }
 .dropdown-menu {
-    background-color: transparent;
+    background-color: white;
     border: none;
 
 }

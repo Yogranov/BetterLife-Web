@@ -82,13 +82,10 @@ if(isset($_GET["submit"])) {
         </div>
     </div>
 resultTable;
-
-        }
-    }
-
-
-
-
+        } else
+            $errorMsg = "<div class='text-center' data-aos='zoom-in'><h4>לא נמצאה רשומה מתאימה</h4></div>";
+    } else
+        $errorMsg = "<div class='text-center'  data-aos='zoom-in'><h4>נא להזין לפחות שדה אחד</h4></div>";
 
 }
 
@@ -97,46 +94,63 @@ $pageTemplate .= <<<PageBody
 <div class="container mt-5">
     <div class="row mb-5">
         <div class="col-12 text-center page-title" data-aos="zoom-in">
-            <h2>ניהול משתמשים</h2>
+            <h2>חיפוש משתמשים</h2>
             <hr>
         </div>
     </div>
+    {$errorMsg}
 
     <div class="col-12" data-aos="zoom-in-down">
         <form  id="form-form" method="GET">
             <div class="form-row">
-            
-                <div class="form-group col-md-4">
+                
+                <div class="col-12 mt-5">
+                    <h4>מידע אישי</h4>
+                </div>
+                <div class="col-12 mb-3">
+                    <hr>
+                </div>
+                
+                <div class="form-group col-12 col-md-6">
                     <label for="form-firstName">שם פרטי</label>
                     <input id="form-firstName" value="{$firstName}" name="firstName" type="text" class="form-control">
                     <span class="text-danger"></span>
                 </div>
                 
-                <div class="form-group col-md-4">
+                <div class="form-group col-12 col-md-6">
                     <label for="form-lastName">שם משפחה</label>
                     <input id="form-lastName" value="{$lastName}" name="lastName" type="text" class="form-control">
                     <span class="text-danger"></span>
                 </div>
                 
-                <div class="form-group col-md-4">
+                <div class="form-group col-12 col-md-6">
                     <label for="form-phone">מספר טלפון</label>
                     <input id="form-phone" name="phoneNumber" value="{$phoneNumber}" type="text" class="form-control">
                     <span class="text-danger"></span>
                 </div>
                 
-                <div class="form-group col-md-4">
+                <div class="form-group col-12 col-md-6">
                     <label for="form-personId">תעודת זהות</label>
                     <input id="form-personId" name="personId" value="{$personId}" type="text" class="form-control">
                     <span class="text-danger"></span>
                 </div>
                 
-                <div class="form-group col-md-4">
+                
+                
+                <div class="col-12 mt-5">
+                    <h4>דרכי התקשרות</h4>
+                </div>
+                <div class="col-12 mb-3">
+                    <hr>
+                </div>
+                
+                <div class="form-group col-12 col-md-6">
                     <label for="form-email">דואר אלקטרוני</label>
                     <input id="form-email" name="email" value="{$email}" type="email" class="form-control">
                     <span class="text-danger"></span>
                 </div>
                 
-                <div class="form-group col-md-4">
+                <div class="form-group col-12 col-md-6">
                     <label for="form-city">עיר</label>
                     <input id="form-city" type="text" value="{$cityName}" class="input form-control" name="city">
                     <input type="hidden" value="{$city}" name="cityId">
@@ -146,7 +160,7 @@ $pageTemplate .= <<<PageBody
                     <span class="text-danger"></span>
                 </div>
                 
-                <div class="form-group col-md-6">
+                <div class="form-group col-12 col-md-6">
                     <label for="form-role">תפקיד</label>
                     <select id="form-role" class="custom-select form-control" name="role">
                         <option value="-1" hidden selected disabled>נא לבחור מהרשימה</option>
@@ -155,7 +169,7 @@ $pageTemplate .= <<<PageBody
                     <span class="text-danger"></span>
                 </div>
                 
-                <div class="form-group col-md-6">
+                <div class="form-group col-12 col-md-6">
                     <label for="form-sex">מין</label>
                     <select id="form-sex" class="custom-select form-control" name="sex">
                         <option value="-1" hidden selected disabled>נא לבחור מהרשימה</option>
@@ -165,8 +179,8 @@ $pageTemplate .= <<<PageBody
                     <span class="text-danger"></span>
                 </div>
                 
-                <div class="form-group col-md-12">
-                    <button type="submit" name="submit" class="btn btn-block btn-secondary mb-5 custom-button" style="width: 80%; margin: auto">שלח טופס</button>
+                <div class="form-group col-md-12 mt-5">
+                    <button type="submit" name="submit" class="btn btn-block btn-secondary mb-5 custom-button" style="width: 80%; margin: auto">חיפוש</button>
                 </div>
                 
             </div>
