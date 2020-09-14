@@ -114,7 +114,7 @@ if(isset($_POST['registerButton'])) {
                 "RegisterTime" => $dateTime->format("Y-m-d H:i:s"),
                 "Token" => Services::GenerateRandomString(256),
                 "RecoverToken" => $randomToken,
-                "Enable" => 0
+                "Enable" => 1
             ];
 
             try {
@@ -152,6 +152,25 @@ if(isset($_POST['registerButton'])) {
 
 }
 
+$formEmail = (isset($_POST["email"])) ? $_POST["email"] : "";
+$formFirstName = (isset($_POST["firstName"])) ? $_POST["firstName"] : "";
+$formLastName = (isset($_POST["lastName"])) ? $_POST["lastName"] : "";
+$formPersonId = (isset($_POST["personId"])) ? $_POST["personId"] : "";
+$formPhoneNumber = (isset($_POST["phoneNumber"])) ? $_POST["phoneNumber"] : "";
+$formAddress = (isset($_POST["address"])) ? $_POST["address"] : "";
+$formCity = (isset($_POST["city"])) ? $_POST["city"] : "";
+$formCityId = (isset($_POST["cityId"])) ? $_POST["cityId"] : "";
+$formBirthdate = (isset($_POST["birthdate"])) ? $_POST["birthdate"] : "";
+$formHaveHistory = (isset($_POST["haveHistory"])) ? "checked" : "";
+
+$man = $woman = $none = "";
+
+if(isset($_POST["sex"]) && $_POST["sex"] == "0")
+    $man = "selected";
+elseif (isset($_POST["sex"]) && $_POST["sex"] == "1")
+    $woman = "selected";
+else
+    $none = "selected";
 
 $pageTemplate .= /** @lang HTML */<<<PageBody
 <div class="container register-form">
@@ -187,7 +206,7 @@ $pageTemplate .= /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                            <label>
                                              <p class="label-txt">דואר אלקטרוני</p>
-                                             <input type="email" class="input form-control" name="email" required>
+                                             <input type="email" class="input form-control" name="email" value="{$formEmail}" required>
                                              <div class="line-box">
                                                <div class="line"></div>
                                              </div>
@@ -228,7 +247,7 @@ $pageTemplate .= /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                            <label>
                                              <p class="label-txt">שם פרטי</p>
-                                             <input type="text" class="input form-control" name="firstName" required>
+                                             <input type="text" class="input form-control" value="{$formFirstName}" name="firstName" required>
                                              <div class="line-box">
                                                <div class="line"></div>
                                              </div>
@@ -239,7 +258,7 @@ $pageTemplate .= /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                            <label>
                                              <p class="label-txt">שם משפחה</p>
-                                             <input type="text" class="input form-control" name="lastName" required>
+                                             <input type="text" class="input form-control" value="{$formLastName}" name="lastName" required>
                                              <div class="line-box">
                                                <div class="line"></div>
                                              </div>
@@ -250,7 +269,7 @@ $pageTemplate .= /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                            <label>
                                              <p class="label-txt">תעודת זהות</p>
-                                             <input type="text" class="input form-control" name="personId" required>
+                                             <input type="text" class="input form-control" name="personId" value="{$formPersonId}" required>
                                              <div class="line-box">
                                                <div class="line"></div>
                                              </div>
@@ -261,7 +280,7 @@ $pageTemplate .= /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                            <label>
                                              <p class="label-txt">מספר טלפון</p>
-                                             <input type="text" class="input form-control" name="phoneNumber" required>
+                                             <input type="text" class="input form-control" name="phoneNumber" value="{$formPhoneNumber}" required>
                                              <div class="line-box">
                                                <div class="line"></div>
                                              </div>
@@ -281,7 +300,7 @@ $pageTemplate .= /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                             <label>
                                                 <p class="label-txt">כתובת מגורים</p>
-                                                <input type="text" class="input form-control" name="address" required>
+                                                <input type="text" class="input form-control" name="address" value="{$formAddress}" required>
                                                 <div class="line-box">
                                                   <div class="line"></div>
                                                 </div>
@@ -291,9 +310,9 @@ $pageTemplate .= /** @lang HTML */<<<PageBody
                                 
                                         <div class="form-group col-12 ">
                                             <label>
-                                                <p class="label-txt">עיר</p>
-                                                <input id="cities" type="text" class="input form-control" name="city" required>
-                                                <input type="hidden" name="cityId">
+                                                <p class="label-txt">עיר (יש לבחור מהרשימה)</p>
+                                                <input id="cities" type="text" class="input form-control" name="city" value="{$formCity}" required>
+                                                <input type="hidden" name="cityId" value="{$formCityId}">
                                                 <div class="line-box">
                                                   <div class="line"></div>
                                                 </div>
@@ -304,7 +323,7 @@ $pageTemplate .= /** @lang HTML */<<<PageBody
                                         <div class="form-group col-12">
                                             <label>
                                                 <p class="label-txt">תאריך לידה</p>
-                                                <input id="datepicker" type="text" class="input form-control" name="birthdate" required>
+                                                <input id="datepicker" type="text" class="input form-control" name="birthdate" value="{$formBirthdate}" required>
                                                 <div class="line-box">
                                                   <div class="line"></div>
                                                 </div>
@@ -316,9 +335,9 @@ $pageTemplate .= /** @lang HTML */<<<PageBody
                                             <label>
                                                 <p class="label-txt">מין</p>
                                                 <select id="register-sex" class="custom-select form-control" name="sex" required>
-                                                    <option value="-1" hidden selected disabled>נא לבחור מהרשימה</option>
-                                                    <option value="0">זכר</option>
-                                                    <option value="1">נקבה</option>
+                                                    <option value="-1" hidden {$none} disabled>נא לבחור מהרשימה</option>
+                                                    <option value="0" {$man}>זכר</option>
+                                                    <option value="1" {$woman}>נקבה</option>
                                                 </select>
                                                 <div class="line-box">
                                                   <div class="line"></div>
@@ -328,7 +347,7 @@ $pageTemplate .= /** @lang HTML */<<<PageBody
                                         </div>
                                         
                                         <div class="custom-control custom-checkbox col-12">
-                                            <input type="checkbox" class="custom-control-input" id="haveHistoryCheckBox" name="haveHistory">
+                                            <input type="checkbox" class="custom-control-input" id="haveHistoryCheckBox" name="haveHistory" {$formHaveHistory}>
                                             <label class="custom-control-label" for="haveHistoryCheckBox">האם הינך או אחד מקרובי משפחתך חלה פעם בסרטן העור?</label>
                                             <span class="text-danger"></span>
                                         </div>

@@ -51,6 +51,8 @@ if(isset($_POST['submit'])) {
             $log = new \BetterLife\System\Logger(null, "נשלח מייל צור קשר");
             $log->info();
             $log->writeToDb();
+
+            Services::flashUser("ההודעה נשלחה בהצלחה");
         }
     }
 

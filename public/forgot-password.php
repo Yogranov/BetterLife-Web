@@ -36,7 +36,7 @@ if(isset($_POST["submit"])){
             $userObj = User::GetById($checkEmail["Id"]);
 
             //log
-            $log = new \BetterLife\System\Logger("נשלחה הודעת איפוס סיסמה לאימייל {$userObj->getEmail()}");
+            $log = new \BetterLife\System\Logger(null,"נשלחה הודעת איפוס סיסמה לאימייל {$userObj->getEmail()}");
             $log->info();
             $log->writeToDb();
 

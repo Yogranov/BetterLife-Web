@@ -135,7 +135,7 @@ class Login {
                 $userObj = User::GetById($hashCheck["UserId"]);
                 $userObj->SetLastLogin();
                 $userObj->save();
-                $_SESSION[SystemConstant::USER_SESSION_NAME] = serialize($userObj);
+                Session::newSession(SystemConstant::USER_SESSION_NAME, $userObj->getId());
 
                 //log
                 $log = new Logger($userObj->getId(),"המשתמש התחבר אוטומטית");

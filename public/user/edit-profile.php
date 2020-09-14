@@ -109,7 +109,7 @@ if(isset($_POST['submit'])) {
 
     if (empty($phoneNumber))
         array_push($errors, "לא הוזן מספר טלפון");
-    elseif (!Services::validatePhoneNumber($phoneNumber))
+    elseif (Services::validatePhoneNumber($phoneNumber))
         array_push($errors, "מספר טלפון לא תקין");
 
     if (empty($address))

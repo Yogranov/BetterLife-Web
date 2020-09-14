@@ -95,6 +95,7 @@ class User {
             "FirstName" => $this->firstName,
             "PersonId" => $this->personId,
             "LastName" => $this->lastName,
+            "BirthDate" => $this->getBirthDate()->format("Y-m-d"),
             "PhoneNumber" => $this->phoneNumber,
             "Address" => $this->address->getAddress(),
             "City" => $this->address->getCityId(),
@@ -103,7 +104,8 @@ class User {
             "Token" => $this->token,
             "Enable" => $this->enable
         );
-
+//        Services::dump($data["BirthDate"]);
+//        exit();
         $data["Roles"] = array();
         foreach ($this->roles as $role)
             array_push($data["Roles"], $role->getId());

@@ -52,7 +52,7 @@ if(isset($_POST["submit"])){
         BetterLife::GetDB()->where("Email", $userDetails[0])->where("RecoverToken",$userDetails[1])->update("users", ["RecoverToken" => null, "Password" => password_hash($password, PASSWORD_DEFAULT)]);
         //log
         $userId = $dbUser["Id"];
-        $log = new \BetterLife\System\Logger("המשתמש $userId שינה סיסמה");
+        $log = new \BetterLife\System\Logger($userId,"המשתמש שינה סיסמה");
         $log->info();
         $log->writeToDb();
 

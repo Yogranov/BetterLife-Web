@@ -124,7 +124,7 @@ Member;
 const PatientMenu = <<<PatientMenu
                         <hr>
                         <a class="dropdown-item" href="../../patient/medical-profile.php"><i class="fas fa-clinic-medical"></i> פרופיל רפואי</a>
-                        <a class="dropdown-item" href="../../patient/new-check.php"><i class="fas fa-file-medical"></i> בדיקה חדשה</a>
+                        <a class="dropdown-item" href="../../patient/add-mole.php"><i class="fas fa-file-medical"></i> בדיקה חדשה</a>
 PatientMenu;
 
 const DoctorMenu = <<<PatientMenu
