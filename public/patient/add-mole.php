@@ -44,6 +44,7 @@ if(isset($_POST["submit"])) {
             "UserId" => $user->getId(),
             "Location" => $location,
             "CreateTime" => $dateTime->format("Y-m-d H:i:s"),
+            "Removed" => 0
         );
 
         $moleId = BetterLife::GetDB()->insert("moles", $moleData);
@@ -57,7 +58,7 @@ if(isset($_POST["submit"])) {
             "Size" => $size,
             "Color" => $color,
             "CreateTime" => $dateTime->format("Y-m-d H:i:s"),
-            "RiskLevel" => 1
+            "RiskLevel" => 1,
         );
 
         BetterLife::GetDB()->insert("moleDetails", $moleDetailsData);

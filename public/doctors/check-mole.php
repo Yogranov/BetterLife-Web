@@ -46,7 +46,9 @@ if(isset($_POST["submit"])) {
         );
 
         BetterLife::GetDB()->where(MoleDetails::TABLE_KEY_COLUMN, $moleDetails->getId())->update(MoleDetails::TABLE_NAME, $data);
-
+        $emailContent = \BetterLife\System\EmailsConstant::Mole_checked_by_doctor;
+        Services::setPlaceHolder($emailContent, "userName", $patient->getFirstName());
+        $patient->sendEmail($emailContent, "עדכון");
         Services::redirectUser("moles-list.php");
 
     } else{
@@ -67,6 +69,9 @@ $sex = $patient->getSex() ? "נקבה" : "זכר";
 $haveHistory = $patient->getHaveHistory() ? "יש היסטוריה של סרטן העור" : "אין היסטוריה של סרטן העור";
 $haveHistoryColor = $patient->getHaveHistory() ? "alert-danger" : "alert-success";
 
+$messageToken = base64_encode($patient->getId() . '-' . Services::GenerateRandomString(10));
+$privateMessage = "<a href='../user/new-conversation.php?Token={$messageToken}' class='btn btn-secondary float-left' target='_blank'>הודעה פרטית</a>";
+
 $risks = RiskLevel::getAll();
 
 $options = "";
@@ -85,9 +90,11 @@ $pageTemplate .= <<<PageBody
             <hr>
         </div>
     </div>
-
+    
     <div class="row">
-        
+        <div class="col-12 mb-4">
+            {$privateMessage}
+        </div>
         <div class="col-md-4 col-12">
             <div class="card">
                 <h5 class="card-header border border">פרטי המטופל</h5>

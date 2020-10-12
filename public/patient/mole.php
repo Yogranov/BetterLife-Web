@@ -1,4 +1,6 @@
 <?php
+
+use BetterLife\System\CSRF;
 use BetterLife\System\Services;
 use BetterLife\Mole\Mole;
 use BetterLife\User\User;
@@ -7,6 +9,7 @@ use BetterLife\BetterLife;
 require_once "../core/templates/header.php";
 
 BetterLife::GetPermissions(2);
+$csrf = CSRF::formField();
 
 $linkDec = explode('_', base64_decode($_GET["mole"]));
 
@@ -52,6 +55,12 @@ foreach (array_reverse($mole->getDetails()) as $key => $detail) {
         history;
     else
         $history = "";
+
+
+    if(isset($_POST['removeMole']) && $userObj->getId() == $mole->getUserId()) {
+        $mole->remove();
+        Services::redirectUser('medical-profile.php');
+    }
 
     $tmp = <<<tmp
     <div class="container-fluid mt-5 {$bgColor}">
@@ -160,6 +169,12 @@ $pageTemplate .= /** @lang HTML */
         <div class="row" style="direction: ltr">
             <div class="col-2">
                 <a href="new-check.php?mole={$linkEnc}" class="btn btn-secondary">בדיקה נוספת</a>
+            </div>
+            <div class="col-2 p-0">
+                <form method="post">
+                    {$csrf}
+                    <button name="removeMole" class="btn btn-secondary">הסר שומה</button>
+                </form>
             </div>
         </div>
     </div>

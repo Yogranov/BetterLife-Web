@@ -70,4 +70,28 @@ Contact_us;
 </p>
 User_approve;
 
+    const Mole_checked_by_doctor = <<<Mole_checked_by_doctor
+<p style="direction: rtl; font-size: 16px">
+    שלום {userName}!<br>
+    <p>
+        אנו רוצים לידע אותך כי השומה שהעלת לבדיקה נבדקה על ידי רופא.
+    </p>
+    <br><br>
+    בברכה, <br>
+    צוות האתר.
+</p>
+Mole_checked_by_doctor;
+
+    const Mole_checked_by_ai = <<<Mole_checked_by_ai
+<p style="direction: rtl; font-size: 16px">
+    שלום {userName}!<br>
+    <p>
+        אנו רוצים לידע אותך כי הסתיימה בדיקת המחשב עבור השומה שהועלתה למערכת.
+    </p>
+    <br><br>
+    בברכה, <br>
+    צוות האתר.
+</p>
+Mole_checked_by_ai;
+
 }

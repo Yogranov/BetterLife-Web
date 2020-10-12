@@ -29,6 +29,11 @@ class Logger {
             throw new \Exception("One of the attributes are empty!");
     }
 
+    private function sendAlert() {
+        $emailObj = BetterLife::GetEmail("שגיאה קריטית", "נרשמה שגיאה קריטית, נא לבדוק בלוג המערכת");
+        $emailObj->addAddress(SystemConstant::MAIN_GMAIL);
+        $emailObj->send();
+    }
 
     public function writeToDb() {
         $this->checkFields();
@@ -68,17 +73,18 @@ class Logger {
         $this->status = "ERROR";
     }
 
-    //todo: add email notifications
     public function critical(){
         $this->status = "CRITICAL";
     }
 
     public function alert(){
         $this->status = "ALERT";
+        $this->sendAlert();
     }
 
     public function emergency(){
         $this->status = "EMERGENCY";
+        $this->sendAlert();
     }
 
 }

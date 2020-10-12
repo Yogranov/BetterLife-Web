@@ -202,7 +202,7 @@ class User {
     public function getMoles() {
         $moles = array();
 
-        $data = BetterLife::GetDB()->where("UserId", $this->id)->get("moles", null, "Id");
+        $data = BetterLife::GetDB()->where("UserId", $this->id)->where('Removed', 1, '!=')->get("moles", null, "Id");
 
         if(empty($data))
             return false;

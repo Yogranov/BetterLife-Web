@@ -22,6 +22,7 @@ CSRF::generateToken();
 const HeaderTemplate = <<<Header
 <html lang="he" xmlns="http://www.w3.org/1999/html">
 <head>
+    {googleAnalytics}
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
     <title>BetterLife</title>
     <link rel="icon" href="../../media/favicon.png">
@@ -145,8 +146,13 @@ const AdminMenu = <<<PatientMenu
                         <a class="dropdown-item" href="../../admin/statistics.php"><i class="fas fa-chart-pie"></i> סטטיסטיקות</a>
 PatientMenu;
 
+$tmpHeader = HeaderTemplate;
+if(!\BetterLife\System\SystemConstant::SYSTEM_DEBUGGING_MODE)
+    Services::setPlaceHolder($tmpHeader, "googleAnalytics", \BetterLife\System\SystemConstant::GOOGLE_ANALYTICS_CODE);
+else
+    Services::setPlaceHolder($tmpHeader, "googleAnalytics", "");
 
-echo HeaderTemplate;
+echo $tmpHeader;
 
 \BetterLife\User\Login::Reconnect();
 

@@ -15,6 +15,7 @@ class Mole {
     private $id;
     private $userId;
     private $location;
+    private $removed;
     private $createTime;
     private $details = array();
 
@@ -23,6 +24,7 @@ class Mole {
         $this->id = $data["Id"];
         $this->userId = $data["UserId"];
         $this->location = $data["Location"];
+        $this->removed = $data["Removed"];
         $this->createTime = new \DateTime($data["CreateTime"]);
 
         $dbDetails = BetterLife::GetDB()->where("MoleId", $this->id)->get("moleDetails");
@@ -43,7 +45,9 @@ class Mole {
         return new Mole($data);
     }
 
-
+    public function remove() {
+        BetterLife::GetDB()->where(self::TABLE_KEY_COLUMN, $this->id)->update(self::TABLE_NAME, ["Removed" => 1]);
+    }
 
     ////// Getters //////
     /**
@@ -65,6 +69,13 @@ class Mole {
      */
     public function getLocation() {
         return $this->location;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRemoved(){
+        return $this->removed;
     }
 
     /**
