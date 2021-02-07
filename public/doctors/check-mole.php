@@ -28,6 +28,7 @@ if(isset($_POST["submit"])) {
 
     $riskLevel = htmlspecialchars(trim($_POST["riskLevel"]));
     $content = htmlspecialchars(trim($_POST["content"]));
+    $orgImgBase64 = htmlspecialchars(trim($_POST["orgImgBase64"]));
 
     if (empty($riskLevel))
         array_push($errors, "לא הוזנה רמת סיכון");
@@ -49,6 +50,12 @@ if(isset($_POST["submit"])) {
         $emailContent = \BetterLife\System\EmailsConstant::Mole_checked_by_doctor;
         Services::setPlaceHolder($emailContent, "userName", $patient->getFirstName());
         $patient->sendEmail($emailContent, "עדכון");
+
+        if($riskLevel == '2' || $riskLevel == '5') {
+            $type = $riskLevel == '2' ? "benign" : "malignant";
+            Services::sendPostRequest('http://frizen700.ddns.net:587/saveDataImg', array("moleImage" => $orgImgBase64, "moleType" => $type));
+        }
+
         Services::redirectUser("moles-list.php");
 
     } else{
@@ -149,7 +156,7 @@ $pageTemplate .= <<<PageBody
     <div class="row img-row">
         <div class="col-md-4 col-12">
             <h6 class="text-center">תמונת מקור</h6>
-            <img class="img-fluid round-shadow" src="../../core/services/imageHandle.php?Method=DoctorMole&UserId={$userObj->getId()}&Token={$userObj->getToken()}&image={$moleDetails->getImgUrl()}&dir=regular">
+            <img id="original_image" class="img-fluid round-shadow" src="../../core/services/imageHandle.php?Method=DoctorMole&UserId={$userObj->getId()}&Token={$userObj->getToken()}&image={$moleDetails->getImgUrl()}&dir=regular">
         </div>
         <div class="col-md-4 col-12">
             <h6 class="text-center">חתימת גוונים</h6>
@@ -181,6 +188,9 @@ $pageTemplate .= <<<PageBody
                         <textarea class="form-control" placeholder="תיאור האבחנה" rows="10" name="content" type="textarea" required></textarea>
                         <span class="text-danger"></span>
                     </div>
+                    
+                    <input id="orgImgBase64" name="orgImgBase64" type="hidden" value="">
+                    
                     {$csrf}
                     <div class="form-group col-12">
                         <button type="submit" name="submit" class="btn btn-block btn-secondary mb-5 custom-button" style="width: 80%; margin: auto">שלח אבחנה</button>
@@ -191,6 +201,29 @@ $pageTemplate .= <<<PageBody
     </div>
     
 </div>
+
+<script>
+    function toDataURL(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+            var reader = new FileReader();
+            reader.onloadend = function() {
+                callback(reader.result);
+            }
+            reader.readAsDataURL(xhr.response);
+        };
+        xhr.open('GET', url);
+        xhr.responseType = 'blob';
+        xhr.send();
+    }
+    
+    window.addEventListener('load', function () {
+        toDataURL('../../core/services/imageHandle.php?Method=DoctorMole&UserId={$userObj->getId()}&Token={$userObj->getToken()}&image={$moleDetails->getImgUrl()}&dir=regular', function(dataUrl) {
+            $('#orgImgBase64').val(dataUrl);
+        });
+    });
+
+</script>
 PageBody;
 
 
