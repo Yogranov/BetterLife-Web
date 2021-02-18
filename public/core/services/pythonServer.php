@@ -22,6 +22,10 @@ if(isset($_POST["switch"]) && $_POST['Token'] == $token){
         $malignantPred = $pred[0][1];
         $malignantPred = substr($malignantPred, 0, 4);
 
+        if((float)$malignantPred > 1) {
+            $malignantPred = 1;
+            $benignPred = 0;
+        }
 
         BetterLife::GetDB()->where("MoleId", $moleId)->where("ImgUrl", $moleId . "_" . $moleDetailsId)->update("moleDetails", ["BenignPred" => $benignPred, "MalignantPred" => $malignantPred], 1);
 
