@@ -5,6 +5,7 @@ use BetterLife\BetterLife;
 use BetterLife\User\User;
 
 $csrf = \BetterLife\System\CSRF::formField();
+BetterLife::GetPermissions(3);
 
 
 $firstName = isset($_GET["firstName"]) ? htmlspecialchars(trim($_GET["firstName"])) : "";
