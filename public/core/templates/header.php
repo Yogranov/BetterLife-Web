@@ -143,7 +143,6 @@ const AdminMenu = <<<PatientMenu
                         <hr>
                         <a class="dropdown-item" href="../../admin/user-management.php"><i class="fas fa-user-friends"></i> ניהול משתמשים</a>
                         <a class="dropdown-item" href="../../admin/log.php"><i class="fas fa-list-alt"></i> לוג</a>
-                        <a class="dropdown-item" href="../../admin/statistics.php"><i class="fas fa-chart-pie"></i> סטטיסטיקות</a>
 PatientMenu;
 
 $tmpHeader = HeaderTemplate;
