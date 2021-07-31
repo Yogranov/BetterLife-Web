@@ -10,7 +10,10 @@ Easy to use:
 2. scan your skin mole
 3. refresh to get results
 
-This git is all about the client and server side, not the AI side
+This git is all about the client and server side, not the AI side.
+<br>
+<br>
+Example
 <br>
 <img src="https://github.com/Yogranov/BetterLife-Web/blob/master/README_MEDIA/anim.gif" width="600" height="310" />
 <br>
