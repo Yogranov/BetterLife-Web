@@ -12,11 +12,11 @@ Easy to use:
 
 This git is all about the client and server side, not the AI side
 <br>
-<img src="https://github.com/Yogranov/Yogranov-BetterLife/blob/master/README_MEDIA/anim.gif" width="600" height="310" />
+<img src="https://github.com/Yogranov/BetterLife-Web/blob/master/README_MEDIA/anim.gif" width="600" height="310" />
 <br>
 
-Live chat
-<img src="https://github.com/Yogranov/Yogranov-BetterLife/blob/master/README_MEDIA/live-chat.gif" width="600" height="253" />
+Live chat <br>
+<img src="https://github.com/Yogranov/BetterLife-Web/blob/master/README_MEDIA/live-chat.gif" width="600" height="253" />
 <br>
 
 Good luck!
