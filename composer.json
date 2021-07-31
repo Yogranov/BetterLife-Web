@@ -1,0 +1,11 @@
+{
+    "autoload": {
+        "psr-4": {
+            "BetterLife\\": "app/BetterLife"
+        }
+    },
+    "require": {
+        "phpmailer/phpmailer": "v6.1.4",
+        "thingengineer/mysqli-database-class": "v2.9.3"
+    }
+}
