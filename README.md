@@ -3,7 +3,7 @@ The system runs an AI that trained on 10K photos.
 
 It's not just AI, your photos will diagnose by real doctors,<br>
 you will be notified when the mole was check by one of the doctors.<br>
-The system also have a live chat with doctors for any question.<br>
+The system also have a live chat with the doctors for any question.<br>
 
 Easy to use:
 1. login / register
